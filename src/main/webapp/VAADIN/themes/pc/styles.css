@@ -1,0 +1,62 @@
+@import "../reindeer/styles.css";
+
+.v-label-logolabel {
+	font-size: 20px;
+	font-weight: bold;
+	color: #444444;
+}
+
+.v-menubar-menuitem-letravermelha {
+	font-weight: bold;
+	color: red;
+}
+
+}
+.v-label-rodape {
+	font-weight: bold;
+	background-color: red;
+	color: blue;
+}
+
+.v-gridlayout-gridexpandratio {
+	background: blue; /* Creates a "border" around the grid. */
+	margin: 10px; /* Empty space around the layout. */
+}
+
+.v-table-row.v-table-row-veiculo1,.v-table-row-odd.v-table-row-veiculo1,.v-table-contacts .v-label-veiculo1
+	{
+	background-color: #FFFF00;
+	font-weight: bold;
+}
+
+.v-table-cell-content-veiculo1 {
+	background-color: BlueViolet;
+	font-weight: bold;
+}
+
+.v-table-cell-content-veiculo2 {
+	background-color: MediumSeaGreen;
+	font-weight: bolder;
+}
+
+.v-table-row-bold { 
+	font-weight: bolder;
+	color: Blue;
+	background-color: #00FF80 
+}
+.v-table-row-totalizadora { 
+	color: Blue 
+}
+.v-table-cell-content-positivo { 
+	color: Green 
+}
+.v-table-cell-content-negativo { 
+	color: Red
+}
+.v-table-row-inativo { 
+	background-color: #FF8080 
+}
+
+.v-textfield-align-right, .v-maskedtextfield-align-right {
+   text-align: right;
+}

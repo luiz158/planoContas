@@ -1,0 +1,81 @@
+package br.com.pc.util;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import com.vaadin.data.Item;
+import com.vaadin.ui.Table;
+
+public class GeraXls {
+	private String path;
+	private Workbook wb;
+	private Sheet sheet;
+	
+	public void NovaPlanilha(){
+		 wb = new HSSFWorkbook();
+	    //Workbook wb = new XSSFWorkbook();
+	    sheet = wb.createSheet();
+	}
+	public void SalvaArquivo() throws IOException{
+		FileOutputStream fileOut = new FileOutputStream("e:\\historico.xls");
+	    wb.write(fileOut);
+	    fileOut.close();
+	}
+	
+	public void GravaTabela(Table tabela){
+		String[] titulos = tabela.getColumnHeaders();
+		Row row = sheet.createRow(0);
+		for (int i = 0; i < titulos.length; i++) {
+			 row.createCell(i).setCellValue(titulos[i]);
+		}
+		Collection<?> c = (Collection<?>) tabela.getItemIds();
+		int j = 0;
+		for (Object object : c) {
+			row = sheet.createRow(++j);
+			Item item = tabela.getItem(object);
+			int k = 0;
+			Collection<?> p = (Collection<?>) item.getItemPropertyIds();
+			for (Object p2 : p) {
+//				System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
+				try {
+					System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
+					if (item.getItemProperty(p2).getValue().getClass().equals(Date.class)){
+						row.createCell(k++).setCellValue((Date)item.getItemProperty(p2).getValue());
+					}else if (item.getItemProperty(p2).getValue().getClass().equals(Double.class)){
+						row.createCell(k++).setCellValue((Double)item.getItemProperty(p2).getValue());
+					}else if (item.getItemProperty(p2).getValue().getClass().equals(Boolean.class)){
+						row.createCell(k++).setCellValue((Boolean)item.getItemProperty(p2).getValue());
+					}else if (item.getItemProperty(p2).getValue().getClass().equals(String.class)){
+						row.createCell(k++).setCellValue((String)item.getItemProperty(p2).getValue());
+					}else if (item.getItemProperty(p2).getValue().getClass().equals(Calendar.class)){
+						row.createCell(k++).setCellValue((Calendar)item.getItemProperty(p2).getValue());
+					}else {
+						row.createCell(k++).setCellValue(item.getItemProperty(p2).getValue().toString());
+					}
+					
+//					System.out.println(item.getItemProperty(p2).getClass().toString());
+//					item.getItemProperty(p2).getClass().cast(item.getItemProperty(p2).getValue());
+				} catch (Exception e) {
+//					e.printStackTrace();
+				}
+			}
+		}
+//		Row row = sheet.createRow(0);
+//	    row.createCell(0).setCellValue(1.1);
+//	    row.createCell(1).setCellValue(new Date());
+//	    row.createCell(2).setCellValue(Calendar.getInstance());
+//	    row.createCell(3).setCellValue("a string");
+//	    row.createCell(4).setCellValue(true);
+//	    row.createCell(5).setCellType(HSSFCell.CELL_TYPE_ERROR);
+	}
+}

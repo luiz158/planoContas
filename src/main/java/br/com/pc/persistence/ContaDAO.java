@@ -1,0 +1,62 @@
+package br.com.pc.persistence;
+
+import java.util.List;
+
+import javax.persistence.Parameter;
+import javax.persistence.Query;
+
+import br.com.pc.accesscontrol.Credenciais;
+import br.com.pc.domain.Conta;
+import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
+import br.gov.frameworkdemoiselle.template.JPACrud;
+
+@PersistenceController
+@SuppressWarnings("unchecked")
+public class ContaDAO extends JPACrud<Conta, Long> {
+
+	private static final long serialVersionUID = 1L;
+
+	public List<Conta> findByTotalizadora(Boolean totalizadora) {
+		StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select b from Conta b where b.ativo = true and b.totalizadora = :totalizadora order by b.conta " );
+		
+		Query query = createQuery(queryString.toString());
+		
+		for (Parameter<?> p : query.getParameters()) {
+			if ("totalizadora".equals(p.getName()))	{query.setParameter(p.getName(), totalizadora);}
+		}
+		
+		return query.getResultList();
+	}
+
+	public List<Conta> findAllAtivo() {
+		StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select b from Conta b where b.ativo = true order by b.conta " );
+		
+		Query query = createQuery(queryString.toString());
+		
+		return query.getResultList();
+	}
+
+	public List<Conta> findAllAtivo(Credenciais credenciais) {
+		StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select b " +
+				" from Conta b " +
+				" left outer join b.clinicas c " +
+				" where b.ativo = true and " +
+				" (c in (select c from Grupo g inner join g.clinicas c inner join g.usuarios u where u.id = :id )  " +
+				"  or c is null ) " +
+				" order by b.conta " );
+		Query query = createQuery(queryString.toString());
+		
+		for (Parameter<?> p : query.getParameters()) {
+			if ("id".equals(p.getName()))	{query.setParameter(p.getName(), Long.parseLong(credenciais.getId()));}
+		}
+		
+		return query.getResultList();
+	}
+
+}

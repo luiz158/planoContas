@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.org/schema/weld/beans                             http://jboss.org/schema/weld/beans_1_1.xsd">
+ <alternatives>
+  <class>br.gov.frameworkdemoiselle.transaction.JPATransaction</class>
+  <class>br.com.pc.accesscontrol.AuthenticatorImpl</class>
+  <class>br.com.pc.accesscontrol.AuthorizatorImpl</class>
+ </alternatives>
+ <!-- alternatives>
+        <class>br.gov.frameworkdemoiselle.transaction.JTATransaction</class>
+    </alternatives-->
+</beans>
