@@ -2,13 +2,22 @@ package br.com.pc.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -49,16 +58,31 @@ public class GeraXls {
 //				System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
 				try {
 					System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
-					if (item.getItemProperty(p2).getValue().getClass().equals(Date.class)){
-						row.createCell(k++).setCellValue((Date)item.getItemProperty(p2).getValue());
+					if (item.getItemProperty(p2).getValue().getClass().equals(Date.class)
+							||item.getItemProperty(p2).getValue().getClass().equals(Timestamp.class)
+							||item.getItemProperty(p2).getValue().getClass().equals(java.sql.Date.class)){
+						CellStyle styleData = wb.createCellStyle();  
+						DataFormat format = wb.createDataFormat();  
+						styleData.setDataFormat(format.getFormat("mm/dd/yy HH:mm")); 
+						Cell cell = row.createCell(k++);//.setCellValue((Date)item.getItemProperty(p2).getValue());
+						cell.setCellStyle(styleData); 
+						cell.setCellValue((Date)item.getItemProperty(p2).getValue());
+						
 					}else if (item.getItemProperty(p2).getValue().getClass().equals(Double.class)){
 						row.createCell(k++).setCellValue((Double)item.getItemProperty(p2).getValue());
+
+					}else if (item.getItemProperty(p2).getValue().getClass().equals(BigDecimal.class)){
+						row.createCell(k++).setCellValue(((BigDecimal)item.getItemProperty(p2).getValue()).doubleValue());
+						
 					}else if (item.getItemProperty(p2).getValue().getClass().equals(Boolean.class)){
 						row.createCell(k++).setCellValue((Boolean)item.getItemProperty(p2).getValue());
+						
 					}else if (item.getItemProperty(p2).getValue().getClass().equals(String.class)){
 						row.createCell(k++).setCellValue((String)item.getItemProperty(p2).getValue());
+						
 					}else if (item.getItemProperty(p2).getValue().getClass().equals(Calendar.class)){
 						row.createCell(k++).setCellValue((Calendar)item.getItemProperty(p2).getValue());
+						
 					}else {
 						row.createCell(k++).setCellValue(item.getItemProperty(p2).getValue().toString());
 					}
