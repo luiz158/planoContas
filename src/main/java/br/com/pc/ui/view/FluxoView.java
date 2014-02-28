@@ -1,12 +1,10 @@
 package br.com.pc.ui.view;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.Format;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +19,6 @@ import org.vaadin.data.collectioncontainer.CollectionContainer;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
 import br.com.pc.domain.Fluxo;
-import br.com.pc.domain.configuracao.EnumMeses;
 import br.com.pc.domain.configuracao.Usuario;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
@@ -38,15 +35,15 @@ import br.gov.frameworkdemoiselle.template.BaseVaadinView;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.Property.ConversionException;
-import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.PropertyFormatter;
+import com.vaadin.terminal.DownloadStream;
+import com.vaadin.terminal.FileResource;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.AbstractSelect.Filtering;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -122,7 +119,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 		btSave = new Button();
 		btAdd = new Button();
 		btRem = new Button();
-		btExcel = new Button("excel");
+		btExcel = new Button();
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -263,9 +260,11 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
+		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
 		btSave.setDescription("Salva registro.");
 		btAdd.setDescription("Adiciona novo registro.");
 		btRem.setDescription("Exclui registro.");
+		btExcel.setDescription("Exportar para excel.");
 //		btAdd.setEnabled(false);
 		btRem.setEnabled(false);
 //		dados.addComponent(tabela);
@@ -275,6 +274,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 		gl.setComponentAlignment(btSave, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
+		gl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
 		
 		return dados;
 		
@@ -429,6 +429,30 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			final FileResource stream = new FileResource(new File("e:\\historico.xls"),getApplication());// {
+//			@Override
+//			public DownloadStream getStream() {ByteArrayInputStream in = new ByteArrayInputStream("Simple Text File".getBytes());
+//			DownloadStream ds = new DownloadStream(in,"application/unknown", "e:\\historico.xls");
+//			// Need a file download POPUP
+//			ds.setParameter("Content-Disposition","attachment; filename=e:\\historico.xls");
+//			        return ds;
+//			    }
+//			};
+			stream.setCacheTime(0);
+			getWindow().open(stream);
+//			FileResource download = new FileResource(new File("e:\\historico.xls"), getApplication());
+//			download.getStream();
+//			getWindow().open(resource)
+//			final DownloadStream ds = new DownloadStream();
+//			try {
+//			ds.setParameter("Content-Disposition", "attachment; filename="
+//			+ URLEncoder.encode(getFilename(),"utf-8"));
+//			} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			}
+//			ds.setCacheTime(getCacheTime());
 		}
 	}
 

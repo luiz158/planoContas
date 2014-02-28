@@ -7,16 +7,10 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,7 +19,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.vaadin.data.Item;
 import com.vaadin.ui.Table;
 
-public class GeraXls {
+public class GeraXls{
+
 	private String path;
 	private Workbook wb;
 	private Sheet sheet;
@@ -102,4 +97,14 @@ public class GeraXls {
 //	    row.createCell(4).setCellValue(true);
 //	    row.createCell(5).setCellType(HSSFCell.CELL_TYPE_ERROR);
 	}
+
+//	public StreamResource open() throws Exception {
+////		StreamResource resource = new StreamResource(source, "arquivo.pdf", application);
+////		resource.setMIMEType("application/pdf");
+////		resource.setCacheTime(1);
+////		return resource;
+//		new FileDownloadResource(new File("e:\\historico.xls"), )
+//	}
+	
+
 }
