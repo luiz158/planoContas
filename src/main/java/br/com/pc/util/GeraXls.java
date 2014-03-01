@@ -29,12 +29,14 @@ public class GeraXls {
 	private String filePath;
 	private Workbook wb;
 	private Sheet sheet;
+	private Application app;
 	
-	public GeraXls(String filePath, Table tabela) throws IOException {
+	public GeraXls(String filePath, Table tabela, Application app) throws IOException {
 		this.filePath = filePath;
+		this.app = app;
 		NovaPlanilha();
-		SalvaArquivo();
 		GravaTabela(tabela);
+		SalvaArquivo();
 		
 	}
 	
@@ -44,7 +46,7 @@ public class GeraXls {
 	    sheet = wb.createSheet();
 	}
 	public void SalvaArquivo() throws IOException{
-		FileOutputStream fileOut = new FileOutputStream(filePath);
+		FileOutputStream fileOut = new FileOutputStream(reportPath());
 	    wb.write(fileOut);
 	    fileOut.close();
 	}
@@ -111,12 +113,16 @@ public class GeraXls {
 //	    row.createCell(5).setCellType(HSSFCell.CELL_TYPE_ERROR);
 	}
 
-	public FileResource getStream(Application app){
-		final FileResource stream = new FileResource(new File(filePath),app);
+	public FileResource getStream(){
+		final FileResource stream = new FileResource(new File(reportPath()),app);
 		stream.setCacheTime(1);
 		return stream;
 	}
 	
+	private String reportPath() {
+		return app.getContext().getBaseDirectory() + File.separator
+				+ "jasperreports" + File.separator + filePath;
+	}
 //	public StreamResource open() throws Exception {
 ////		StreamResource resource = new StreamResource(source, "arquivo.pdf", application);
 ////		resource.setMIMEType("application/pdf");

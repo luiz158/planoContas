@@ -420,17 +420,24 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});
 		}
 		if (event.getButton()==btExcel){
-			GeraXls xls = new GeraXls("historico.xls");
-			xls.NovaPlanilha();
-			xls.GravaTabela(tabela);
+//			GeraXls xls;
 			try {
-				xls.SalvaArquivo();
-			} catch (IOException e) {
+//				xls = new GeraXls("historico.xls",tabela);
+//				getWindow().open(xls.getStream(getApplication()));
+				getWindow().open(new GeraXls("historico.xls",tabela,getApplication()).getStream());
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
+//			xls.NovaPlanilha();
+//			xls.GravaTabela(tabela);
+//			try {
+//				xls.SalvaArquivo();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
-			getWindow().open(xls.getStream(getApplication()));
 			
 		}
 	}
