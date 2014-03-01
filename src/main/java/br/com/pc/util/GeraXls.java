@@ -1,5 +1,6 @@
 package br.com.pc.util;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,14 +17,26 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import com.vaadin.Application;
 import com.vaadin.data.Item;
+import com.vaadin.terminal.FileResource;
 import com.vaadin.ui.Table;
 
-public class GeraXls{
+public class GeraXls {
+	
+	private static final long serialVersionUID = 1L;
 
-	private String path;
+	private String filePath;
 	private Workbook wb;
 	private Sheet sheet;
+	
+	public GeraXls(String filePath, Table tabela) throws IOException {
+		this.filePath = filePath;
+		NovaPlanilha();
+		SalvaArquivo();
+		GravaTabela(tabela);
+		
+	}
 	
 	public void NovaPlanilha(){
 		 wb = new HSSFWorkbook();
@@ -31,7 +44,7 @@ public class GeraXls{
 	    sheet = wb.createSheet();
 	}
 	public void SalvaArquivo() throws IOException{
-		FileOutputStream fileOut = new FileOutputStream("e:\\historico.xls");
+		FileOutputStream fileOut = new FileOutputStream(filePath);
 	    wb.write(fileOut);
 	    fileOut.close();
 	}
@@ -98,6 +111,12 @@ public class GeraXls{
 //	    row.createCell(5).setCellType(HSSFCell.CELL_TYPE_ERROR);
 	}
 
+	public FileResource getStream(Application app){
+		final FileResource stream = new FileResource(new File(filePath),app);
+		stream.setCacheTime(1);
+		return stream;
+	}
+	
 //	public StreamResource open() throws Exception {
 ////		StreamResource resource = new StreamResource(source, "arquivo.pdf", application);
 ////		resource.setMIMEType("application/pdf");

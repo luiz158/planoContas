@@ -420,7 +420,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});
 		}
 		if (event.getButton()==btExcel){
-			GeraXls xls = new GeraXls();
+			GeraXls xls = new GeraXls("historico.xls");
 			xls.NovaPlanilha();
 			xls.GravaTabela(tabela);
 			try {
@@ -429,30 +429,9 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			getWindow().open(xls.getStream(getApplication()));
 			
-			final FileResource stream = new FileResource(new File("e:\\historico.xls"),getApplication());// {
-//			@Override
-//			public DownloadStream getStream() {ByteArrayInputStream in = new ByteArrayInputStream("Simple Text File".getBytes());
-//			DownloadStream ds = new DownloadStream(in,"application/unknown", "e:\\historico.xls");
-//			// Need a file download POPUP
-//			ds.setParameter("Content-Disposition","attachment; filename=e:\\historico.xls");
-//			        return ds;
-//			    }
-//			};
-			stream.setCacheTime(0);
-			getWindow().open(stream);
-//			FileResource download = new FileResource(new File("e:\\historico.xls"), getApplication());
-//			download.getStream();
-//			getWindow().open(resource)
-//			final DownloadStream ds = new DownloadStream();
-//			try {
-//			ds.setParameter("Content-Disposition", "attachment; filename="
-//			+ URLEncoder.encode(getFilename(),"utf-8"));
-//			} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			}
-//			ds.setCacheTime(getCacheTime());
 		}
 	}
 
