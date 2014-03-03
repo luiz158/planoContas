@@ -53,54 +53,58 @@ public class GeraXls {
 	
 	public void GravaTabela(Table tabela){
 		String[] titulos = tabela.getColumnHeaders();
-		Row row = sheet.createRow(0);
+//		Row row = sheet.createRow(0);
+		Row rowTitulo = sheet.createRow(0);
 		for (int i = 0; i < titulos.length; i++) {
-			 row.createCell(i).setCellValue(titulos[i]);
+			rowTitulo.createCell(i).setCellValue(titulos[i]);
 		}
 		Collection<?> c = (Collection<?>) tabela.getItemIds();
 		int j = 0;
+		Row row;
 		for (Object object : c) {
 			row = sheet.createRow(++j);
 			Item item = tabela.getItem(object);
-			int k = 0;
+			int k = -1;
 			Collection<?> p = (Collection<?>) item.getItemPropertyIds();
 			for (Object p2 : p) {
+				if (rowTitulo.getCell(++k)!=null){
 //				System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
-				try {
-					System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
-					if (item.getItemProperty(p2).getValue().getClass().equals(Date.class)
-							||item.getItemProperty(p2).getValue().getClass().equals(Timestamp.class)
-							||item.getItemProperty(p2).getValue().getClass().equals(java.sql.Date.class)){
-						CellStyle styleData = wb.createCellStyle();  
-						DataFormat format = wb.createDataFormat();  
-						styleData.setDataFormat(format.getFormat("mm/dd/yy HH:mm")); 
-						Cell cell = row.createCell(k++);//.setCellValue((Date)item.getItemProperty(p2).getValue());
-						cell.setCellStyle(styleData); 
-						cell.setCellValue((Date)item.getItemProperty(p2).getValue());
+					try {
+	//					System.out.println(item.getItemProperty(p2).getValue().getClass().toString());
+						if (item.getItemProperty(p2).getValue().getClass().equals(Date.class)
+								||item.getItemProperty(p2).getValue().getClass().equals(Timestamp.class)
+								||item.getItemProperty(p2).getValue().getClass().equals(java.sql.Date.class)){
+							CellStyle styleData = wb.createCellStyle();  
+							DataFormat format = wb.createDataFormat();  
+							styleData.setDataFormat(format.getFormat("mm/dd/yy HH:mm")); 
+							Cell cell = row.createCell(k);//.setCellValue((Date)item.getItemProperty(p2).getValue());
+							cell.setCellStyle(styleData); 
+							cell.setCellValue((Date)item.getItemProperty(p2).getValue());
+							
+						}else if (item.getItemProperty(p2).getValue().getClass().equals(Double.class)){
+							row.createCell(k).setCellValue((Double)item.getItemProperty(p2).getValue());
+	
+						}else if (item.getItemProperty(p2).getValue().getClass().equals(BigDecimal.class)){
+							row.createCell(k).setCellValue(((BigDecimal)item.getItemProperty(p2).getValue()).doubleValue());
+							
+						}else if (item.getItemProperty(p2).getValue().getClass().equals(String.class)){
+							row.createCell(k).setCellValue((String)item.getItemProperty(p2).getValue());
+							
+						}else if (item.getItemProperty(p2).getValue().getClass().equals(Calendar.class)){
+							row.createCell(k).setCellValue((Calendar)item.getItemProperty(p2).getValue());
+							
+						}else if (item.getItemProperty(p2).getValue().getClass().equals(Boolean.class)){
+							row.createCell(k).setCellValue((Boolean)item.getItemProperty(p2).getValue());
+							
+						}else {
+							row.createCell(k).setCellValue(item.getItemProperty(p2).getValue().toString());
+						}
 						
-					}else if (item.getItemProperty(p2).getValue().getClass().equals(Double.class)){
-						row.createCell(k++).setCellValue((Double)item.getItemProperty(p2).getValue());
-
-					}else if (item.getItemProperty(p2).getValue().getClass().equals(BigDecimal.class)){
-						row.createCell(k++).setCellValue(((BigDecimal)item.getItemProperty(p2).getValue()).doubleValue());
-						
-					}else if (item.getItemProperty(p2).getValue().getClass().equals(Boolean.class)){
-						row.createCell(k++).setCellValue((Boolean)item.getItemProperty(p2).getValue());
-						
-					}else if (item.getItemProperty(p2).getValue().getClass().equals(String.class)){
-						row.createCell(k++).setCellValue((String)item.getItemProperty(p2).getValue());
-						
-					}else if (item.getItemProperty(p2).getValue().getClass().equals(Calendar.class)){
-						row.createCell(k++).setCellValue((Calendar)item.getItemProperty(p2).getValue());
-						
-					}else {
-						row.createCell(k++).setCellValue(item.getItemProperty(p2).getValue().toString());
+	//					System.out.println(item.getItemProperty(p2).getClass().toString());
+	//					item.getItemProperty(p2).getClass().cast(item.getItemProperty(p2).getValue());
+					} catch (Exception e) {
+	//					e.printStackTrace();
 					}
-					
-//					System.out.println(item.getItemProperty(p2).getClass().toString());
-//					item.getItemProperty(p2).getClass().cast(item.getItemProperty(p2).getValue());
-				} catch (Exception e) {
-//					e.printStackTrace();
 				}
 			}
 		}

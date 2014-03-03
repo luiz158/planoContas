@@ -1,5 +1,6 @@
 package br.com.pc.ui.view;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ import br.com.pc.domain.configuracao.EnumMeses;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.bean.Filtro1;
+import br.com.pc.util.GeraXls;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
@@ -70,6 +72,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 	
 	private Button btSalvar;
 	private Button btAdd;
+	private Button btExcel;
 	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
@@ -106,6 +109,8 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		btSalvar.setDescription("Salvar registro");
 		btAdd = new Button();
 		btAdd.setDescription("Adicionar novo registro");
+		btExcel = new Button();
+		btExcel.setDescription("Exportar para excel.");
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -161,6 +166,8 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 
 		hl.addComponent(btAdd);
 		hl.addComponent(btSalvar);
+		hl.addComponent(btExcel);
+		
 //		hl.addComponent(btRem);
 		dados.addComponent(hl);
 //		dados.addComponent(tabela);
@@ -168,10 +175,13 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 
 		hl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
 		hl.setComponentAlignment(btSalvar, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
+		
 //		hl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
 		btSalvar.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btSalvar.setEnabled(false);
+		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
 		data.setData(new Date());
 		
 		return dados;
@@ -223,7 +233,6 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 
 		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("conta.nome", String.class,  null);
-		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
 		
 		tabela.addContainerProperty("d01", BigDecimal.class,  null);
 		tabela.addContainerProperty("d02", BigDecimal.class,  null);
@@ -256,6 +265,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("d29", BigDecimal.class,  null);
 		tabela.addContainerProperty("d30", BigDecimal.class,  null);
 		tabela.addContainerProperty("d31", BigDecimal.class,  null);
+		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
 		
 
 		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.nome", 
@@ -314,6 +324,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		btSalvar.addListener(this);
 		btAdd.addListener(this);
 		btFiltro.addListener(this);
+		btExcel.addListener(this);
 		
 		tabela.addListener(new Table.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
@@ -448,6 +459,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				if (!c.getTotalizadora()){
 					tabela.setChildrenAllowed(c, false);
 				}
+				tabela.setCollapsed(c, false);
 			}
 			
 		}
@@ -469,6 +481,13 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 //		}
 		if (event.getButton()==btFiltro){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});
+		}
+		if (event.getButton()==btExcel){
+			try {
+				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
