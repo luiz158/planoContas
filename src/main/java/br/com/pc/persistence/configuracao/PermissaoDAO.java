@@ -23,7 +23,7 @@ public class PermissaoDAO extends JPACrud<Permissao, Integer> {
 		StringBuilder queryString = new StringBuilder();
 		
 		queryString.append(" select p from Permissao p " );
-		queryString.append(" where p.grupo.id <> 1 " );
+		queryString.append(" where p.grupo.id <> 0 " );
 		queryString.append(" order by p.grupo.descricao ");
 		
 		Query query = createQuery(queryString.toString());

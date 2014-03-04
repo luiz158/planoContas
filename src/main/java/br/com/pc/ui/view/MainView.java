@@ -6,8 +6,11 @@ import java.net.UnknownHostException;
 import javax.inject.Inject;
 
 import br.com.pc.accesscontrol.Credenciais;
+import br.com.pc.business.configuracao.PermissaoBC;
 import br.com.pc.business.configuracao.UsuarioBC;
 import br.com.pc.domain.configuracao.EnumMenu;
+import br.com.pc.domain.configuracao.EnumTipoPermissao;
+import br.com.pc.domain.configuracao.Permissao;
 import br.com.pc.domain.configuracao.Usuario;
 import br.com.pc.ui.SistemaApplication;
 import br.com.pc.util.CriptografiaUtil;
@@ -18,8 +21,6 @@ import br.gov.frameworkdemoiselle.ui.StructuredView;
 import br.gov.frameworkdemoiselle.util.ResourceBundle;
 
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.LoginForm;
@@ -42,7 +43,7 @@ public class MainView extends StructuredView {
 
 	@Inject	private SecurityContext context;
 	@Inject	private Credenciais credenciais;
-	@Inject	private UsuarioBC usuarioBc;
+	@Inject	private UsuarioBC usuarioBC;
 	@Inject	private ResourceBundle bundle;
 
 	@Navigable	private TabSheet tabSheet = new TabSheet();
@@ -50,16 +51,6 @@ public class MainView extends StructuredView {
 	@Inject
 	@ProcessMenuSelection
 	private javax.enterprise.event.Event<EnumMenu> menuEvent;
-	
-//	Listener listener = new Listener() {
-//
-//		private static final long serialVersionUID = 1L;
-//
-//		@Override
-//		public void componentEvent(Event event) {
-//			
-//		}
-//	};
 
 	private Command menuCommand = new Command() {
 
@@ -73,26 +64,14 @@ public class MainView extends StructuredView {
 
 	@Override
 	public void initializeComponents() {
-		
-//		Embedded em = new Embedded("", new ThemeResource("images/systemX.png"));
-//		em.setHeight("70px");
-//		getHeader().removeAllComponents();
-//		getHeader().setHeight("90px");
 		getHeader().setHeight("15px");
-//		getHeader().addComponent(em);
-//		getHeader().setComponentAlignment(em, Alignment.TOP_LEFT);
 
 		getFooter().setHeight("15px");
 		getMenuBar().setWidth("100%");
-//		getContent().setHeight("100%");
-//		setExpandRatio(getContent(), 1);
-//		getContent().setHeight(getContent().getHeight()-70,getContent().getHeightUnits());
 		
 		loginForm.setUsernameCaption("Usuario:");
 		loginForm.setPasswordCaption("Senha:");
 		loginForm.setLoginButtonCaption("Entrar");
-
-		
 		
 		nomeSrv = "";
 		try {
@@ -104,9 +83,7 @@ public class MainView extends StructuredView {
 	    	nomeSrv = "";
 	    }
 		gridLayoutcorpo.addComponent(loginForm, 2, 0);
-//		getContent().setSizeFull();
 		getContent().addComponent(gridLayoutcorpo);
-//		getContent().setSizeUndefined();
 		getContent().setSizeFull();
 		getFooter().addComponent(new Label(bundle.getString("app.footer") + nomeSrv+" v 0.0.6"));
 		loginForm.addListener(new LoginForm.LoginListener() {
@@ -121,7 +98,7 @@ public class MainView extends StructuredView {
 				if (context.getUser() != null) {
 					
 					getWindow().showNotification(
-							"Bem Vindo " + usuarioBc.load(Long.parseLong(context.getUser().getId())).getLogin());
+							"Bem Vindo " + usuarioBC.load(Long.parseLong(context.getUser().getId())).getLogin());
 
 					
 					
@@ -130,7 +107,6 @@ public class MainView extends StructuredView {
 					getContent().addComponent(getTabSheet());
 				
 					getTabSheet().setSizeFull();
-//					getContent().setHeight(getContent().getHeight()-70,getContent().getHeightUnits());
 
 				} else {
 					getWindow().showNotification("Usuario ou senha invalido");
@@ -149,51 +125,84 @@ public class MainView extends StructuredView {
 	}
 
 	public TabSheet getTabSheet() {
-//		tabSheet.setSizeUndefined();
 		tabSheet.setSizeFull();
-//		setExpandRatio(getContent(), 1);
-//		getTabSheet().setSizeFull();
-//		getContent().setHeight(getContent().getHeight()-70,getContent().getHeightUnits());
 		return tabSheet;
 	}
 
 	private void createMenu() {
-//		getMenuBar().setWidth("100%");
-		
-//		Usuario usuario = usuarioBc.load(credenciais.getId());
-//		PermissaoBC perBC = new PermissaoBC();
-//		perBC.getPermissao(credenciais.getId());
 		if (nomeSrv.length()>0){
 			getMenuBar().addItem("VERSÃO TESTE", null).setStyleName("letravermelha");
 			getFooter().getComponent(0).setStyleName("rodape");
 		}
 		
+//		for (EnumMenu menu : EnumMenu.asList()) {
+//			if(menu.getPai()==null){
+//				if(menu.getExecuta()){
+//					getMenuBar().addItem(menu.getNome(),menu.getIcone(),menuCommand);
+//				}else{
+//					MenuBar.MenuItem menu1 = getMenuBar().addItem(menu.getNome(),menu.getIcone(),null);
+//					for (EnumMenu sub1 : EnumMenu.asList()) {
+//						if (sub1.getPai()!=null){
+//							if (sub1.getPai().getNome().equals(menu1.getText())){
+//								if (sub1.getExecuta()){
+//									menu1.addItem(sub1.getNome(), sub1.getIcone(),menuCommand);
+//								}else{
+//									
+//									MenuBar.MenuItem menu2 = menu1.addItem(sub1.getNome(),sub1.getIcone(),null);
+//									for (EnumMenu sub2 : EnumMenu.asList()) {
+//										if (sub2.getPai()!=null){
+//											if (sub2.getPai().getNome().equals(menu2.getText())){
+//												if (sub2.getExecuta()){
+//													menu2.addItem(sub2.getNome(), sub2.getIcone(),menuCommand);
+//												}else{
+//													
+//												}
+//											}
+//										}
+//									}
+//									
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+		Usuario usuario = usuarioBC.load(Long.valueOf(credenciais.getId()));
+		PermissaoBC permissaoBC = new PermissaoBC();
 		for (EnumMenu menu : EnumMenu.asList()) {
-			if(menu.getPai()==null){
-				if(menu.getExecuta()){
-					getMenuBar().addItem(menu.getNome(),menu.getIcone(),menuCommand);
-				}else{
-					MenuBar.MenuItem menu1 = getMenuBar().addItem(menu.getNome(),menu.getIcone(),null);
-					for (EnumMenu sub1 : EnumMenu.asList()) {
-						if (sub1.getPai()!=null){
-							if (sub1.getPai().getNome().equals(menu1.getText())){
-								if (sub1.getExecuta()){
-									menu1.addItem(sub1.getNome(), sub1.getIcone(),menuCommand);
-								}else{
-									
-									MenuBar.MenuItem menu2 = menu1.addItem(sub1.getNome(),sub1.getIcone(),null);
-									for (EnumMenu sub2 : EnumMenu.asList()) {
-										if (sub2.getPai()!=null){
-											if (sub2.getPai().getNome().equals(menu2.getText())){
-												if (sub2.getExecuta()){
-													menu2.addItem(sub2.getNome(), sub2.getIcone(),menuCommand);
-												}else{
-													
+			Permissao p1 = permissaoBC.getPermissao(usuario, menu);
+			if (p1.getVisualizar()==EnumTipoPermissao.PERMITIDO){
+				if(menu.getPai()==null){
+					if(menu.getExecuta()){
+						getMenuBar().addItem(menu.getNome(),menu.getIcone(),menuCommand);
+					}else{
+						MenuBar.MenuItem menu1 = getMenuBar().addItem(menu.getNome(),menu.getIcone(),null);
+						for (EnumMenu sub1 : EnumMenu.asList()) {
+							Permissao p2 = permissaoBC.getPermissao(usuario, sub1);
+							if (p2.getVisualizar()==EnumTipoPermissao.PERMITIDO){
+								if (sub1.getPai()!=null){
+									if (sub1.getPai().getNome().equals(menu1.getText())){
+										if (sub1.getExecuta()){
+											menu1.addItem(sub1.getNome(), sub1.getIcone(),menuCommand);
+										}else{
+											MenuBar.MenuItem menu2 = menu1.addItem(sub1.getNome(),sub1.getIcone(),null);
+											for (EnumMenu sub2 : EnumMenu.asList()) {
+												Permissao p3 = permissaoBC.getPermissao(usuario, sub2);
+												if (p3.getVisualizar()==EnumTipoPermissao.PERMITIDO){
+													if (sub2.getPai()!=null){
+														if (sub2.getPai().getNome().equals(menu2.getText())){
+															if (sub2.getExecuta()){
+																menu2.addItem(sub2.getNome(), sub2.getIcone(),menuCommand);
+															}else{
+																
+															}
+														}
+													}
 												}
-											}
+											}	
 										}
 									}
-									
 								}
 							}
 						}

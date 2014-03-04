@@ -8,6 +8,8 @@ import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.ui.SistemaApplication;
 import br.com.pc.ui.presenter.configuracao.AlterarSenhaPresenter;
 import br.com.pc.ui.presenter.configuracao.Grupo2Presenter;
+import br.com.pc.ui.presenter.configuracao.Permissao2Presenter;
+import br.com.pc.ui.presenter.configuracao.PermissaoPresenter;
 import br.com.pc.ui.presenter.configuracao.Usuario2Presenter;
 import br.com.pc.ui.view.MainView;
 import br.gov.frameworkdemoiselle.event.ProcessMenuSelection;
@@ -24,6 +26,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	@Inject	private ViewNavigator navigator;
 	@Inject	private Usuario2Presenter usuarioPresenter;
 	@Inject	private Grupo2Presenter grupo2Presenter;
+	@Inject	private Permissao2Presenter permissao2Presenter;
 	@Inject	private AlterarSenhaPresenter alterarSenhaPresenter;
 
 
@@ -50,6 +53,9 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	    	  break;
 	      case CRUD_GRUPO:
 	    	  navigator.navigate(grupo2Presenter.getView());
+	    	  break;
+	      case PERMISSOES:
+	    	  navigator.navigate(permissao2Presenter.getView());
 	    	  break;
 	      case LOGOUT:
 	    	  SistemaApplication.getInstance().logout();

@@ -146,7 +146,6 @@ public class Permissao implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((grupo == null) ? 0 : grupo.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((menu == null) ? 0 : menu.hashCode());
 		return result;
 	}
@@ -164,11 +163,6 @@ public class Permissao implements Serializable{
 			if (other.grupo != null)
 				return false;
 		} else if (!grupo.equals(other.grupo))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (menu != other.menu)
 			return false;
