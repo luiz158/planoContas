@@ -115,7 +115,7 @@ public class SistemaApplication extends VaadinApplication implements HttpServlet
 	@Override
 	public void close(){
 		System.out.println("DESLOGADO POR TIME OUT");
-		getWindow(bundle.getString("app.title")).showNotification("DESCONECTADO POR INATIVIDADE", Notification.TYPE_ERROR_MESSAGE);
+//		getWindow(bundle.getString("app.title")).showNotification("DESCONECTADO POR INATIVIDADE", Notification.TYPE_ERROR_MESSAGE);
 		super.close();
 	}
 	
