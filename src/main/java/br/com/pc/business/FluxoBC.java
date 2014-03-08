@@ -1,11 +1,13 @@
 package br.com.pc.business;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.configuracao.UsuarioBC;
+import br.com.pc.domain.Conta;
 import br.com.pc.domain.Fluxo;
 import br.com.pc.persistence.FluxoDAO;
 import br.com.pc.ui.bean.Filtro1;
@@ -59,4 +61,10 @@ public class FluxoBC extends DelegateCrud<Fluxo, Long, FluxoDAO> {
 	public List<Fluxo> findByFiltro1(Filtro1 filtro1, Boolean soAtivos){
 		return getDelegate().findByFiltro1(filtro1, soAtivos);
 	}
+	
+	public BigDecimal somaTotal(Filtro1 filtro1, Boolean soAtivos, Conta conta){
+		return getDelegate().somaTotal(filtro1, soAtivos, conta);
+	}
+	
+	
 }

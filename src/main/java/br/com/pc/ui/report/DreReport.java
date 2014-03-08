@@ -44,4 +44,18 @@ public class DreReport {
 			e.printStackTrace();
 		}
 	}
+
+	public void drePDF(List<DreBean> somaTotal) {
+		try {
+			SistemaApplication
+					.getInstance()
+					.getMainWindow()
+					.open(new ReportUtil("dre1.jasper",
+							SistemaApplication.getInstance(), null,somaTotal
+				).open(), "_blank");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +26,8 @@ import br.com.pc.domain.configuracao.EnumMeses;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.bean.Filtro1;
+import br.com.pc.ui.bean.FluxoDias;
+import br.com.pc.ui.report.DreBean;
 import br.com.pc.ui.report.DreReport;
 import br.com.pc.util.GeraXls;
 import br.com.pc.util.components.FieldFactoryUtil;
@@ -473,6 +477,33 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 	
+	public List<DreBean> somaTotal(){
+		List<DreBean> listaDre = new ArrayList<DreBean>();
+		Collection<?> c = (Collection<?>) tabela.getItemIds();
+		for (Object object : c) {
+//			if (((Conta)c).getTotalizadora()){
+//				
+//			}
+			DreBean bean;
+			Item item = tabela.getItem(object);
+			if ((Boolean)item.getItemProperty("conta.totalizadora").getValue()){
+				Collection<?> p = (Collection<?>) item.getItemPropertyIds();
+				bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
+				for (Object p2 : p) {
+					if (p2.toString().length()<=3){
+						try {
+							bean.addValor((BigDecimal)item.getItemProperty(p2).getValue());
+						} catch (Exception e) {
+//							System.out.println("DEU ERRO");
+						}
+					}
+				}
+				listaDre.add(bean);
+			}
+		}
+		return listaDre;
+	}
+	
 	@SuppressWarnings("serial")
 	@Override
 	public void buttonClick(ClickEvent event) {
@@ -498,7 +529,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		if (event.getButton()==btDre){
-			new DreReport().drePDF();
+			new DreReport().drePDF(somaTotal());
 //			try {
 //				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
 //			} catch (IOException e1) {
@@ -566,5 +597,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		// TODO Auto-generated method stub
 		return f;
 	}
+	
+	
 
 }

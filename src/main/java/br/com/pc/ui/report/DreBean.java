@@ -18,6 +18,16 @@ public class DreBean {
 		this.contaNumero = conta.getConta();
 		this.contaDescricao = conta.getDescricao();
 	}
+	public DreBean(String contaNumero, String contaDescricao) {
+		super();
+		this.valor = new BigDecimal("0");
+		this.contaNumero = contaNumero;
+		this.contaDescricao = contaDescricao;
+	}
+	
+	public void addValor(BigDecimal val){
+		this.valor = this.valor.add(val);
+	}
 	
 	public Conta getConta() {
 		return conta;
