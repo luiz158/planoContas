@@ -34,10 +34,13 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	public void processSave(@Observes @ProcessSave Conta bean) {
 		if (bean.getId()==null){
 			contaBC.insert(bean);
+			getView().setList(contaBC.findAll(credenciais),true,bean);
+			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		}else{
 			contaBC.update(bean);
+			getView().setList(contaBC.findAll(credenciais),false,null);
+			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
-		getView().setList(contaBC.findAll(credenciais));
 		if (bean.getTotalizadora()){
 			getView().setListaContaPai(contaBC.findByTotalizadora(true));
 			getView().getContaPai().setValue(bean.getContaPai());
@@ -55,12 +58,12 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 		} catch (Exception e) {
 			getView().getWindow().showNotification("ERRO AO EXCLUIR!!", "<br>Desculpe! Por alguma razão não consegui excluir essa conta ", Notification.TYPE_ERROR_MESSAGE);
 		}
-		getView().setList(contaBC.findAll(credenciais));
+		getView().setList(contaBC.findAll(credenciais),true,null);
 	}
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ContaView view) {
 		view.setListaContaPai(contaBC.findByTotalizadora(true));
-		view.setList(contaBC.findAll(credenciais));
+		view.setList(contaBC.findAll(credenciais),false,null);
 		view.setListaClinicas(clinicaBC.findAll(credenciais));
 	}
 

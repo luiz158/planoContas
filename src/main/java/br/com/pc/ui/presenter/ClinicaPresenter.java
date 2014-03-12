@@ -33,9 +33,12 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 	public void processSave(@Observes @ProcessSave Clinica bean) {
 		if (bean.getId()==null){
 			clinicaBC.insert(bean);
+			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		}else{
 			clinicaBC.update(bean);
+			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
+		getView().setList(clinicaBC.findAll(credenciais));
 //		getView().setList(contaBC.findAll());
 //		if (bean.getTotalizadora()){
 //			getView().setListaContaPai(contaBC.findByTotalizadora(true));

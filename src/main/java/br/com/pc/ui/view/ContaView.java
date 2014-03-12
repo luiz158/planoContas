@@ -234,8 +234,8 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		});
 	}
 
-	public void setList(List<Conta> lista){
-//		tabela.removeAllItems();
+	public void setList(List<Conta> lista, Boolean removeAllItems, Conta b){
+		if (removeAllItems)	tabela.removeAllItems();
 		for (Conta c : lista) {
 			Item itemBean;
 			if (tabela.getItem(c)==null){
@@ -252,6 +252,9 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
 //			try {itemBean.getItemProperty("conta.clinicas").setValue(c.getClinicas());} catch (Exception e) {}
 			
+		}
+		if (b!=null){
+			tabela.select(b);
 		}
 	}
 	
