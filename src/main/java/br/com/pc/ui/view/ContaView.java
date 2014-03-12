@@ -24,6 +24,7 @@ import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
+import br.gov.frameworkdemoiselle.stereotype.View;
 import br.gov.frameworkdemoiselle.template.BaseVaadinView;
 
 import com.vaadin.data.Item;
@@ -43,6 +44,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
 
+@View
 public class ContaView extends BaseVaadinView implements Button.ClickListener {
 
 	private static final long serialVersionUID = 1L;
@@ -66,7 +68,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 
 //	protected Property clinica;
 	
-	private TwinColSelect clinicas = new TwinColSelect();
+	private TwinColSelect clinicas;
 	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	

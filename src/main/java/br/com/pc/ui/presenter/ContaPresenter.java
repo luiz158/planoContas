@@ -1,15 +1,15 @@
 package br.com.pc.ui.presenter;
 
-import java.util.List;
-
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.vaadin.ui.Window.Notification;
+
+import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
-import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
 import br.com.pc.ui.view.ContaView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
@@ -29,6 +29,7 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	@Inject ClinicaBC clinicaBC;
 	@Inject ContaBC contaBC;
 	@Inject FluxoBC fluxoBC;
+	@Inject Credenciais credenciais;
 	
 	public void processSave(@Observes @ProcessSave Conta bean) {
 		if (bean.getId()==null){
@@ -36,7 +37,7 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 		}else{
 			contaBC.update(bean);
 		}
-		getView().setList(contaBC.findAll());
+		getView().setList(contaBC.findAll(credenciais));
 		if (bean.getTotalizadora()){
 			getView().setListaContaPai(contaBC.findByTotalizadora(true));
 			getView().getContaPai().setValue(bean.getContaPai());
@@ -49,14 +50,18 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	}
 
 	public void processDelete(@Observes @ProcessDelete Conta bean) {
-		contaBC.delete(bean.getId());
-		getView().setList(contaBC.findAll());
+		try {
+			contaBC.delete(bean);
+		} catch (Exception e) {
+			getView().getWindow().showNotification("ERRO AO EXCLUIR!!", "<br>Desculpe! Por alguma razão não consegui excluir essa conta ", Notification.TYPE_ERROR_MESSAGE);
+		}
+		getView().setList(contaBC.findAll(credenciais));
 	}
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ContaView view) {
 		view.setListaContaPai(contaBC.findByTotalizadora(true));
-		view.setList(contaBC.findAll());
-		getView().setListaClinicas(clinicaBC.findAll());
+		view.setList(contaBC.findAll(credenciais));
+		view.setListaClinicas(clinicaBC.findAll(credenciais));
 	}
 
 	public void processFormClear(@Observes @ProcessClear Conta bean) {

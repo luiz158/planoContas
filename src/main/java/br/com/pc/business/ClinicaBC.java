@@ -26,6 +26,10 @@ public class ClinicaBC extends DelegateCrud<Clinica, Long, ClinicaDAO> {
 	public void update(Clinica bean) {
 		super.update(bean);
 	}
+	public void delete(Clinica bean) {
+		bean.setAtivo(false);
+		super.update(bean);
+	}
 
 	public List<Clinica> findAll(Credenciais credenciais) {
 		return getDelegate().findByCredenciais(credenciais);

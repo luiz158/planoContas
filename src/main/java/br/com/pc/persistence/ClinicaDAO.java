@@ -23,7 +23,7 @@ public class ClinicaDAO extends JPACrud<Clinica, Long> {
 		stringBuilder.append(" select c from Grupo g ");
 		stringBuilder.append(" inner join g.clinicas c ");
 		stringBuilder.append(" inner join g.usuarios u ");
-		stringBuilder.append(" where u.id = :id ");
+		stringBuilder.append(" where u.id = :id and c.ativo = true  ");
 		stringBuilder.append(" order by c.descricao ");
 		
 		Query query = createQuery(stringBuilder.toString());
@@ -40,7 +40,7 @@ public class ClinicaDAO extends JPACrud<Clinica, Long> {
 		
 		stringBuilder.append(" select clinica from Conta conta ");
 		stringBuilder.append(" inner join conta.clinicas clinica ");
-		stringBuilder.append(" where conta.id = :id ");
+		stringBuilder.append(" where conta.id = :id and clinica.ativo = true ");
 		stringBuilder.append(" order by clinica.descricao ");
 		
 		Query query = createQuery(stringBuilder.toString());

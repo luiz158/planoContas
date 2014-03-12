@@ -22,6 +22,10 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	public void update(Conta bean) {
 		super.update(bean);
 	}
+	public void delete(Conta bean) {
+		bean.setAtivo(false);
+		super.update(bean);
+	}
 	
 	public List<Conta> findByTotalizadora(Boolean totalizadora){
 		return getDelegate().findByTotalizadora(totalizadora);

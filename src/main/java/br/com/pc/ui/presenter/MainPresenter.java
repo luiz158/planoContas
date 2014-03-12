@@ -9,7 +9,6 @@ import br.com.pc.ui.SistemaApplication;
 import br.com.pc.ui.presenter.configuracao.AlterarSenhaPresenter;
 import br.com.pc.ui.presenter.configuracao.Grupo2Presenter;
 import br.com.pc.ui.presenter.configuracao.Permissao2Presenter;
-import br.com.pc.ui.presenter.configuracao.PermissaoPresenter;
 import br.com.pc.ui.presenter.configuracao.Usuario2Presenter;
 import br.com.pc.ui.view.MainView;
 import br.gov.frameworkdemoiselle.event.ProcessMenuSelection;
@@ -33,6 +32,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	@Inject	private FluxoPresenter fluxoPresenter;
 	@Inject	private Fluxo2Presenter fluxo2Presenter;
 	@Inject	private ContaPresenter contaPresenter;
+	@Inject	private ClinicaPresenter clinicaPresenter;
 	
 	public void fechaAbaAtual() {
 		navigator.pop();
@@ -70,6 +70,9 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	    	  break;
 	      case PC_CONTA:
 	    	  navigator.navigate(contaPresenter.getView());
+	    	  break;
+	      case PC_CLINICA:
+	    	  navigator.navigate(clinicaPresenter.getView());
 	    	  break;
 			
 	    }   

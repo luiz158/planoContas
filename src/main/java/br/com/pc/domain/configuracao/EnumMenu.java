@@ -17,7 +17,8 @@ public enum EnumMenu {
 		CRUD_USUARIO	("USUARIO",true,GERENCIA),
 	PC_FLUXO		("FLUXO INDIVIDUAL",true),
 	PC_CONTA		("CONTA",true),
-	PC_FLUXO2		("FLUXO MENSAL",true);
+	PC_FLUXO2		("FLUXO MENSAL",true),
+	PC_CLINICA		("CLINICA",true);
 //------------
 
 //-----------
@@ -31,6 +32,7 @@ public enum EnumMenu {
 		lista.add(PC_FLUXO);
 		lista.add(PC_FLUXO2);
 		lista.add(PC_CONTA);
+		lista.add(PC_CLINICA);
 		
 //---GERENCIA
 		lista.add(GERENCIA);
