@@ -17,6 +17,7 @@ import org.vaadin.data.collectioncontainer.CollectionContainer;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
 import br.com.pc.domain.Fluxo;
+import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.Usuario;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
@@ -83,7 +84,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 	@Override
 	public void initializeComponents() {
 		// TODO Auto-generated method stub
-		setCaption("FLUXO");
+		setCaption(EnumMenu.PC_FLUXO.getNome());
 		setSpacing(true);
 		setMargin(true);
 		bean = new Fluxo();

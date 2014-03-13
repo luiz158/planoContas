@@ -52,7 +52,7 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 					fluxoBC.update(bean);
 					view.getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 				}
-				view.setListConta(contaBC.findAll());
+				view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
 				view.setListFluxo(fluxoBC.findByFiltro1(view.getFiltro1(),true));
 			}else{
 				view.getWindow().showNotification("SELECIONE UMA CONTA QUE NÃO SEJA TOTALIZADORA!!!",null,Notification.TYPE_ERROR_MESSAGE);
@@ -70,13 +70,13 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 				bean.setId(null);
 				fluxoBC.insert(bean);
 				view.getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
-				view.setListConta(contaBC.findAll(credenciais));
+				view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
 				view.setListFluxo(fluxoBC.findByFiltro1(view.getFiltro1(),true));
 			}else{
 				view.getWindow().showNotification("SELECIONE UMA CONTA QUE NÃO SEJA TOTALIZADORA!!!",null,Notification.TYPE_ERROR_MESSAGE);
 			}
 		}else{
-			getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
+			view.getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
 		}
 		
 	}
@@ -86,13 +86,13 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 	}
 
 	public void processFiltro(@Observes @ProcessFilter Fluxo2View view) {
-		view.setListConta(contaBC.findAll(credenciais));
+		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
 		view.setListFluxo(fluxoBC.findByFiltro1(view.getFiltro1(),true));
 	}
 
 	public void processDelete(@Observes @ProcessDelete Fluxo2View view) {
 //		fluxoBC.delete(view.g);
-		view.setListConta(contaBC.findAll(credenciais));
+		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
 		view.setListFluxo(fluxoBC.findByFiltro1(view.getFiltro1(),true));
 	}
 
@@ -101,7 +101,7 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 		view.setListaMeses(EnumMeses.asList());
 		
 		view.setListaClinica(clinicaBC.findAll(credenciais));
-		view.setListConta(contaBC.findAll(credenciais));
+		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
 		view.setListFluxo(fluxoBC.findByFiltro1(view.getFiltro1(),true));
 		
 		view.limpar();

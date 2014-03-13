@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.domain.Conta;
 import br.com.pc.persistence.ContaDAO;
+import br.com.pc.ui.bean.Filtro1;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 
@@ -38,6 +39,10 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 
 	public List<Conta> findAll(Credenciais credenciais) {
 		return getDelegate().findAllAtivo(credenciais);
+	}
+
+	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos) {
+		return getDelegate().findByFiltro1(filtro1,soAtivos);
 	}
 	
 	

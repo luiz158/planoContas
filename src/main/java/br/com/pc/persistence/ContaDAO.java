@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.domain.Conta;
+import br.com.pc.ui.bean.Filtro1;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
@@ -54,6 +55,28 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		
 		for (Parameter<?> p : query.getParameters()) {
 			if ("id".equals(p.getName()))	{query.setParameter(p.getName(), Long.parseLong(credenciais.getId()));}
+		}
+		
+		return query.getResultList();
+	}
+
+	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos) {
+StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select b " +
+				" from Conta b " +
+				" left outer join b.clinicas c " +
+				" where b.id > 0 and " +
+				" c in (:clinicas) or c is null ");
+		if (soAtivos){
+			queryString.append(" and b.ativo = true  " );
+		}
+		queryString.append(" order by b.conta ");
+		
+		Query query = createQuery(queryString.toString());
+		
+		for (Parameter<?> p : query.getParameters()) {
+			if ("clinicas".equals(p.getName()))	{query.setParameter(p.getName(), filtro1.getClinicas());}
 		}
 		
 		return query.getResultList();

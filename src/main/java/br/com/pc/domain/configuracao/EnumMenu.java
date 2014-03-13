@@ -15,7 +15,7 @@ public enum EnumMenu {
 		PERMISSOES	("PERMISSÕES",true,GERENCIA),
 		CRUD_GRUPO		("GRUPO",true,GERENCIA),
 		CRUD_USUARIO	("USUARIO",true,GERENCIA),
-	PC_FLUXO		("FLUXO INDIVIDUAL",true),
+	PC_FLUXO		("HISTÓRICO",true),
 	PC_CONTA		("CONTA",true),
 	PC_FLUXO2		("FLUXO MENSAL",true),
 	PC_CLINICA		("CLINICA",true);

@@ -529,7 +529,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		if (event.getButton()==btDre){
-			new DreReport().drePDF(somaTotal());
+			new DreReport().drePDF(somaTotal(),getFiltro1());
 //			try {
 //				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
 //			} catch (IOException e1) {

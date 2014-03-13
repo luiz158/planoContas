@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="ireport.layers" value="##Wed Mar 12 22:48:30 GMT-03:00 2014\nlayer.1.name=Layer 1\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0\nlayer.1.printWhenExpression=false"/>
 	<style name="style1">
 		<box leftPadding="2" rightPadding="2">
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -11,6 +12,15 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<parameter name="LOGO" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="DT_INICIO" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="DT_FIM" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ANO" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="MES" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="CLINICAS" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA['a,b,c']]></defaultValueExpression>
+	</parameter>
+	<parameter name="CLINICAS1" class="java.util.List" isForPrompting="false"/>
 	<field name="contaNumero" class="java.lang.String"/>
 	<field name="contaDescricao" class="java.lang.String"/>
 	<field name="valor" class="java.math.BigDecimal"/>
@@ -21,13 +31,13 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="32" splitType="Stretch">
+		<band height="92" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="32"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[D. R. E. FACIMAGEM]]></text>
+				<text><![CDATA[D. R. E.]]></text>
 			</staticText>
 			<textField pattern="&apos;Gerado:&apos; EEEEE dd MMMMM yyyy &apos;as&apos; HH:mm">
 				<reportElement x="370" y="0" width="185" height="20"/>
@@ -35,6 +45,50 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="220" height="52"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<textField pattern="&apos;De &apos; dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="220" y="32" width="100" height="20" forecolor="#000000">
+					<property name="ireport.layer" value="1"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{DT_INICIO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="&apos;até &apos; dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="320" y="32" width="100" height="20" forecolor="#000000">
+					<property name="ireport.layer" value="1"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{DT_FIM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="103" y="52" width="100" height="20" forecolor="#000000">
+					<property name="ireport.layer" value="1"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA["Ano: " + $P{ANO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="3" y="52" width="100" height="20" forecolor="#000000">
+					<property name="ireport.layer" value="1"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Mês: "+$P{MES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="3" y="72" width="200" height="20" forecolor="#000000">
+					<property name="ireport.layer" value="1"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Clinicas: " + $P{CLINICAS}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
