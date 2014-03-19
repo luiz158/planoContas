@@ -63,6 +63,9 @@ public class Conta implements Serializable{
 
 	@Column(name="TOTALIZADORA", nullable = false,  columnDefinition = "bit default 0")
 	private Boolean totalizadora=false;
+
+	@Column(name="dre", nullable = false,  columnDefinition = "bit default 0")
+	private Boolean dre=false;
 	
 	@ManyToOne(cascade={CascadeType.MERGE},optional = true, targetEntity = Conta.class)
 	@JoinColumn(name = "CONTA_ID")
@@ -235,6 +238,14 @@ public class Conta implements Serializable{
 
 	public void setClinicas(List<Clinica> clinicas) {
 		this.clinicas = clinicas;
+	}
+
+	public Boolean getDre() {
+		return dre;
+	}
+
+	public void setDre(Boolean dre) {
+		this.dre = dre;
 	}
 	
 }

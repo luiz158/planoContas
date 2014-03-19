@@ -50,7 +50,7 @@ public class FluxoDAO extends JPACrud<Fluxo, Long> {
 		return query.getResultList();
 	}
 
-	public List<Fluxo> findByFiltro1(Filtro1 f, Boolean soAtivos) {
+	public List<Fluxo> findByFiltro1(Filtro1 f, Boolean soAtivos, String conta) {
 		StringBuilder queryString = new StringBuilder();
 		
 		queryString.append(" select b from Fluxo b " );
@@ -73,6 +73,9 @@ public class FluxoDAO extends JPACrud<Fluxo, Long> {
 		if (f.getDtFim()!=null){
 			queryString.append(" and b.data <= :dtFim " );
 		}
+		if (conta!=null && conta.length()>0){
+			queryString.append(" and b.conta.conta like :conta " );
+		}
 		queryString.append(" order by b.data, b.conta.conta " );
 		
 		Query query = createQuery(queryString.toString());
@@ -83,6 +86,7 @@ public class FluxoDAO extends JPACrud<Fluxo, Long> {
 			else if ("mes".equals(p.getName()))	{query.setParameter(p.getName(), f.getMes().getNumMes());}
 			else if ("dtInicio".equals(p.getName())){query.setParameter(p.getName(), f.getDtInicio());}
 			else if ("dtFim".equals(p.getName()))	{query.setParameter(p.getName(), f.getDtFim());}
+			else if ("conta".equals(p.getName()))	{query.setParameter(p.getName(), conta+"%");}
 		}
 		
 		return query.getResultList();

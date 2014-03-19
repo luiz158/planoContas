@@ -15,10 +15,15 @@ public enum EnumMenu {
 		PERMISSOES	("PERMISSÕES",true,GERENCIA),
 		CRUD_GRUPO		("GRUPO",true,GERENCIA),
 		CRUD_USUARIO	("USUARIO",true,GERENCIA),
-	PC_FLUXO		("HISTÓRICO",true),
-	PC_CONTA		("CONTA",true),
+	PC_LANCAMENTOS		("LANÇAMENTOS"),
+		PC_FLUXO		("HISTÓRICO",true,PC_LANCAMENTOS),
+		PC_RECEITAS		("RECEITAS",true,PC_LANCAMENTOS),
+		PC_DESPESAS		("DESPESAS",true,PC_LANCAMENTOS),
+	PC_CADASTROS		("CADASTROS"),
+		PC_CONTA		("CONTA",true,PC_CADASTROS),
+		PC_CLINICA		("CLINICA",true,PC_CADASTROS),
 	PC_FLUXO2		("FLUXO MENSAL",true),
-	PC_CLINICA		("CLINICA",true);
+	PC_DRE			("D.R.E.",true);
 //------------
 
 //-----------
@@ -29,11 +34,16 @@ public enum EnumMenu {
 		List<EnumMenu> lista = new ArrayList<EnumMenu>();
 
 //---PLANO CONTAS
+		lista.add(PC_LANCAMENTOS);
 		lista.add(PC_FLUXO);
-		lista.add(PC_FLUXO2);
+		lista.add(PC_RECEITAS);
+		lista.add(PC_DESPESAS);
+		lista.add(PC_CADASTROS);
 		lista.add(PC_CONTA);
 		lista.add(PC_CLINICA);
-		
+		lista.add(PC_FLUXO2);
+		lista.add(PC_DRE);
+
 //---GERENCIA
 		lista.add(GERENCIA);
 			lista.add(PERMISSOES);

@@ -41,20 +41,23 @@ public class MenuBC extends DelegateCrud<Menu, Integer, MenuDAO> {
 				entity.setId((Integer)enumMenu.ordinal());
 				entity.setNome(enumMenu.getNome());
 				super.insert(entity);
-				if(permissaoBC.findAll().size()>0){
-					Permissao p = new Permissao(enumMenu);
-					p.setAlterar(EnumTipoPermissao.PERMITIDO);
-					p.setCriar(EnumTipoPermissao.PERMITIDO);
-					p.setExcluir(EnumTipoPermissao.PERMITIDO);
-					p.setImprimir(EnumTipoPermissao.PERMITIDO);
-					p.setVisualizar(EnumTipoPermissao.PERMITIDO);
-					p.setGrupo(grupoBC.load(1l));
-					permissaoBC.insert(p);
-				}
+//				if(permissaoBC.findAll().size()>0){
+//					Permissao p = new Permissao(enumMenu);
+//					p.setAlterar(EnumTipoPermissao.PERMITIDO);
+//					p.setCriar(EnumTipoPermissao.PERMITIDO);
+//					p.setExcluir(EnumTipoPermissao.PERMITIDO);
+//					p.setImprimir(EnumTipoPermissao.PERMITIDO);
+//					p.setVisualizar(EnumTipoPermissao.PERMITIDO);
+//					p.setGrupo(grupoBC.load(1l));
+//					permissaoBC.insert(p);
+//				}
+			}else{
+				menu.setNome(enumMenu.getNome());
+				super.update(menu);
 			}
 		}
 		
-		EnumMenu.atualizaNomes();
+//		EnumMenu.atualizaNomes();
 	}
 
 	public Menu findByNome(String nome){

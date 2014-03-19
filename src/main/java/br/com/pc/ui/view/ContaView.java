@@ -43,6 +43,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
+import com.vaadin.ui.VerticalLayout;
 
 @View
 public class ContaView extends BaseVaadinView implements Button.ClickListener {
@@ -55,6 +56,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	private TextField conta;
 	private TextField descricao;
 	private CheckBox totalizadora;
+	private CheckBox dre;
 	private ComboBox contaPai;
 	
 	private Panel dados;
@@ -84,6 +86,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		descricao = FieldFactoryUtil.createTextField("DESCRICAO");
 		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "descricao");
 		totalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
+		dre = FieldFactoryUtil.createCheckBox("DRE");
 		clinicas =  FieldFactoryUtil.createTwinColSelect("CLINICAS","descricao");
 
 		btAdd = new Button();
@@ -115,14 +118,18 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		clinicas.setItemCaptionPropertyId("descricao");
 		
 		GridLayout gl = new GridLayout(5,2);
+		VerticalLayout vl = new VerticalLayout();
 //		hl.setMargin(true);
 		gl.setSpacing(true);
 		
 //		dados.setContent(hl);
 
+		vl.addComponent(totalizadora);
+		vl.addComponent(dre);
+		
 		gl.addComponent(conta,0,0);
 		gl.addComponent(descricao,0,1);
-		gl.addComponent(totalizadora,1,0);
+		gl.addComponent(vl,1,0);
 		gl.addComponent(contaPai,1,1);
 		gl.addComponent(clinicas,2,0,2,1);
 		
@@ -134,6 +141,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		btRem.setDescription("Exclui registro.");
 		
 		gl.setComponentAlignment(totalizadora, Alignment.MIDDLE_LEFT);
+		gl.setComponentAlignment(dre, Alignment.MIDDLE_LEFT);
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		
@@ -200,12 +208,13 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("conta.descricao", String.class,  null);
 		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
+		tabela.addContainerProperty("conta.dre", Boolean.class,  null);
 		tabela.addContainerProperty("conta.contaPai", Conta.class,  null);
 		tabela.addContainerProperty("conta.clinicas", List.class,  null);
 
-		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.descricao","conta.totalizadora","conta.contaPai","conta.clinicas",});
+		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.descricao","conta.totalizadora","conta.dre","conta.contaPai","conta.clinicas",});
 		
-		tabela.setColumnHeaders(new String[]{"conta","descricao","totalizadora","contaPai","clinicas",});
+		tabela.setColumnHeaders(new String[]{"conta","descricao","totalizadora","dre","contaPai","clinicas",});
 		
 		tabela.addGeneratedColumn("conta.totalizadora", new SimNaoColumnGenerator());
 		
@@ -246,6 +255,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("conta.conta").setValue(c.getConta());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.descricao").setValue(c.getDescricao());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());} catch (Exception e) {}
+			try {itemBean.getItemProperty("conta.dre").setValue(c.getDre());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.contaPai").setValue(c.getContaPai());} catch (Exception e) {}
 			
 		 	List<Clinica> c2 = clinicaBC.findByConta(c);
@@ -280,6 +290,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		try {bean.setContaPai((Conta)contaPai.getValue());} catch (Exception e) {}
 		try {bean.setDescricao((String)descricao.getValue());} catch (Exception e) {}
 		try {bean.setTotalizadora((Boolean)totalizadora.getValue());} catch (Exception e) {}
+		try {bean.setDre((Boolean)dre.getValue());} catch (Exception e) {}
 		try {bean.setClinicas(new ArrayList<Clinica>((Collection<? extends Clinica>) clinicas.getValue()));} catch (Exception e) {bean.setClinicas(null);}
 		
 		return bean;
@@ -291,6 +302,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			conta.setValue(bean.getConta());
 			descricao.setValue(bean.getDescricao());
 			totalizadora.setValue(bean.getTotalizadora());
+			dre.setValue(bean.getDre());
 			contaPai.setValue(bean.getContaPai());
 
 		 	List<Clinica> c2 = clinicaBC.findByConta(bean);
