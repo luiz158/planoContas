@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
 import br.com.pc.business.ContaBC;
+import br.com.pc.business.FluxoBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
 import br.com.pc.domain.Fluxo;
@@ -59,6 +60,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject	private BeanManager beanManager;
+	@Inject FluxoBC fluxoBC;
 
 	private ListSelect fClinica;
 	private ComboBox ano;
@@ -276,6 +278,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("d29", BigDecimal.class,  null);
 		tabela.addContainerProperty("d30", BigDecimal.class,  null);
 		tabela.addContainerProperty("d31", BigDecimal.class,  null);
+		tabela.addContainerProperty("total", BigDecimal.class,  null);
 		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
 		
 
@@ -283,13 +286,13 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				"d01","d02","d03","d04","d05","d06","d07","d08","d09","d10",
 				"d11","d12","d13","d14","d15","d16","d17","d18","d19","d20",
 				"d21","d22","d23","d24","d25","d26","d27","d28","d29","d30",
-				"d31"});
+				"d31","total"});
 		
 		tabela.setColumnHeaders(new String[]{"conta","descricao", 
 				"01","02","03","04","05","06","07","08","09","10",
 				"11","12","13","14","15","16","17","18","19","20",
 				"21","22","23","24","25","26","27","28","29","30",
-				"31",});
+				"31","total"});
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override
@@ -380,12 +383,18 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				String dia=String.format("%td", f.getData());
 				
 				BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
+				BigDecimal total = (BigDecimal)itemBean.getItemProperty("total").getValue();
+				if (total == null){total = new BigDecimal("0.0");}
 				if (bg!=null){
 	//				bg = bg.add(f.getValor());
 					itemBean.getItemProperty("d"+dia).setValue(f.getValor().add(bg));
+					total = total.add(f.getValor());
 				}else{
+//					if (total == null){total = new BigDecimal("0.0");}
 					itemBean.getItemProperty("d"+dia).setValue(f.getValor());
+					total = total.add(f.getValor());
 				}
+				itemBean.getItemProperty("total").setValue(total);
 				Conta conta = new ContaBC().load(f.getConta().getId());
 				if(conta.getContaPai()!=null){
 					totalizadora(conta.getContaPai(),dia,f.getValor());
@@ -465,6 +474,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				itemBean.getItemProperty("conta.conta").setValue(c.getConta());
 				itemBean.getItemProperty("conta.nome").setValue(c.getDescricao());
 				itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());
+//				itemBean.getItemProperty("total").setValue(fluxoBC.somaTotal(getFiltro1(), true, c));
 				if (c.getContaPai()!=null){
 					tabela.setParent(c, c.getContaPai());
 				}

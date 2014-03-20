@@ -130,7 +130,9 @@ public class FluxoDAO extends JPACrud<Fluxo, Long> {
 			else if ("dtFim".equals(p.getName()))	{query.setParameter(p.getName(), f.getDtFim());}
 			else if ("conta".equals(p.getName()))	{query.setParameter(p.getName(), conta);}
 		}
-		return new BigDecimal((String)query.getSingleResult());
+
+		Object val = query.getSingleResult();
+		return new BigDecimal((val==null?"0.0":val.toString()));
 		
 	}
 
