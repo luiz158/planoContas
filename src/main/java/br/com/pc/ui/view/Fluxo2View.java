@@ -409,13 +409,20 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		itemBean = tabela.getItem(contaPai);
 		
 		BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
+		BigDecimal total = (BigDecimal)itemBean.getItemProperty("total").getValue();
 		BigDecimal valor2 = new BigDecimal("0");
-		
+		if (total == null){total = new BigDecimal("0.0");}
+		else{
+//			total = total.add(total);
+		}
 		if (bg!=null){
 			valor2=valor2.add(bg);
+//			total=total.add(bg);
 		}
 		valor2=valor2.add(v);
+		total=total.add(v);
 		itemBean.getItemProperty("d"+dia).setValue(valor2);
+		itemBean.getItemProperty("total").setValue(total);
 		Conta conta = new ContaBC().load(contaPai.getId());
 		if(conta.getContaPai()!=null){
 			totalizadora(conta.getContaPai(),dia,v);
