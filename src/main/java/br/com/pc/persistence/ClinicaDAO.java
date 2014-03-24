@@ -52,4 +52,5 @@ public class ClinicaDAO extends JPACrud<Clinica, Long> {
 		return query.getResultList();
 	}
 
+
 }

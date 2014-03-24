@@ -35,6 +35,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	@Inject	private ClinicaPresenter clinicaPresenter;
 	@Inject	private ReceitasPresenter receitasPresenter;
 	@Inject	private DespesasPresenter despesasPresenter;
+	@Inject	private Dre1Presenter dre1Presenter;
 	
 	public void fechaAbaAtual() {
 		navigator.pop();
@@ -81,6 +82,9 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	    	  break;
 	      case PC_RECEITAS:
 	    	  navigator.navigate(receitasPresenter.getView());
+	    	  break;
+	      case PC_DRE:
+	    	  navigator.navigate(dre1Presenter.getView());
 	    	  break;
 			
 	    }   

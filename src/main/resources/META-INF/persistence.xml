@@ -14,22 +14,6 @@
 		<class>br.com.pc.domain.Conta</class>
 		<class>br.com.pc.domain.Fluxo</class>
 		
-				<!-- Use o trecho abaixo para conectar no HSQLDB e Desenvolver -->
-		<!-- 	
-		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
-			<property name="javax.persistence.jdbc.user" value="sa" />
-			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost:9001/contiauto" />
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="false" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-		</properties>
-		-->
-		
-		<!--  --> 
-		<!-- Use o trecho abaixo para conectar no MySQL -->
-		<!--  -->
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -40,37 +24,8 @@
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="maxPoolSize" value="25"/>
-			
-			<!-- other hibernate properties 
-
-			   <property name="hibernate.ejb.event.post-insert"
-			             value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.hibernate.envers.event.AuditEventListener" />
-			   <property name="hibernate.ejb.event.post-update"
-			             value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.hibernate.envers.event.AuditEventListener" />
-			   <property name="hibernate.ejb.event.post-delete"
-			             value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
-			   <property name="hibernate.ejb.event.pre-collection-update"
-			             value="org.hibernate.envers.event.AuditEventListener" />
-			   <property name="hibernate.ejb.event.pre-collection-remove"
-			             value="org.hibernate.envers.event.AuditEventListener" />
-			   <property name="hibernate.ejb.event.post-collection-recreate"
-			             value="org.hibernate.envers.event.AuditEventListener" />-->
 
 		</properties>
-		
-		<!-- Use o trecho abaixo para conectar no MySQL -->
-		  <!--
-		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.user" value="root" /> 
-			<property name="javax.persistence.jdbc.password" value="agoravai" /> 
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://ilumisystem.dyndns.org:33306/contiautodb" /> 
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="false" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-		</properties>
-		  -->
 
 	</persistence-unit>
 

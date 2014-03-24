@@ -63,8 +63,9 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ContaView view) {
 		view.setListaContaPai(contaBC.findByTotalizadora(true));
-		view.setList(contaBC.findAll(credenciais),false,null);
 		view.setListaClinicas(clinicaBC.findAll(credenciais));
+		
+		view.setList(contaBC.findAll(credenciais),true,null);
 	}
 
 	public void processFormClear(@Observes @ProcessClear Conta bean) {

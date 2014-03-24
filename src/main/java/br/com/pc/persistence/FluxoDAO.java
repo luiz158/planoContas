@@ -135,5 +135,53 @@ public class FluxoDAO extends JPACrud<Fluxo, Long> {
 		return new BigDecimal((val==null?"0.0":val.toString()));
 		
 	}
+	public BigDecimal somaTotal2(Filtro1 f, Boolean soAtivos, Conta conta){
+		StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select sum(b.valor) from Fluxo b " );
+		queryString.append(" where b.id > 0  " );
+		if (soAtivos){
+			queryString.append(" and b.ativo = true  " );
+		}
+		if (f.getClinicas()!=null && f.getClinicas().size()>0){
+			queryString.append(" and b.clinica in (:clinicas) " );
+		}
+		if (f.getAno()!=null){
+			queryString.append(" and year(b.data) = :ano " );
+		}
+		if (f.getMes()!=null){
+			queryString.append(" and month(b.data) = :mes " );
+		}
+		if (f.getDtInicio()!=null){
+			queryString.append(" and b.data >= :dtInicio " );
+		}
+		if (f.getDtFim()!=null){
+			queryString.append(" and b.data <= :dtFim " );
+		}
+		if (conta!=null){
+			if (conta.getTotalizadora()){
+				queryString.append(" and b.conta.conta like :contaId " );
+			}else{
+				queryString.append(" and b.conta = :conta " );
+			}
+		}
+		queryString.append(" order by b.data, b.conta.conta " );
+		
+		Query query = createQuery(queryString.toString());
+		
+		for (Parameter<?> p : query.getParameters()) {
+			if (	 "clinicas".equals(p.getName()))	{query.setParameter(p.getName(), f.getClinicas());}
+			else if ("ano".equals(p.getName()))	{query.setParameter(p.getName(), f.getAno());}
+			else if ("mes".equals(p.getName()))	{query.setParameter(p.getName(), f.getMes().getNumMes());}
+			else if ("dtInicio".equals(p.getName())){query.setParameter(p.getName(), f.getDtInicio());}
+			else if ("dtFim".equals(p.getName()))	{query.setParameter(p.getName(), f.getDtFim());}
+			else if ("conta".equals(p.getName()))	{query.setParameter(p.getName(), conta);}
+			else if ("contaId".equals(p.getName()))	{query.setParameter(p.getName(), conta.getConta()+"%");}
+		}
+
+		Object val = query.getSingleResult();
+		return new BigDecimal((val==null?"0.0":val.toString()));
+		
+	}
 
 }

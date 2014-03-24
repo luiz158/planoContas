@@ -35,14 +35,14 @@ public enum EnumMenu {
 
 //---PLANO CONTAS
 		lista.add(PC_LANCAMENTOS);
-		lista.add(PC_FLUXO);
-		lista.add(PC_RECEITAS);
-		lista.add(PC_DESPESAS);
-		lista.add(PC_CADASTROS);
-		lista.add(PC_CONTA);
-		lista.add(PC_CLINICA);
+			lista.add(PC_FLUXO);
+			lista.add(PC_RECEITAS);
+			lista.add(PC_DESPESAS);
 		lista.add(PC_FLUXO2);
 		lista.add(PC_DRE);
+		lista.add(PC_CADASTROS);
+			lista.add(PC_CONTA);
+			lista.add(PC_CLINICA);
 
 //---GERENCIA
 		lista.add(GERENCIA);

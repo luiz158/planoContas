@@ -65,6 +65,9 @@ public class FluxoBC extends DelegateCrud<Fluxo, Long, FluxoDAO> {
 	public BigDecimal somaTotal(Filtro1 filtro1, Boolean soAtivos, Conta conta){
 		return getDelegate().somaTotal(filtro1, soAtivos, conta);
 	}
+	public BigDecimal somaTotal2(Filtro1 filtro1, Boolean soAtivos, Conta conta){
+		return getDelegate().somaTotal2(filtro1, soAtivos, conta);
+	}
 
 	public List<Fluxo> findByFiltro1Conta(Filtro1 filtro1, boolean soAtivos, String conta) {
 		return getDelegate().findByFiltro1(filtro1, soAtivos, conta);
