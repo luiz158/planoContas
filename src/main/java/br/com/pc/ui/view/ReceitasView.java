@@ -98,7 +98,7 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 		btFiltro = new Button("FILTRAR");
 		
 		clinica = FieldFactoryUtil.createComboBox("CLINICA", "descricao");
-		conta = FieldFactoryUtil.createComboBox("CONTA", "contaPaiDescricao");
+		conta = FieldFactoryUtil.createComboBox("CONTA", "contaPaiDescricaoConta");
 		data  = FieldFactoryUtil.createDateField("DATA","dd/MM/yy");
 		valor = FieldFactoryUtil.createTextField("VALOR");
 		clinica.setRequired(true);

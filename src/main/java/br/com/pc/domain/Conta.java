@@ -97,7 +97,9 @@ public class Conta implements Serializable{
 
 	@Transient
 	private String contaPaiDescricao;	
-	
+	@Transient
+	private String contaPaiDescricaoConta;
+
 	public Long getId() {
 		return id;
 	}
@@ -197,15 +199,24 @@ public class Conta implements Serializable{
 	@Transient
 	public String getContaPaiDescricao() {
 		if (getContaPai()!=null){
-			contaPaiDescricao = String.format("%s > %s > %s",getContaPai().getDescricao(),getDescricao(),getConta());
+			contaPaiDescricao = String.format("%s > %s",getContaPai().getContaPaiDescricao(),getDescricao());
 		}else{
-			contaPaiDescricao = getDescricao();
+			contaPaiDescricao = String.format("%s",getDescricao());
 		}
 		return contaPaiDescricao;
 	}
 	@Transient
 	public void setContaPaiDescricao(String contaPaiDescricao) {
 		this.contaPaiDescricao = contaPaiDescricao;
+	}
+	@Transient
+	public String getContaPaiDescricaoConta() {
+		this.contaPaiDescricaoConta = String.format("%s > %s",getContaPaiDescricao(),conta);
+		return this.contaPaiDescricaoConta;
+	}
+	@Transient
+	public void setContaPaiDescricaoConta(String contaPaiDescricaoConta) {
+		this.contaPaiDescricaoConta = contaPaiDescricaoConta;
 	}
 
 	public Long getVersao() {

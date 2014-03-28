@@ -71,7 +71,7 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ReceitasView view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
-		view.setListaConta(contaBC.findByTotalizadora(false));
+		view.setListaConta(contaBC.findByTotalizadora(false,"1"));
 //		view.setList(fluxoBC.findAll());
 	}
 

@@ -29,7 +29,10 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	}
 	
 	public List<Conta> findByTotalizadora(Boolean totalizadora){
-		return getDelegate().findByTotalizadora(totalizadora);
+		return getDelegate().findByTotalizadora(totalizadora, null);
+	}
+	public List<Conta> findByTotalizadora(Boolean totalizadora, String conta){
+		return getDelegate().findByTotalizadora(totalizadora, conta);
 	}
 
 	@Override

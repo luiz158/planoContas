@@ -17,15 +17,20 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 
 	private static final long serialVersionUID = 1L;
 
-	public List<Conta> findByTotalizadora(Boolean totalizadora) {
+	public List<Conta> findByTotalizadora(Boolean totalizadora, String conta) {
 		StringBuilder queryString = new StringBuilder();
 		
-		queryString.append(" select b from Conta b where b.ativo = true and b.totalizadora = :totalizadora order by b.conta " );
+		queryString.append(" select b from Conta b where b.ativo = true and b.totalizadora = :totalizadora ");
+		if (conta != null && conta.length()>0){
+			queryString.append(" and b.conta like :conta " );
+		}
+		queryString.append(" order by b.conta " );
 		
 		Query query = createQuery(queryString.toString());
 		
 		for (Parameter<?> p : query.getParameters()) {
 			if ("totalizadora".equals(p.getName()))	{query.setParameter(p.getName(), totalizadora);}
+			if ("conta".equals(p.getName()))	{query.setParameter(p.getName(), conta+"%");}
 		}
 		
 		return query.getResultList();

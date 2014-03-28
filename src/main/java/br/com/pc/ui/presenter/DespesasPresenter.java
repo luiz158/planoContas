@@ -71,7 +71,7 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView DespesasView view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
-		view.setListaConta(contaBC.findByTotalizadora(false));
+		view.setListaConta(contaBC.findByTotalizadora(false,"2"));
 //		view.setList(fluxoBC.findAll());
 	}
 
