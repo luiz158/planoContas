@@ -234,7 +234,8 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 //					totalizadora.setValue(bean.getTotalizadora());
 //					contaPai.setValue(bean.getContaPai());
 //					try {clinicas.setValue(bean.getClinicas());} catch (Exception e) {clinicas.setValue(null);}
-					beanManager.fireEvent(bean, new AnnotationLiteral<ProcessItemSelection>() {});
+					setBean(bean);
+					beanManager.fireEvent(this, new AnnotationLiteral<ProcessItemSelection>() {});
 				}else{
 //					limpar();
 					bean = new Conta();
@@ -272,11 +273,11 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==btAdd){
-			beanManager.fireEvent(getBean(), new AnnotationLiteral<ProcessSave>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
 			bean = new Conta();
 		}
 		if (event.getButton()==btRem){
-			beanManager.fireEvent(bean, new AnnotationLiteral<ProcessDelete>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
 			bean = new Conta();
 		}
 	}

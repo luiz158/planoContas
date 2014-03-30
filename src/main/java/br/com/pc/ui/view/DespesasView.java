@@ -358,7 +358,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 					try {valor.setValue(df.format(bean.getValor()));} catch (Exception e) {}
 					btRem.setEnabled(true);
 				}else{
-					limpar();
+					limparNovo();
 					btRem.setEnabled(false);
 				}
 			}
@@ -371,6 +371,10 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		registro.setValue(null);
 		data.setValue(new Date());
 		valor.setValue(df.format(new BigDecimal("0.0")));
+	}
+	public void limparNovo(){
+		registro.setValue(null);
+		data.setValue(new Date());
 	}
 	
 	public void setList(List<Fluxo> lista){
@@ -403,15 +407,15 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==btSave){
-			beanManager.fireEvent(getBean(), new AnnotationLiteral<ProcessSave>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
 			bean = new Fluxo();
 		}
 		if (event.getButton()==btAdd){
-			beanManager.fireEvent(getBean(), new AnnotationLiteral<ProcessAdd>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
 			bean = new Fluxo();
 		}
 		if (event.getButton()==btRem){
-			beanManager.fireEvent(bean, new AnnotationLiteral<ProcessDelete>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
 		}
 		if (event.getButton()==btFiltro){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});

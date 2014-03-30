@@ -21,6 +21,11 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	
 	@Override
 	public void update(Conta bean) {
+//		try {
+//			
+//		} catch (javax.persistence.OptimisticLockException e) {
+//			// TODO: handle exception
+//		}
 		super.update(bean);
 	}
 	public void delete(Conta bean) {

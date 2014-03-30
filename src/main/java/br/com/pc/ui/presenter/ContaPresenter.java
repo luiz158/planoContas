@@ -31,30 +31,30 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
 	
-	public void processSave(@Observes @ProcessSave Conta bean) {
-		if (bean.getId()==null){
-			contaBC.insert(bean);
-			getView().setList(contaBC.findAll(credenciais),true,bean);
+	public void processSave(@Observes @ProcessSave ContaView view) {
+		if (view.getBean().getId()==null){
+			contaBC.insert(view.getBean());
+			view.setList(contaBC.findAll(credenciais),false,null);
 			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		}else{
-			contaBC.update(bean);
-			getView().setList(contaBC.findAll(credenciais),false,null);
-			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
+			contaBC.update(view.getBean());
+			view.setList(contaBC.findAll(credenciais),false,null);
+			view.getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
-		if (bean.getTotalizadora()){
-			getView().setListaContaPai(contaBC.findByTotalizadora(true));
-			getView().getContaPai().setValue(bean.getContaPai());
+		if (view.getBean().getTotalizadora()){
+			view.setListaContaPai(contaBC.findByTotalizadora(true));
+			view.getContaPai().setValue(view.getBean().getContaPai());
 //			getView().setListaClinicas(clinicaBC.findAll());
 		}
 	}
 
-	public void processItemSelection(@Observes @ProcessItemSelection Conta bean) {
-		getView().setBean(bean);
+	public void processItemSelection(@Observes @ProcessItemSelection ContaView view) {
+//		view.setBean(view.getBean());
 	}
 
-	public void processDelete(@Observes @ProcessDelete Conta bean) {
+	public void processDelete(@Observes @ProcessDelete ContaView view) {
 		try {
-			contaBC.delete(bean);
+			contaBC.delete(view.getBean());
 		} catch (Exception e) {
 			getView().getWindow().showNotification("ERRO AO EXCLUIR!!", "<br>Desculpe! Por alguma razão não consegui excluir essa conta ", Notification.TYPE_ERROR_MESSAGE);
 		}
@@ -68,7 +68,7 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 		view.setList(contaBC.findAll(credenciais),true,null);
 	}
 
-	public void processFormClear(@Observes @ProcessClear Conta bean) {
+	public void processFormClear(@Observes @ProcessClear ContaView view) {
 
 	}
 }

@@ -34,24 +34,30 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
 	
-	public void processSave(@Observes @ProcessSave Fluxo bean) {
-		if(bean!=null && bean.getClinica()!=null &&
-				bean.getConta()!=null && bean.getData()!=null &&
-				bean.getValor()!=null && bean.getRegistro()!=null){
-		
-			if (bean.getId()==null){
-				fluxoBC.insert(bean);
+	public void processSave(@Observes @ProcessSave FluxoView view) {
+		try {
+			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
+					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
+					view.getBean().getValor()!=null && view.getBean().getRegistro()!=null){
+			
+				if (view.getBean().getId()==null){
+					fluxoBC.insert(view.getBean());
+				}else{
+					fluxoBC.update(view.getBean());
+				}
+				getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
+				getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 			}else{
-				fluxoBC.update(bean);
+				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
 			}
-			getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
-			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
-		}else{
-			getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
+		} catch (Exception e) {
+			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
+			e.printStackTrace();
 		}
+		
 	}
 
-	public void processItemSelection(@Observes @ProcessItemSelection Fluxo bean) {
+	public void processItemSelection(@Observes @ProcessItemSelection FluxoView view) {
 		
 	}
 
@@ -59,9 +65,9 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 		view.setList(fluxoBC.findByFiltro1(view.getFiltro1(),false));
 	}
 	
-	public void processDelete(@Observes @ProcessDelete Fluxo bean) {
+	public void processDelete(@Observes @ProcessDelete FluxoView view) {
 		try {
-			fluxoBC.delete(bean);
+			fluxoBC.delete(view.getBean());
 			getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
 		} catch (Exception e) {
 			getView().getWindow().showNotification("DESCULPE! NÃO FOI POSSÍVEL EXCLUIR O REGISTRO!",Notification.TYPE_ERROR_MESSAGE);
@@ -75,15 +81,15 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 //		view.setList(fluxoBC.findAll());
 	}
 
-	public void processFormClear(@Observes @ProcessClear Fluxo bean) {
+	public void processFormClear(@Observes @ProcessClear FluxoView view) {
 
 	}
 
-	public void processAdd(@Observes @ProcessAdd Fluxo bean) {
+	public void processAdd(@Observes @ProcessAdd FluxoView view) {
 
 	}
 
-	public void processRem(@Observes @ProcessRem Fluxo bean) {
+	public void processRem(@Observes @ProcessRem FluxoView view) {
 
 	}
 }
