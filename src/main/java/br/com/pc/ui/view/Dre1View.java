@@ -121,6 +121,8 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		btExcel.setDescription("Exportar para excel.");
 		btDre = new Button();
 		btDre.setDescription("Gera DRE.");
+		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
+		btDre.setIcon(new ThemeResource("icons/16/pdf_16.png"));
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -150,8 +152,12 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		vl1.setSpacing(true);
 		hl.addComponent(vl1);
 		hl.addComponent(btFiltro);
+		hl.addComponent(btExcel);
+		hl.addComponent(btDre);
 
 		hl.setComponentAlignment(btFiltro, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btDre, Alignment.BOTTOM_LEFT);
 
 		dados.addComponent(hl);
 		hl2.addComponent(dados);
@@ -426,20 +432,22 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 //			}
 			DreBean bean;
 			Item item = tabela.getItem(object);
-			if ((Boolean)item.getItemProperty("conta.totalizadora").getValue()){
-				Collection<?> p = (Collection<?>) item.getItemPropertyIds();
+//			if ((Boolean)item.getItemProperty("conta.totalizadora").getValue()){
+//				Collection<?> p = (Collection<?>) item.getItemPropertyIds();
 				bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
-				for (Object p2 : p) {
-					if (p2.toString().length()<=3){
-						try {
-							bean.addValor((BigDecimal)item.getItemProperty(p2).getValue());
-						} catch (Exception e) {
-//							System.out.println("DEU ERRO");
-						}
-					}
-				}
+				bean.setValor((BigDecimal)item.getItemProperty("total").getValue());
+				
+//				for (Object p2 : p) {
+//					if (p2.toString().length()<=3){
+//						try {
+//							bean.addValor((BigDecimal)item.getItemProperty(p2).getValue());
+//						} catch (Exception e) {
+////							System.out.println("DEU ERRO");
+//						}
+//					}
+//				}
 				listaDre.add(bean);
-			}
+//			}
 		}
 		return listaDre;
 	}
@@ -463,7 +471,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		}
 		if (event.getButton()==btExcel){
 			try {
-				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
+				getWindow().open(new GeraXls("dre.xls",tabela,getApplication()).getStream());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
