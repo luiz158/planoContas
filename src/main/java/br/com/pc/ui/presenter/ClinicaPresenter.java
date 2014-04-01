@@ -9,7 +9,6 @@ import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
 import br.com.pc.domain.Clinica;
-import br.com.pc.domain.Conta;
 import br.com.pc.ui.view.ClinicaView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -30,7 +29,8 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
 	
-	public void processSave(@Observes @ProcessSave Clinica bean) {
+	public void processSave(@Observes @ProcessSave ClinicaView view) {
+		Clinica bean = view.getBean();
 		if (bean.getId()==null){
 			clinicaBC.insert(bean);
 			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
@@ -38,31 +38,27 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 			clinicaBC.update(bean);
 			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
-		getView().setList(clinicaBC.findAll(credenciais));
-//		getView().setList(contaBC.findAll());
-//		if (bean.getTotalizadora()){
-//			getView().setListaContaPai(contaBC.findByTotalizadora(true));
-//			getView().getContaPai().setValue(bean.getContaPai());
-//			getView().setListaClinicas(clinicaBC.findAll());
-//		}
+		getView().setList(clinicaBC.findAllAtivos()());
 	}
 
-	public void processItemSelection(@Observes @ProcessItemSelection Clinica bean) {
-		getView().setBean(bean);
+	public void processItemSelection(@Observes @ProcessItemSelection ClinicaView view) {
+//		Clinica bean = view.getBean();
+//		getView().setBean(bean);
 	}
 
-	public void processDelete(@Observes @ProcessDelete Clinica bean) {
+	public void processDelete(@Observes @ProcessDelete ClinicaView view) {
+		Clinica bean = view.getBean();
 		clinicaBC.delete(bean);
-		getView().setList(clinicaBC.findAll(credenciais));
+		getView().setList(clinicaBC.findAllAtivos());
 	}
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ClinicaView view) {
 //		view.setListaContaPai(contaBC.findByTotalizadora(true));
-		view.setList(clinicaBC.findAll(credenciais));
+		view.setList(clinicaBC.findAllAtivos());
 //		getView().setListaClinicas(clinicaBC.findAll());
 	}
 
-	public void processFormClear(@Observes @ProcessClear Clinica bean) {
+	public void processFormClear(@Observes @ProcessClear ClinicaView view) {
 
 	}
 }

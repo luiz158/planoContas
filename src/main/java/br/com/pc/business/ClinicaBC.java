@@ -17,15 +17,15 @@ public class ClinicaBC extends DelegateCrud<Clinica, Long, ClinicaDAO> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Override
-	public void insert(Clinica bean) {
-		super.insert(bean);
-	}
-	
-	@Override
-	public void update(Clinica bean) {
-		super.update(bean);
-	}
+//	@Override
+//	public void insert(Clinica bean) {
+//		super.insert(bean);
+//	}
+//	
+//	@Override
+//	public void update(Clinica bean) {
+//		super.update(bean);
+//	}
 	public void delete(Clinica bean) {
 		bean.setAtivo(false);
 		super.update(bean);
@@ -33,6 +33,9 @@ public class ClinicaBC extends DelegateCrud<Clinica, Long, ClinicaDAO> {
 
 	public List<Clinica> findAll(Credenciais credenciais) {
 		return getDelegate().findByCredenciais(credenciais);
+	}
+	public List<Clinica> findAllAtivos() {
+		return getDelegate().findAllAtivos();
 	}
 
 	public List<Clinica> findByConta(Conta conta) {

@@ -51,6 +51,17 @@ public class ClinicaDAO extends JPACrud<Clinica, Long> {
 		
 		return query.getResultList();
 	}
+	public List<Clinica> findAllAtivos() {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder.append(" select c from Clinica c ");
+		stringBuilder.append(" where c.ativo = true  ");
+		stringBuilder.append(" order by c.descricao ");
+		
+		Query query = createQuery(stringBuilder.toString());
+		
+		return query.getResultList();
+	}
 
 
 }

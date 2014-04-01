@@ -32,10 +32,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	@Inject	private BeanManager beanManager;
 	@Inject ClinicaBC clinicaBC = new ClinicaBC();
 	
-//	private TextField conta;
 	private TextField descricao;
-//	private CheckBox totalizadora;
-//	private ComboBox contaPai;
 	
 	private Panel dados;
 	
@@ -45,12 +42,6 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	
 	private Button btAdd;
 	private Button btRem;
-
-//	protected Property clinica;
-	
-//	private TwinColSelect clinicas = new TwinColSelect();
-	
-//	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
 	@Override
 	public void initializeComponents() {
@@ -60,19 +51,12 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		tabela = new Table();
 		bean = new Clinica();
 
-//		conta = FieldFactoryUtil.createTextField("CONTA");
 		descricao = FieldFactoryUtil.createTextField("DESCRICAO");
-//		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "descricao");
-//		totalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
-//		clinicas =  FieldFactoryUtil.createTwinColSelect("CLINICAS","descricao");
 
 		btAdd = new Button();
 		btRem = new Button();
 
-//		conta.setRequired(true);
 		descricao.setRequired(true);
-//		conta.setRequiredError("Ítem obrigatório");
-//		descricao.setRequiredError("Ítem obrigatório");
 		
 		montaTabela();
 		montaPainel();
@@ -84,27 +68,11 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 
 	private void montaPainel(){
 		dados = new Panel();
-
-//		clinicas.setRows(4);
-//		clinicas.setNullSelectionAllowed(true);
-//		clinicas.setMultiSelect(true);
-//		clinicas.setImmediate(true);
-//		clinicas.setLeftColumnCaption("CLINICAS");
-//		clinicas.setRightColumnCaption("SELECIONADAS");
-//		clinicas.setWidth("300px");
-//		clinicas.setItemCaptionPropertyId("descricao");
 		
 		GridLayout gl = new GridLayout(5,1);
-//		hl.setMargin(true);
 		gl.setSpacing(true);
 		
-//		dados.setContent(hl);
-
-//		gl.addComponent(conta,0,0);
 		gl.addComponent(descricao);
-//		gl.addComponent(totalizadora,1,0);
-//		gl.addComponent(contaPai,1,1);
-//		gl.addComponent(clinicas,2,0,2,1);
 		
 		gl.addComponent(btAdd);
 		gl.addComponent(btRem);
@@ -113,63 +81,13 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		btAdd.setDescription("Salva registro.");
 		btRem.setDescription("Exclui registro.");
 		
-//		gl.setComponentAlignment(totalizadora, Alignment.MIDDLE_LEFT);
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		
 		dados.addComponent(gl);
-//		dados.addComponent(tabela);
 	}
 	private void montaTabela(){
-		tabela = new Table(){
-			private static final long serialVersionUID = 1L;
-//
-//			@Override
-//		    protected String formatPropertyValue(Object rowId, Object colId, Property property) {
-//		        // Format by property type
-//		        if (property.getType() == Date.class && property.getValue()!=null) {
-//		        	if("data".equals(colId)){
-//		        		SimpleDateFormat df =
-//			                new SimpleDateFormat("dd/MM/yy");
-//			            return df.format((Date)property.getValue());
-//		        	}else if("hora".equals(colId)||"apanha".equals(colId)){
-//			            SimpleDateFormat df =
-//			                new SimpleDateFormat("HH:mm");
-//			            return df.format((Date)property.getValue());
-//		        	}else{
-//			            SimpleDateFormat df =
-//			                new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-//			            return df.format((Date)property.getValue());
-//		        	}
-//		        }else if(property.getType() == Boolean.class && property.getValue()!=null){
-//		        	if ((Boolean)property.getValue()){
-//		        		return "S";
-//		        	}else{
-//		        		return "N";
-//		        	}
-//		        }else if(property.getType() == BigDecimal.class && property.getValue()!=null){
-//		        	return df.format((BigDecimal)property.getValue());
-//		        }
-//
-//		        return super.formatPropertyValue(rowId, colId, property);
-//		    }
-		};
-//		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
-//			@Override
-//		      public String getStyle(Object itemId, Object propertyId) {
-//				if (propertyId == null) { //para linha inteira
-//					Item row = tabela.getItem(itemId);
-//					if (row!=null && row.getItemProperty("conta.totalizadora")!=null && 
-//							row.getItemProperty("conta.totalizadora").getValue()!=null &&
-//							(Boolean)row.getItemProperty("conta.totalizadora").getValue()) {
-//						return "bold";
-//					}
-//				}
-//		        return null;
-//		      }
-//			
-//		    });
-//		tabela.setLocale(new Locale("pt", "BR"));
+		tabela = new Table();
 		tabela.setSelectable(true);
 		tabela.setImmediate(true);
 		tabela.setPageLength(20);
@@ -177,17 +95,11 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		tabela.setWidth("100%");
 
 		
-//		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("clinica.descricao", String.class,  null);
-//		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
-//		tabela.addContainerProperty("conta.contaPai", Conta.class,  null);
-//		tabela.addContainerProperty("conta.clinicas", List.class,  null);
 
 		tabela.setVisibleColumns(new Object[]{"clinica.descricao"});
 		
 		tabela.setColumnHeaders(new String[]{"descrição"});
-		
-//		tabela.addGeneratedColumn("conta.totalizadora", new SimNaoColumnGenerator());
 		
 	}
 	private void addListener(){
@@ -196,18 +108,14 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		
 		tabela.addListener(new Table.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
+//			@SuppressWarnings("serial")
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				bean = (Clinica)event.getProperty().getValue();	
 				if (bean != null) {
-//					conta.setValue(bean.getConta());
-//					descricao.setValue(bean.getDescricao());
-//					totalizadora.setValue(bean.getTotalizadora());
-//					contaPai.setValue(bean.getContaPai());
-//					try {clinicas.setValue(bean.getClinicas());} catch (Exception e) {clinicas.setValue(null);}
-					beanManager.fireEvent(bean, new AnnotationLiteral<ProcessItemSelection>() {});
+//					beanManager.fireEvent(this, new AnnotationLiteral<ProcessItemSelection>() {});
+					setBean(bean);
 				}else{
-//					limpar();
 					bean = new Clinica();
 				}
 			}
@@ -215,7 +123,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	}
 
 	public void setList(List<Clinica> lista){
-//		tabela.removeAllItems();
+		tabela.removeAllItems();
 		for (Clinica c : lista) {
 			Item itemBean;
 			if (tabela.getItem(c)==null){
@@ -224,13 +132,6 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 				itemBean = tabela.getItem(c);
 			}
 			try {itemBean.getItemProperty("clinica.descricao").setValue(c.getDescricao());} catch (Exception e) {}
-//			try {itemBean.getItemProperty("conta.descricao").setValue(c.getDescricao());} catch (Exception e) {}
-//			try {itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());} catch (Exception e) {}
-//			try {itemBean.getItemProperty("conta.contaPai").setValue(c.getContaPai());} catch (Exception e) {}
-//			
-//		 	List<Clinica> c2 = clinicaBC.findByConta(c);
-//			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
-//			try {itemBean.getItemProperty("conta.clinicas").setValue(c.getClinicas());} catch (Exception e) {}
 			
 		}
 	}
@@ -239,25 +140,20 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==btAdd){
-			beanManager.fireEvent(getBean(), new AnnotationLiteral<ProcessSave>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
 			bean = new Clinica();
 		}
 		if (event.getButton()==btRem){
-			beanManager.fireEvent(bean, new AnnotationLiteral<ProcessDelete>() {});
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
 			bean = new Clinica();
 		}
 	}
 
 	public Clinica getBean() {
-		if (bean==null || bean.getId()==null){
+		if (bean==null){
 			bean = new Clinica();
 		}
-		try {} catch (Exception e) {}
-//		try {bean.setConta((String)conta.getValue());} catch (Exception e) {}
-//		try {bean.setContaPai((Clinica)contaPai.getValue());} catch (Exception e) {}
 		try {bean.setDescricao((String)descricao.getValue());} catch (Exception e) {}
-//		try {bean.setTotalizadora((Boolean)totalizadora.getValue());} catch (Exception e) {}
-//		try {bean.setClinicas(new ArrayList<Clinica>((Collection<? extends Clinica>) clinicas.getValue()));} catch (Exception e) {bean.setClinicas(null);}
 		
 		return bean;
 	}
@@ -265,33 +161,8 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	public void setBean(Clinica bean) {
 		this.bean = bean;
 		if (bean != null) {
-//			conta.setValue(bean.getConta());
 			descricao.setValue(bean.getDescricao());
-//			totalizadora.setValue(bean.getTotalizadora());
-//			contaPai.setValue(bean.getContaPai());
-
-//		 	List<Clinica> c2 = clinicaBC.findByConta(bean);
-//			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
-//			try {clinicas.setValue(c2);} catch (Exception e) {}
 		}
 	}
-
-//	public void setListaContaPai(List<Clinica> list) {
-//		contaPai.setContainerDataSource(CollectionContainer.fromBeans(list));
-//		contaPai.setFilteringMode(Filtering.FILTERINGMODE_CONTAINS);
-//	}
-
-//	public ComboBox getContaPai() {
-//		return contaPai;
-//	}
-	
-//	public void setListaClinicas(List<Clinica> list) {
-//		clinicas.setContainerDataSource(CollectionContainer.fromBeans(list));
-////		contaPai.setFilteringMode(Filtering.FILTERINGMODE_CONTAINS);
-//	}
-
-//	public TwinColSelect getClinicas() {
-//		return clinicas;
-//	}
 	
 }
