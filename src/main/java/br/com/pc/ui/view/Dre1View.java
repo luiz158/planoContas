@@ -122,7 +122,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		btDre = new Button();
 		btDre.setDescription("Gera DRE.");
 		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
-		btDre.setIcon(new ThemeResource("icons/16/pdf_16.png"));
+		btDre.setIcon(new ThemeResource("icons/16/print2_16.png"));
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");

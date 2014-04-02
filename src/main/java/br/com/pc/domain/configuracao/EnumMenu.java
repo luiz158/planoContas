@@ -11,19 +11,19 @@ public enum EnumMenu {
 	LOGIN			("LOGIN","icons/16/user.png"),
 		LOGOUT			("SAIR",true,LOGIN),
 		ALTERA_SENHA	("ALTERAR SENHA",true,LOGIN),
-	GERENCIA		("GERENCIA","icons/16/document.png"),
+	GERENCIA		("GERENCIA","icons/16/arrow_down_16.png"),
 		PERMISSOES	("PERMISSÕES",true,GERENCIA),
 		CRUD_GRUPO		("GRUPO",true,GERENCIA),
 		CRUD_USUARIO	("USUARIO",true,GERENCIA),
-	PC_LANCAMENTOS		("LANÇAMENTOS"),
+	PC_LANCAMENTOS		("LANÇAMENTOS","icons/16/arrow_down_16.png"),
 		PC_FLUXO		("GERAL",true,PC_LANCAMENTOS),
 		PC_RECEITAS		("RECEITAS",true,PC_LANCAMENTOS),
 		PC_DESPESAS		("DESPESAS",true,PC_LANCAMENTOS),
-	PC_CADASTROS		("CADASTROS"),
+	PC_CADASTROS		("CADASTROS","icons/16/arrow_down_16.png"),
 		PC_CONTA		("CONTA",true,PC_CADASTROS),
 		PC_CLINICA		("CLINICA",true,PC_CADASTROS),
-	PC_FLUXO2		("FLUXO MENSAL",true),
-	PC_DRE			("D.R.E.",true);
+	PC_FLUXO2		("FLUXO MENSAL",true,"icons/16/arrow_right_16.png"),
+	PC_DRE			("D.R.E.",true,"icons/16/arrow_right_16.png");
 //------------
 
 //-----------

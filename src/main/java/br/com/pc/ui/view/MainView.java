@@ -21,6 +21,8 @@ import br.gov.frameworkdemoiselle.ui.StructuredView;
 import br.gov.frameworkdemoiselle.util.ResourceBundle;
 
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.LoginForm;
@@ -64,7 +66,12 @@ public class MainView extends StructuredView {
 
 	@Override
 	public void initializeComponents() {
-		getHeader().setHeight("15px");
+		
+		getHeader().setHeight("45px");
+		Embedded em = new Embedded(null, new ThemeResource("images/facimagem2.png"));
+		em.setHeight("40px");
+		getHeader().addComponent(em);
+		getHeader().setComponentAlignment(em, Alignment.TOP_LEFT);
 
 		getFooter().setHeight("15px");
 		getMenuBar().setWidth("100%");

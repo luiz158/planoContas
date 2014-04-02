@@ -25,7 +25,7 @@ public class DreReport {
 	}
 	
 	public static Collection<DreBean> dres(){
-		List lista = new ArrayList();
+		List<DreBean> lista = new ArrayList<DreBean>();
 		lista.add(gera());
 		lista.add(gera());
 		return lista;
@@ -33,7 +33,7 @@ public class DreReport {
 	
 	public void drePDF() {
 		try {
-			List lista = new ArrayList();
+			List<DreBean> lista = new ArrayList<DreBean>();
 			lista.add(gera());
 			lista.add(gera());
 			SistemaApplication

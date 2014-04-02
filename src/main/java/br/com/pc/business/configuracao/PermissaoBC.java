@@ -102,4 +102,7 @@ public class PermissaoBC extends DelegateCrud<Permissao, Integer, PermissaoDAO> 
 	public List<Permissao> findPermissoes() {
 		return getDelegate().findPermissoes();
 	}
+	public List<Permissao> findAllAtivos() {
+		return getDelegate().findAllAtivos();
+	}
 }

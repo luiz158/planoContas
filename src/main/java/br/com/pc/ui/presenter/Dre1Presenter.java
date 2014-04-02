@@ -47,7 +47,7 @@ public class Dre1Presenter extends AbstractPresenter<Dre1View> {
 	}
 
 	public void processFiltro(@Observes @ProcessFilter Dre1View view) {
-		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
+		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
 	}
 
 	public void processDelete(@Observes @ProcessDelete Dre1View view) {
@@ -56,7 +56,7 @@ public class Dre1Presenter extends AbstractPresenter<Dre1View> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView Dre1View view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
-		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true));
+		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
 		
 //		view.limpar();
 	}

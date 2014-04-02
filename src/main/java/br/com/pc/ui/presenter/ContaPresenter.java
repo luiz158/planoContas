@@ -34,11 +34,11 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	public void processSave(@Observes @ProcessSave ContaView view) {
 		if (view.getBean().getId()==null){
 			contaBC.insert(view.getBean());
-			view.setList(contaBC.findAll(credenciais),false,null);
+			view.setList(contaBC.findAll(credenciais),true,null);
 			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		}else{
 			contaBC.update(view.getBean());
-			view.setList(contaBC.findAll(credenciais),false,null);
+			view.setList(contaBC.findAll(credenciais),true,null);
 			view.getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
 		if (view.getBean().getTotalizadora()){

@@ -34,7 +34,7 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 		} else {
 			grupoBC.insert(grupo);
 		}
-		view.setList(grupoBC.findAll());
+		view.setList(grupoBC.findAllAtivos());
 	}
 	public void processDelete(@Observes @ProcessDelete Grupo2View view) {
 		Grupo grupo = view.getBean();
@@ -42,7 +42,7 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 			grupo.setAtivo(false);
 			grupoBC.update(grupo);
 		} 
-		view.setList(grupoBC.findAll());
+		view.setList(grupoBC.findAllAtivos());
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection Grupo2View view) {
@@ -53,9 +53,9 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 
 	public void beforeNavigateToView(@Observes @BeforeNavigateToView Grupo2View view) {
 //		view.setPerfis(perfilBC.findAll());
-		view.setClinicas(clinicaBC.findAll());
+		view.setClinicas(clinicaBC.findAllAtivos());
 		view.setUsuarios(usuarioBC.findAll());
-		view.setList(grupoBC.findAll());
+		view.setList(grupoBC.findAllAtivos());
 	}
 
 //	public void beforeNavigate(@Observes @BeforeNavigateToView UsuarioView view) {

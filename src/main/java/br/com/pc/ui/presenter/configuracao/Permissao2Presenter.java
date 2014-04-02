@@ -33,7 +33,7 @@ public class Permissao2Presenter extends AbstractPresenter<Permissao2View> {
 		} else {
 			permissaoBC.insert(permissao);
 		}
-		getView().setList(permissaoBC.findAll());
+		getView().setList(permissaoBC.findPermissoes());
 		getView().limpar();
 	}
 	

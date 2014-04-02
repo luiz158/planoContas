@@ -50,7 +50,11 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	}
 
 	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos) {
-		return getDelegate().findByFiltro1(filtro1,soAtivos);
+		return getDelegate().findByFiltro1(filtro1,soAtivos,false);
+	}
+
+	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos, Boolean soDre) {
+		return getDelegate().findByFiltro1(filtro1,soAtivos,soDre);
 	}
 	
 	

@@ -38,7 +38,7 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 			clinicaBC.update(bean);
 			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
-		getView().setList(clinicaBC.findAllAtivos()());
+		getView().setList(clinicaBC.findAllAtivos());
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection ClinicaView view) {

@@ -168,8 +168,9 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 				bean = (Grupo)event.getProperty().getValue();
 				if (bean==null){
 					bean = new Grupo();
+				}else{
+					beanManager.fireEvent(Grupo2View.this, new AnnotationLiteral<ProcessItemSelection>() {});
 				}
-				beanManager.fireEvent(Grupo2View.this, new AnnotationLiteral<ProcessItemSelection>() {});
 			}
 		});
 	}

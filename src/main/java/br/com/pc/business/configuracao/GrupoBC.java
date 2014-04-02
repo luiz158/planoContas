@@ -68,6 +68,9 @@ public class GrupoBC extends DelegateCrud<Grupo, Long, GrupoDAO> {
 	public List<Grupo> findGrupos(){
 		return getDelegate().findGrupos();
 	}
+	public List<Grupo> findAllAtivos(){
+		return getDelegate().findAllAtivos();
+	}
 	public List<Grupo> findByCredenciais(Credenciais credenciais){
 		return findByUsuario(usuarioBC.load(Long.parseLong(credenciais.getId())));
 	}

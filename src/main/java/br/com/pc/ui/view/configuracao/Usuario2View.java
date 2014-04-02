@@ -22,6 +22,7 @@ import br.gov.frameworkdemoiselle.event.ProcessDelete;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.template.BaseVaadinView;
+import br.gov.frameworkdemoiselle.util.FieldFactory;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -31,6 +32,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
@@ -48,7 +50,7 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 
 	private TwinColSelect grupos = new TwinColSelect();
 	private TextField login;
-	private TextField senha;
+	private PasswordField senha;
 	private Panel dados;
 
 	private Button btAdd;
@@ -64,7 +66,8 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 		grupos =  FieldFactoryUtil.createTwinColSelect("GRUPOS","descricao");
 
 		login = FieldFactoryUtil.createTextField("LOGIN");
-		senha = FieldFactoryUtil.createTextField("SENHA");
+		senha = FieldFactoryUtil.createPasswordField("SENHA");
+
 		btAdd = new Button();
 		btRem = new Button();
 		

@@ -36,6 +36,10 @@ public class GrupoDAO extends JPACrud<Grupo, Long> {
 		Query query = createQuery("select b from Grupo b where b.id <> 0");
 		return query.getResultList();
 	}
+	public List<Grupo> findAllAtivos() {
+		Query query = createQuery("select b from Grupo b where b.ativo=true");
+		return query.getResultList();
+	}
 
 	public List<Grupo> findByUsuario(Long id) {
 		Query query = createQuery("select u.grupos from Usuario u where u.id = :id ");

@@ -13,6 +13,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.MaskedTextField;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -245,6 +246,10 @@ final public class FieldFactoryUtil {
 			field.setItemCaptionPropertyId(itemCaptionPropertyId);
 		}
 		return field;
+	}
+
+	public static PasswordField createPasswordField(String caption) {
+		return (PasswordField) FieldFactory.createPasswordField(null, caption);
 	}
 	
 	

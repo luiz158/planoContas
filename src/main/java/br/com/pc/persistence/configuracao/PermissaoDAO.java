@@ -23,7 +23,7 @@ public class PermissaoDAO extends JPACrud<Permissao, Integer> {
 		StringBuilder queryString = new StringBuilder();
 		
 		queryString.append(" select p from Permissao p " );
-		queryString.append(" where p.grupo.id <> 0 " );
+		queryString.append(" where p.grupo.id <> 0 and p.grupo.ativo = true " );
 		queryString.append(" order by p.grupo.descricao ");
 		
 		Query query = createQuery(queryString.toString());
@@ -211,6 +211,18 @@ public class PermissaoDAO extends JPACrud<Permissao, Integer> {
 			return EnumTipoPermissao.NEGADO;
 		}
 		
+	}
+
+	public List<Permissao> findAllAtivos() {
+		StringBuilder queryString = new StringBuilder();
+
+		queryString.append(" select p from Permissao p " );
+		queryString.append(" where p.grupo.id <> 0 and p.grupo.ativo = true " );
+		queryString.append(" order by p.grupo.descricao ");
+		
+		Query query = createQuery(queryString.toString());
+
+		return query.getResultList();
 	}
 	
 	
