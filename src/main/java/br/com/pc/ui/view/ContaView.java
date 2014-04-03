@@ -83,7 +83,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		bean = new Conta();
 
 		conta = FieldFactoryUtil.createTextField("CONTA");
-		descricao = FieldFactoryUtil.createTextField("DESCRICAO");
+		descricao = FieldFactoryUtil.createTextField("DESCRIÇÃO");
 		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "descricao");
 		totalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
 		dre = FieldFactoryUtil.createCheckBox("DRE");

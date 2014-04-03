@@ -130,7 +130,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		addListener();
 
 		addComponent(montaFiltro());
-		addComponent(montaPainel());
+//		addComponent(montaPainel());
 		addComponent(tabela);
 		
 	}
@@ -150,8 +150,11 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		vl1.setSpacing(true);
 		hl.addComponent(vl1);
 		hl.addComponent(btFiltro);
+		hl.addComponent(btExcel);
 
 		hl.setComponentAlignment(btFiltro, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
+		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
 
 		dados.addComponent(hl);
 		hl2.addComponent(dados);
@@ -176,7 +179,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 
 		hl.addComponent(btAdd);
 		hl.addComponent(btSalvar);
-		hl.addComponent(btExcel);
+//		hl.addComponent(btExcel);
 		hl.addComponent(btDre);
 		
 //		hl.addComponent(btRem);

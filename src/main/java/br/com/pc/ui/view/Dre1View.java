@@ -94,8 +94,8 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		fClinica.setMultiSelect(true);
 		fClinica.setRows(4);
 
-		dtInicio  = FieldFactoryUtil.createDateField("DATA","dd/MM/yy");
-		dtFim  = FieldFactoryUtil.createDateField("DATA","dd/MM/yy");
+		dtInicio  = FieldFactoryUtil.createDateField("DATA INICIAL","dd/MM/yy");
+		dtFim  = FieldFactoryUtil.createDateField("DATA FINAL","dd/MM/yy");
 		btFiltro = new Button("FILTRAR");
 		
 		clinica = FieldFactoryUtil.createComboBox("CLINICA", "descricao");
