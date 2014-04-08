@@ -99,20 +99,20 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 		btFiltro = new Button("FILTRAR");
 		
 		clinica = FieldFactoryUtil.createComboBox("CLINICA", "descricao");
-		conta = FieldFactoryUtil.createComboBox("CONTA", "contaPaiDescricao");
+		conta = FieldFactoryUtil.createComboBox("CONTA", "contaPaiDescricaoConta");
 		data  = FieldFactoryUtil.createDateField("DATA","dd/MM/yy");
 		valor = FieldFactoryUtil.createTextField("VALOR");
 		clinica.setRequired(true);
 		data.setRequired(true);
 		conta.setRequired(true);
-//		valor.setRequired(true);
+		valor.setRequired(true);
 		clinica.setRequiredError("Ítem obrigatório");
 		data.setRequiredError("Ítem obrigatório");
 		conta.setRequiredError("Ítem obrigatório");
-//		valor.setRequiredError("Ítem obrigatório");
+		valor.setRequiredError("Ítem obrigatório");
 		registro = FieldFactoryUtil.createTextField("REGISTRO");
-		registro.setRequired(true);
-		registro.setRequiredError("Ítem obrigatório");
+//		registro.setRequired(true);
+//		registro.setRequiredError("Ítem obrigatório");
 		
 		btSave = new Button();
 		btAdd = new Button();

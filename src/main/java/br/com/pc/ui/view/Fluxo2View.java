@@ -105,13 +105,13 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		valor = FieldFactoryUtil.createTextField("VALOR");
 		clinica.setRequired(true);
 		data.setRequired(true);
-//		valor.setRequired(true);
+		valor.setRequired(true);
 		clinica.setRequiredError("Ítem obrigatório");
 		data.setRequiredError("Ítem obrigatório");
-//		valor.setRequiredError("Ítem obrigatório");
+		valor.setRequiredError("Ítem obrigatório");
 		registro = FieldFactoryUtil.createTextField("REGISTRO");
-		registro.setRequired(true);
-		registro.setRequiredError("Ítem obrigatório");
+//		registro.setRequired(true);
+//		registro.setRequiredError("Ítem obrigatório");
 		
 		
 		btSalvar = new Button();
