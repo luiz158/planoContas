@@ -38,7 +38,7 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 		try {
 			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
 					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
-					view.getBean().getValor()!=null && view.getBean().getRegistro()!=null){
+					view.getBean().getValor()!=null){
 			
 				if (view.getBean().getId()==null){
 					fluxoBC.insert(view.getBean());

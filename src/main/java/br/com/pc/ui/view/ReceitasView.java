@@ -3,6 +3,7 @@ package br.com.pc.ui.view;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -104,11 +105,11 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 		clinica.setRequired(true);
 		data.setRequired(true);
 		conta.setRequired(true);
-		valor.setRequired(true);
+//		valor.setRequired(true);
 		clinica.setRequiredError("Ítem obrigatório");
 		data.setRequiredError("Ítem obrigatório");
 		conta.setRequiredError("Ítem obrigatório");
-		valor.setRequiredError("Ítem obrigatório");
+//		valor.setRequiredError("Ítem obrigatório");
 		registro = FieldFactoryUtil.createTextField("REGISTRO");
 		registro.setRequired(true);
 		registro.setRequiredError("Ítem obrigatório");
@@ -121,6 +122,8 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
 		df.setParseBigDecimal(true);
+		df.setDecimalSeparatorAlwaysShown(true);
+		df.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt","BR")));
 		
 		montaTabela();
 		addListener();
@@ -173,10 +176,13 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			private final DecimalFormat df = new DecimalFormat("#,##0.00");
+			private final DecimalFormat df = new DecimalFormat("#.##0,00");
 //			private final DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
             {
                 df.setParseBigDecimal(true);
+        		df.setParseBigDecimal(true);
+        		df.setDecimalSeparatorAlwaysShown(true);
+        		df.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt","BR")));
                 // df.setRoundingMode(RoundingMode.HALF_UP);
             }
 

@@ -4,13 +4,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.vaadin.ui.Window.Notification;
-
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
-import br.com.pc.domain.Conta;
 import br.com.pc.ui.view.ContaView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -19,6 +16,8 @@ import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractPresenter;
+
+import com.vaadin.ui.Window.Notification;
 
 @ViewController
 @SessionScoped

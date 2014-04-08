@@ -3,6 +3,7 @@ package br.com.pc.ui.view;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -104,10 +105,10 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		valor = FieldFactoryUtil.createTextField("VALOR");
 		clinica.setRequired(true);
 		data.setRequired(true);
-		valor.setRequired(true);
+//		valor.setRequired(true);
 		clinica.setRequiredError("Ítem obrigatório");
 		data.setRequiredError("Ítem obrigatório");
-		valor.setRequiredError("Ítem obrigatório");
+//		valor.setRequiredError("Ítem obrigatório");
 		registro = FieldFactoryUtil.createTextField("REGISTRO");
 		registro.setRequired(true);
 		registro.setRequiredError("Ítem obrigatório");
@@ -125,6 +126,8 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
 		df.setParseBigDecimal(true);
+		df.setDecimalSeparatorAlwaysShown(true);
+		df.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt","BR")));
 		
 		montaTabela();
 		addListener();

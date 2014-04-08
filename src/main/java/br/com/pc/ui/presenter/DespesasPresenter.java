@@ -4,13 +4,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.vaadin.ui.Window.Notification;
-
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
-import br.com.pc.domain.Fluxo;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
@@ -22,6 +19,8 @@ import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractPresenter;
+
+import com.vaadin.ui.Window.Notification;
 
 @ViewController
 @SessionScoped
@@ -38,7 +37,7 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 		try {
 			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
 					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
-					view.getBean().getValor()!=null && view.getBean().getRegistro()!=null){
+					view.getBean().getValor()!=null){
 			
 				if (view.getBean().getId()==null){
 					fluxoBC.insert(view.getBean());

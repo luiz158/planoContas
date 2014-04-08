@@ -42,7 +42,7 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 		}
 		if(bean!=null && bean.getClinica()!=null &&
 				bean.getConta()!=null && bean.getData()!=null &&
-				bean.getValor()!=null && bean.getRegistro()!=null){
+				bean.getValor()!=null){
 			if (!bean.getConta().getTotalizadora()){
 				if (bean.getId()==null){
 					fluxoBC.insert(bean);
@@ -65,7 +65,7 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 		Fluxo bean=view.getFluxoBean();
 		if(bean!=null && bean.getClinica()!=null &&
 				bean.getConta()!=null && bean.getData()!=null &&
-				bean.getValor()!=null && bean.getRegistro()!=null){
+				bean.getValor()!=null){
 			if (!bean.getConta().getTotalizadora()){
 				bean.setId(null);
 				fluxoBC.insert(bean);

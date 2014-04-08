@@ -10,7 +10,6 @@ import br.com.pc.business.ClinicaBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
-import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.template.BaseVaadinView;
 
