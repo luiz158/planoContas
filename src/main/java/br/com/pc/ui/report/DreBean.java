@@ -10,6 +10,7 @@ public class DreBean {
 	private String contaNumero;
 	private String contaDescricao;
 	private BigDecimal valor;
+	private Boolean totalizadora;
 	
 	public DreBean(Conta conta, BigDecimal valor) {
 		super();
@@ -17,6 +18,7 @@ public class DreBean {
 		this.valor = valor;
 		this.contaNumero = conta.getConta();
 		this.contaDescricao = conta.getDescricao();
+		this.totalizadora = conta.getTotalizadora();
 	}
 	public DreBean(String contaNumero, String contaDescricao) {
 		super();
@@ -56,6 +58,12 @@ public class DreBean {
 
 	public void setContaDescricao(String contaDescricao) {
 		this.contaDescricao = contaDescricao;
+	}
+	public Boolean getTotalizadora() {
+		return totalizadora;
+	}
+	public void setTotalizadora(Boolean totalizadora) {
+		this.totalizadora = totalizadora;
 	}
 	
 	

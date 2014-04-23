@@ -422,32 +422,30 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 			
 		}
 	}
-	
+	Double tt = 0.0;
 	public List<DreBean> somaTotal(){
+		tt = 0.0;
+		Integer conta = 0;
 		List<DreBean> listaDre = new ArrayList<DreBean>();
 		Collection<?> c = (Collection<?>) tabela.getItemIds();
 		for (Object object : c) {
-//			if (((Conta)c).getTotalizadora()){
-//				
-//			}
 			DreBean bean;
 			Item item = tabela.getItem(object);
-//			if ((Boolean)item.getItemProperty("conta.totalizadora").getValue()){
-//				Collection<?> p = (Collection<?>) item.getItemPropertyIds();
-				bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
-				bean.setValor((BigDecimal)item.getItemProperty("total").getValue());
+			bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
+			bean.setValor((BigDecimal)item.getItemProperty("total").getValue());
+			bean.setTotalizadora((Boolean)item.getItemProperty("conta.totalizadora").getValue());
+			
+			if (bean.getContaNumero()!=null){
 				
-//				for (Object p2 : p) {
-//					if (p2.toString().length()<=3){
-//						try {
-//							bean.addValor((BigDecimal)item.getItemProperty(p2).getValue());
-//						} catch (Exception e) {
-////							System.out.println("DEU ERRO");
-//						}
-//					}
-//				}
-				listaDre.add(bean);
-//			}
+				try {
+					if (conta < Integer.valueOf(bean.getContaNumero().split("\\.")[0].toString())){
+						conta = Integer.valueOf(bean.getContaNumero().split("\\.")[0].toString());
+						tt += bean.getValor().doubleValue();
+					}
+				} catch (Exception e) {e.printStackTrace();}
+			}
+
+			listaDre.add(bean);
 		}
 		return listaDre;
 	}
@@ -477,7 +475,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		if (event.getButton()==btDre){
-			new DreReport().drePDF(somaTotal(),getFiltro1());
+			new DreReport().drePDF(somaTotal(),getFiltro1(),tt);
 //			try {
 //				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
 //			} catch (IOException e1) {

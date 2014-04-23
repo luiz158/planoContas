@@ -49,7 +49,7 @@ public class DreReport {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void drePDF(List<DreBean> somaTotal, Filtro1 filtro1) {
+	public void drePDF(List<DreBean> somaTotal, Filtro1 filtro1, Double total) {
 		try {
 			Map parametros = new HashMap();
 			parametros.put("DT_INICIO", filtro1.getDtInicio());
@@ -59,6 +59,7 @@ public class DreReport {
 			parametros.put("CLINICAS", filtro1.getClinicas().toString().replace("[", "").replace("]", "").length() > 0 ? 
 					filtro1.getClinicas().toString().replace("[", "").replace("]", "") : "");
 			parametros.put("CLINICAS1", filtro1.getClinicas());
+			parametros.put("TOTAL", total);
 			parametros.put("LOGO", SistemaApplication
 										.getInstance()
 										.getRequest()
