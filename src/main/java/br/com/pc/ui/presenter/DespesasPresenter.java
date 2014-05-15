@@ -1,5 +1,7 @@
 package br.com.pc.ui.presenter;
 
+import java.math.BigDecimal;
+
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -38,7 +40,9 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
 					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
 					view.getBean().getValor()!=null){
-			
+				if (view.getBean().getValor().signum()>0){
+					view.getBean().setValor(new BigDecimal(view.getBean().getValor().negate().toString()));
+				}
 				if (view.getBean().getId()==null){
 					fluxoBC.insert(view.getBean());
 				}else{
@@ -65,7 +69,7 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 	
 	public void processDelete(@Observes @ProcessDelete DespesasView view) {
 		try {
-			fluxoBC.delete(view.getBean());
+			fluxoBC.delete(view.getBean(), view.motivoExclusao.getValue()+"");
 			getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"2"));
 		} catch (Exception e) {
 			getView().getWindow().showNotification("DESCULPE! NÃO FOI POSSÍVEL EXCLUIR O REGISTRO!",Notification.TYPE_ERROR_MESSAGE);
@@ -88,6 +92,7 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 	}
 
 	public void processRem(@Observes @ProcessRem DespesasView view) {
-
+		view.getWindow().addWindow(view.modalWindow);
+		view.getWindow().removeComponent(view.modalWindow);
 	}
 }

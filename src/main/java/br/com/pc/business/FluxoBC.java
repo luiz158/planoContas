@@ -45,6 +45,10 @@ public class FluxoBC extends DelegateCrud<Fluxo, Long, FluxoDAO> {
 		bean.setAtivo(false);
 		super.update(bean);
 	}
+	public void delete(Fluxo bean, String motivo) {
+		bean.setMotivoExclusao(motivo);
+		delete(bean);
+	}
 	
 	public Fluxo getByExample(Fluxo example){
 		List<Fluxo> l = getDelegate().findByExample2(example);

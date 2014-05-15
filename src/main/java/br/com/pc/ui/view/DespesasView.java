@@ -22,6 +22,7 @@ import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.Usuario;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
+import br.com.pc.ui.annotation.ProcessRem;
 import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.util.BigDecimalColumnGenerator;
 import br.com.pc.util.DataColumnGenerator;
@@ -52,6 +53,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 
 public class DespesasView extends BaseVaadinView implements Button.ClickListener {
@@ -79,6 +81,10 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 	private Button btAdd;
 	private Button btRem;
 	private Button btExcel;
+
+	public TextField motivoExclusao;
+	public Window modalWindow;
+	private Button btDelete;
 	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
@@ -111,6 +117,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		conta.setRequiredError("Ítem obrigatório");
 		valor.setRequiredError("Ítem obrigatório");
 		registro = FieldFactoryUtil.createTextField("REGISTRO");
+		valor.setDescription("O valor é convertido para negativo automaticamente.");
 //		registro.setRequired(true);
 //		registro.setRequiredError("Ítem obrigatório");
 		
@@ -118,6 +125,10 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		btAdd = new Button();
 		btRem = new Button();
 		btExcel = new Button();
+
+		motivoExclusao = FieldFactoryUtil.createTextField("MOTIVO DA EXLUSÃO");
+		btDelete = new Button("EXCLUIR");
+		montaModalWindows();
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -132,6 +143,22 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		addComponent(montaPainel());
 		addComponent(tabela);
 		
+	}
+	
+	private void montaModalWindows(){
+		modalWindow = new Window();
+		modalWindow.setModal(true);
+		modalWindow.setWidth("200px");
+		modalWindow.setHeight("200px");
+		modalWindow.center();
+		
+		VerticalLayout vl = new VerticalLayout();
+		vl.addComponent(motivoExclusao);
+		vl.addComponent(btDelete);
+		vl.setSpacing(true);
+//		vl.setMargin(true);
+		
+		modalWindow.addComponent(vl);
 	}
 	
 	private void formataValor(){
@@ -344,6 +371,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 	private void addListener(){
 		btSave.addListener(this);
 		btRem.addListener(this);
+		btDelete.addListener(this);
 		btAdd.addListener(this);
 		btExcel.addListener(this);
 		btFiltro.addListener(this);
@@ -418,6 +446,9 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 			bean = new Fluxo();
 		}
 		if (event.getButton()==btRem){
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessRem>() {});
+		}
+		if (event.getButton()==btDelete){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
 		}
 		if (event.getButton()==btFiltro){

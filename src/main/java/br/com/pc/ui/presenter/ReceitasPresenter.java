@@ -66,7 +66,7 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 	
 	public void processDelete(@Observes @ProcessDelete ReceitasView view) {
 		try {
-			fluxoBC.delete(view.getBean());
+			fluxoBC.delete(view.getBean(), view.motivoExclusao.getValue()+"");
 			getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"1"));
 		} catch (Exception e) {
 			getView().getWindow().showNotification("DESCULPE! NÃO FOI POSSÍVEL EXCLUIR O REGISTRO!",Notification.TYPE_ERROR_MESSAGE);
@@ -85,10 +85,11 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 	}
 
 	public void processAdd(@Observes @ProcessAdd ReceitasView view) {
-
+		
 	}
 
 	public void processRem(@Observes @ProcessRem ReceitasView view) {
-
+		view.getWindow().addWindow(view.modalWindow);
+		view.getWindow().removeComponent(view.modalWindow);
 	}
 }

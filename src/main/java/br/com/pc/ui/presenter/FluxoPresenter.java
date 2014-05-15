@@ -89,6 +89,7 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 	}
 
 	public void processRem(@Observes @ProcessRem FluxoView view) {
-
+		view.getWindow().addWindow(view.modalWindow);
+		view.getWindow().removeComponent(view.modalWindow);
 	}
 }
