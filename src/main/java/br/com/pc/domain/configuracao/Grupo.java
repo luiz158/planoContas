@@ -2,7 +2,9 @@ package br.com.pc.domain.configuracao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,12 +52,12 @@ public class Grupo implements Serializable{
 	@Field(prompt = "{grupo.label.grupo}", label = "{grupo.label.grupo}")
 	private String descricao;
 	
-	@ManyToMany(cascade = {CascadeType.ALL},targetEntity=Usuario.class,fetch=FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH},targetEntity=Usuario.class,fetch=FetchType.EAGER)
  	@JoinTable (
  		  name="DEF_USUARIO_GRUPO",
  	      joinColumns=@JoinColumn(name="GRUPO_ID"),
  	      inverseJoinColumns=@JoinColumn (name="USUARIO_ID"))
- 	private List<Usuario> usuarios = new ArrayList<Usuario>();
+ 	private Set<Usuario> usuarios = new HashSet<Usuario>();
 //	@ManyToMany(mappedBy="grupos")
 // 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 	
@@ -82,7 +84,7 @@ public class Grupo implements Serializable{
 	@Transient
 	public void addUsuario(Usuario usuario){
 		if (this.usuarios == null){
-			this.usuarios = new ArrayList<Usuario>();
+			this.usuarios = new HashSet<Usuario>();
 		}
 		if (!this.usuarios.contains(usuario)){
 			this.usuarios.add(usuario);
@@ -118,14 +120,6 @@ public class Grupo implements Serializable{
 //	public void setDtCriacao(Date dtCriacao) {
 //		this.dtCriacao = dtCriacao;
 //	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
 
 	public Long getId() {
 		return id;
@@ -195,6 +189,14 @@ public class Grupo implements Serializable{
 
 	public void setClinicas(List<Clinica> clinicas) {
 		this.clinicas = clinicas;
+	}
+
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
 	}
 
 }

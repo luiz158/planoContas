@@ -1,6 +1,6 @@
 package br.com.pc.ui.view.configuracao;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +15,6 @@ import br.gov.frameworkdemoiselle.ui.AutoTable;
 import br.gov.frameworkdemoiselle.ui.CrudForm;
 
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TwinColSelect;
 
@@ -69,8 +68,8 @@ public class UsuarioView extends AbstractCrudView<Usuario> {
 		});
 	}
 	
-	public List<Grupo> getGrupoList(){
-		return new ArrayList<Grupo>(grupoSet);
+	public Set<Grupo> getGrupoList(){
+		return new HashSet<Grupo>(grupoSet);
 	}
 	
 	public AutoTable getTabela(){
@@ -83,7 +82,7 @@ public class UsuarioView extends AbstractCrudView<Usuario> {
 		}
 	}
 
-	public void setGrupo(List<Grupo> grupos) {
+	public void setGrupo(Set<Grupo> grupos) {
 		if (grupos != null) {
 			this.grupos.setValue(grupos);
 		}

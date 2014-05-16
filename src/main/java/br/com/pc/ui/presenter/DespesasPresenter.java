@@ -1,7 +1,5 @@
 package br.com.pc.ui.presenter;
 
-import java.math.BigDecimal;
-
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -10,6 +8,7 @@ import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
+import br.com.pc.domain.Fluxo;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
@@ -37,16 +36,19 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 	
 	public void processSave(@Observes @ProcessSave DespesasView view) {
 		try {
-			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
-					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
-					view.getBean().getValor()!=null){
-				if (view.getBean().getValor().signum()>0){
-					view.getBean().setValor(new BigDecimal(view.getBean().getValor().negate().toString()));
+			Fluxo bean = view.getBean();
+			if(bean!=null && bean.getClinica()!=null &&
+					bean.getConta()!=null && bean.getData()!=null &&
+					bean.getValor()!=null){
+				if (bean.getValor().signum()>0){
+					try {
+						bean.setValor(bean.getValor().negate());
+					} catch (Exception e) {}
 				}
-				if (view.getBean().getId()==null){
-					fluxoBC.insert(view.getBean());
+				if (bean.getId()==null){
+					fluxoBC.insert(bean);
 				}else{
-					fluxoBC.update(view.getBean());
+					fluxoBC.update(bean);
 				}
 				getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"2"));
 				getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");

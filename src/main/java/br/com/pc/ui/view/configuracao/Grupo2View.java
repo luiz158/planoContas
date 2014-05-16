@@ -2,7 +2,9 @@ package br.com.pc.ui.view.configuracao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.AnnotationLiteral;
@@ -57,6 +59,8 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	private Button btRem;
 	
 	private Table tabela;
+	
+	private Set<Usuario> usuarioSet;
 	
 	public void initializeComponents() {
 		setCaption(EnumMenu.CRUD_GRUPO.getNome());
@@ -146,7 +150,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("grupo.id", Long.class,  null);
 		tabela.addContainerProperty("grupo.descricao", String.class,  null);
 //		tabela.addContainerProperty("usuario.ultimoAcesso", Date.class,  null);
-		tabela.addContainerProperty("grupo.usuarios", List.class,  new ArrayList<Usuario>());
+		tabela.addContainerProperty("grupo.usuarios", Set.class,  new HashSet<Usuario>());
 		tabela.addContainerProperty("grupo.clinicas", List.class,  new ArrayList<Clinica>());
 
 		tabela.setVisibleColumns(new Object[]{"grupo.id","grupo.descricao","grupo.clinicas","grupo.usuarios",});
@@ -164,11 +168,16 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 			public void valueChange(ValueChangeEvent event) {
 //				setBean((Usuario)event.getProperty().getValue());	
 				bean = (Grupo)event.getProperty().getValue();
-				if (bean==null){
-					bean = new Grupo();
-				}else{
-					beanManager.fireEvent(Grupo2View.this, new AnnotationLiteral<ProcessItemSelection>() {});
-				}
+				beanManager.fireEvent(Grupo2View.this, new AnnotationLiteral<ProcessItemSelection>() {});
+			}
+		});
+		
+		usuarios.addListener(new TwinColSelect.ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("unchecked")
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				usuarioSet = (Set<Usuario>)event.getProperty().getValue();
 			}
 		});
 	}
@@ -185,12 +194,12 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("grupo.id").setValue(c.getId());} catch (Exception e) {}
 			try {itemBean.getItemProperty("grupo.descricao").setValue(c.getDescricao());} catch (Exception e) {}
 //			try {itemBean.getItemProperty("grupo.clinicas").setValue(c.getClinicas());} catch (Exception e) {}
-//			try {itemBean.getItemProperty("grupo.usuarios").setValue(c.getUsuarios());} catch (Exception e) {}
+			try {itemBean.getItemProperty("grupo.usuarios").setValue(c.getUsuarios());} catch (Exception e) {}
 			
 //			List<Clinica> g = grupoBC.findClinicas(c.getId());
 //			List<Usuario> u = grupoBC.findUsuarios(c.getId());
 			try {itemBean.getItemProperty("grupo.clinicas").setValue(grupoBC.findClinicas(c.getId()));} catch (Exception e) {}
-			try {itemBean.getItemProperty("grupo.usuarios").setValue(grupoBC.findUsuarios(c.getId()));} catch (Exception e) {}
+//			try {itemBean.getItemProperty("grupo.usuarios").setValue(grupoBC.findUsuarios(c.getId()));} catch (Exception e) {}
 			
 		}
 	}
@@ -221,13 +230,15 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	public Grupo getSelected(){
 		return bean;
 	}
+	@SuppressWarnings("unchecked")
 	public Grupo getBean() {
 		if (bean==null || bean.getId()==null){
 			bean = new Grupo();
 		}
 		try {} catch (Exception e) {}
 		try {bean.setDescricao((String)grupo.getValue());} catch (Exception e) {}
-		bean.setUsuarios(new ArrayList<Usuario>((Collection<? extends Usuario>) usuarios.getValue()));
+//		bean.setUsuarios(usuarioSet);
+		bean.setUsuarios((Set<Usuario>) usuarios.getValue());
 		bean.setClinicas(new ArrayList<Clinica>((Collection<? extends Clinica>) clinicas.getValue()));
 		return bean;
 	}
@@ -239,11 +250,15 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 			grupo.setValue(bean.getDescricao());
 //			GrupoBC grupoBC = new GrupoBC();
 //			ClinicaBC clinicaBC = new ClinicaBC();
-//			usuarios.setValue(usuarioBC.findByUsuario(bean));
-//			clinicas.setValue(clinicaBC.getGrupos());
-			Grupo g = grupoBC.load(bean.getId());
-			usuarios.setValue(g.getUsuarios());
-			clinicas.setValue(g.getClinicas());
+			usuarios.setValue(bean.getUsuarios());
+//			clinicas.setValue(bean.getClinicas());
+			if (bean.getId()!=null){
+				Grupo g = grupoBC.load(bean.getId());
+	//			usuarios.setValue(g.getUsuarios());
+	//			usuarioSet = g.getUsuarios();
+				clinicas.setValue(g.getClinicas());
+			}
+			
 		}
 	}
 

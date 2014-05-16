@@ -62,7 +62,7 @@ public class GrupoView extends AbstractCrudView<Grupo> {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				usuarioSet = (Set<Usuario>)event.getProperty().getValue();
-				getCrudForm().getBean().setUsuarios(getUsuarioList());
+				getCrudForm().getBean().setUsuarios((Set<Usuario>) getUsuarioList());
 			}
 		});
 	}
@@ -81,7 +81,7 @@ public class GrupoView extends AbstractCrudView<Grupo> {
 		}
 	}
 
-	public void setUsuario(List<Usuario> usuarios) {
+	public void setUsuario(Set<Usuario> usuarios) {
 		if (usuarios != null) {
 			this.usuarios.setValue(usuarios);
 		}

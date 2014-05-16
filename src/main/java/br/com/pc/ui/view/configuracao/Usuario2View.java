@@ -207,7 +207,8 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 		try {bean.setSenha((String)senha.getValue());} catch (Exception e) {}
 		Set<Grupo> t = new HashSet<Grupo>();
 		t.addAll((Collection<? extends Grupo>) grupos.getValue());
-		bean.setGrupos(new ArrayList<Grupo>((Collection<? extends Grupo>) grupos.getValue()));
+//		bean.setGrupos(new ArrayList<Grupo>((Collection<? extends Grupo>) grupos.getValue()));
+		bean.setGrupos((Set<Grupo>) grupos.getValue());
 		return bean;
 	}
 

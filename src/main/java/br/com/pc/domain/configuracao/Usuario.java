@@ -3,7 +3,9 @@ package br.com.pc.domain.configuracao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -81,12 +83,12 @@ public class Usuario implements Serializable{
  		  name="DEF_USUARIO_GRUPO",
  	      joinColumns=@JoinColumn(name="USUARIO_ID"),
  	      inverseJoinColumns=@JoinColumn (name="GRUPO_ID"))
-    private List<Grupo> grupos = new ArrayList<Grupo>();
+    private Set<Grupo> grupos = new HashSet<Grupo>();
 	
 	@Transient
 	public void addGrupo(Grupo grupo){
 		if (this.grupos == null){
-			this.grupos = new ArrayList<Grupo>();
+			this.grupos = new HashSet<Grupo>();
 		}
 		if (!this.grupos.contains(grupo)){
 //			grupo.addUsuario(this);
@@ -132,14 +134,6 @@ public class Usuario implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
 	}
 
 	public Date getDtUltimoAcesso() {
@@ -194,5 +188,13 @@ public class Usuario implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void setGrupos(Set<Grupo> grupos) {
+		this.grupos = grupos;
+	}
+
+	public Set<Grupo> getGrupos() {
+		return grupos;
 	}	
 }

@@ -28,11 +28,17 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 	@Inject	private ClinicaBC clinicaBC;
 	
 	public void processSave(@Observes @ProcessSave Grupo2View view) {
-		Grupo grupo = view.getBean();
-		if (grupo.getId() != null) {
-			grupoBC.update(grupo);
-		} else {
-			grupoBC.insert(grupo);
+		try {
+			Grupo grupo = view.getBean();
+			if (grupo.getId() != null) {
+				grupoBC.update(grupo);
+			} else {
+				grupoBC.insert(grupo);
+			}
+			view.getWindow().showNotification("REGISTRO SALVO COM SUCESSO!!!");
+		} catch (Exception e) {
+//			view.getWindow().showNotification("REGISTRO NÃO !!!");
+			e.printStackTrace();
 		}
 		view.setList(grupoBC.findAllAtivos());
 	}
@@ -47,7 +53,12 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 
 	public void processItemSelection(@Observes @ProcessItemSelection Grupo2View view) {
 		Grupo grupo = view.getSelected();
-//		view.setGrupos(grupoBC.findAll());
+		view.setClinicas(clinicaBC.findAllAtivos());
+//		view.setUsuarios(usuarioBC.findAll());
+		if (grupo==null){
+			grupo = new Grupo();
+			view.limpar();
+		}
 		view.setBean(grupo);
 	}
 
@@ -57,11 +68,6 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 		view.setUsuarios(usuarioBC.findAll());
 		view.setList(grupoBC.findAllAtivos());
 	}
-
-//	public void beforeNavigate(@Observes @BeforeNavigateToView UsuarioView view) {
-//		getView().setPerfis(perfilBC.findAll());
-//		getView().setBean(new Usuario());
-//	}
 	
 	public void processFormClear(@Observes @ProcessClear Grupo2View usuario) {
 
