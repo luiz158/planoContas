@@ -58,13 +58,13 @@ public class Conta implements Serializable{
 	@Column(name="DESCRICAO")
 	private String descricao;
 
-	@Column(name="CONTA", unique=true)
+	@Column(name="CONTA", unique=false)
 	private String conta;
 
 	@Column(name="TOTALIZADORA", nullable = false,  columnDefinition = "bit default 0")
 	private Boolean totalizadora=false;
 
-	@Column(name="dre", nullable = false,  columnDefinition = "bit default 0")
+	@Column(name="DRE", nullable = false,  columnDefinition = "bit default 0")
 	private Boolean dre=false;
 	
 	@ManyToOne(cascade={CascadeType.MERGE},optional = true, targetEntity = Conta.class)

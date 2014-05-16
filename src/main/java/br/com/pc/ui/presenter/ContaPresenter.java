@@ -52,6 +52,7 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 	}
 
 	public void processDelete(@Observes @ProcessDelete ContaView view) {
+//		System.out.println(contaBC.geraNumeroConta(view.getBean()));
 		try {
 			contaBC.delete(view.getBean());
 		} catch (Exception e) {

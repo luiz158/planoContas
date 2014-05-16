@@ -65,8 +65,27 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		return query.getResultList();
 	}
 
+	public List<Conta> findAll(Credenciais credenciais) {
+		StringBuilder queryString = new StringBuilder();
+		
+		queryString.append(" select b " +
+				" from Conta b " +
+				" left outer join b.clinicas c " +
+				" where " +
+				" (c in (select c from Grupo g inner join g.clinicas c inner join g.usuarios u where u.id = :id )  " +
+				"  or c is null ) " +
+				" order by b.conta " );
+		Query query = createQuery(queryString.toString());
+		
+		for (Parameter<?> p : query.getParameters()) {
+			if ("id".equals(p.getName()))	{query.setParameter(p.getName(), Long.parseLong(credenciais.getId()));}
+		}
+		
+		return query.getResultList();
+	}
+
 	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos, Boolean soDre) {
-StringBuilder queryString = new StringBuilder();
+		StringBuilder queryString = new StringBuilder();
 		
 		queryString.append(" select b " +
 				" from Conta b " +
@@ -88,6 +107,19 @@ StringBuilder queryString = new StringBuilder();
 		}
 		
 		return query.getResultList();
+	}
+
+	public Integer getQtContaSemContaPai() {
+		StringBuilder queryString = new StringBuilder();
+		queryString.append(" select count(b.id) " +
+				" from Conta b " +
+				" where " +
+				" b.contaPai is null ");
+		Query query = createQuery(queryString.toString());
+//		for (Parameter<?> p : query.getParameters()) {
+//			if ("clinicas".equals(p.getName()))	{query.setParameter(p.getName(), filtro1.getClinicas());}
+//		}
+		return (Integer) query.getSingleResult();
 	}
 
 }

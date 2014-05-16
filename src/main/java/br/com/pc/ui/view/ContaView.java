@@ -84,7 +84,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 
 		conta = FieldFactoryUtil.createTextField("CONTA");
 		descricao = FieldFactoryUtil.createTextField("DESCRIÇÃO");
-		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "descricao");
+		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "contaPaiDescricaoConta");
 		totalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
 		dre = FieldFactoryUtil.createCheckBox("DRE");
 		clinicas =  FieldFactoryUtil.createTwinColSelect("CLINICAS","descricao");
@@ -187,7 +187,12 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		      public String getStyle(Object itemId, Object propertyId) {
 				if (propertyId == null) { //para linha inteira
 					Item row = tabela.getItem(itemId);
-					if (row!=null && row.getItemProperty("conta.totalizadora")!=null && 
+
+					if (row!=null && row.getItemProperty("conta.ativo")!=null && 
+							row.getItemProperty("conta.ativo").getValue()!=null &&
+							!(Boolean)row.getItemProperty("conta.ativo").getValue()) {
+						return "inativo";
+					}else if (row!=null && row.getItemProperty("conta.totalizadora")!=null && 
 							row.getItemProperty("conta.totalizadora").getValue()!=null &&
 							(Boolean)row.getItemProperty("conta.totalizadora").getValue()) {
 						return "bold";
@@ -204,7 +209,8 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		tabela.setCacheRate(1000);
 		tabela.setWidth("100%");
 
-		
+
+		tabela.addContainerProperty("conta.ativo", Boolean.class,  null);
 		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("conta.descricao", String.class,  null);
 		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
@@ -217,6 +223,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		tabela.setColumnHeaders(new String[]{"conta","descricao","totalizadora","dre","contaPai","clinicas",});
 		
 		tabela.addGeneratedColumn("conta.totalizadora", new SimNaoColumnGenerator());
+		
 		
 	}
 	private void addListener(){
@@ -258,6 +265,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.dre").setValue(c.getDre());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.contaPai").setValue(c.getContaPai());} catch (Exception e) {}
+			try {itemBean.getItemProperty("conta.ativo").setValue(c.getAtivo());} catch (Exception e) {}
 			
 		 	List<Clinica> c2 = clinicaBC.findByConta(c);
 			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
@@ -282,6 +290,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Conta getBean() {
 		if (bean==null || bean.getId()==null){
 			bean = new Conta();

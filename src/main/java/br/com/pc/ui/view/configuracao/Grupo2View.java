@@ -12,9 +12,7 @@ import javax.inject.Inject;
 
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
-import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.configuracao.GrupoBC;
-import br.com.pc.business.configuracao.UsuarioBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.Grupo;
@@ -43,8 +41,8 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	private static final long serialVersionUID = 1L;
 
 	@Inject	private BeanManager beanManager;
-	@Inject private UsuarioBC usuarioBC;
-	@Inject private ClinicaBC clinicaBC;
+//	@Inject private UsuarioBC usuarioBC;
+//	@Inject private ClinicaBC clinicaBC;
 	@Inject private GrupoBC grupoBC;
 	
 	private Grupo bean;
@@ -60,7 +58,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	
 	private Table tabela;
 	
-	private Set<Usuario> usuarioSet;
+//	private Set<Usuario> usuarioSet;
 	
 	public void initializeComponents() {
 		setCaption(EnumMenu.CRUD_GRUPO.getNome());
@@ -164,6 +162,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 		
 		tabela.addListener(new Table.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("serial")
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 //				setBean((Usuario)event.getProperty().getValue());	
@@ -172,14 +171,14 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 			}
 		});
 		
-		usuarios.addListener(new TwinColSelect.ValueChangeListener() {
-			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("unchecked")
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				usuarioSet = (Set<Usuario>)event.getProperty().getValue();
-			}
-		});
+//		usuarios.addListener(new TwinColSelect.ValueChangeListener() {
+//			private static final long serialVersionUID = 1L;
+//			@SuppressWarnings("unchecked")
+//			@Override
+//			public void valueChange(ValueChangeEvent event) {
+//				usuarioSet = (Set<Usuario>)event.getProperty().getValue();
+//			}
+//		});
 	}
 
 	public void setList(List<Grupo> lista){
@@ -215,6 +214,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==btAdd){

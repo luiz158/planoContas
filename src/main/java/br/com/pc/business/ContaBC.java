@@ -16,16 +16,14 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	
 	@Override
 	public void insert(Conta bean) {
+		if (bean.getConta()==null || bean.getConta().length()==0){
+			bean.setConta(geraNumeroConta(bean));
+		}
 		super.insert(bean);
 	}
 	
 	@Override
 	public void update(Conta bean) {
-//		try {
-//			
-//		} catch (javax.persistence.OptimisticLockException e) {
-//			// TODO: handle exception
-//		}
 		super.update(bean);
 	}
 	public void delete(Conta bean) {
@@ -57,5 +55,76 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 		return getDelegate().findByFiltro1(filtro1,soAtivos,soDre);
 	}
 	
+	private Integer getQtContaSemContaPai(){
+		return getDelegate().getQtContaSemContaPai();
+	}
+	public String geraNumeroConta(Conta conta){
+		//conta nova ou atualização de conta? (mudança de conta pai, por exemplo)
+		//a conta tem conta pai?
+		//a conta é uma totalizadora?
+		if (conta.getTotalizadora()){
+			//conta sem 9 digitos
+			if (conta.getContaPai()==null){
+				return getQtContaSemContaPai()+"";
+			}else{
+				int nv = conta.getContaPai().getConta().split("\\.").length+1;
+				int qt = load(conta.getContaPai().getId()).getContasFilha().size();
+				String ct = conta.getContaPai().getConta();
+				switch (nv) {
+				case 1:
+					ct += String.format(".%01d", qt+1);
+					break;
+				case 2:
+					ct += String.format(".%01d", qt+1);
+					break;
+				case 3:
+					ct += String.format(".%02d", qt+1);
+					break;
+				case 4:
+					ct += String.format(".%02d", qt+1);
+					break;
+				case 5:
+					ct += String.format(".%03d", qt+1);
+					break;
+
+				default:
+					break;
+				}
+				return ct;
+			}
+		}else{
+			//conta com 9 digitos
+			//conta não é totalizadora
+			if (conta.getContaPai()==null){
+				return getQtContaSemContaPai()+"";
+			}else{
+				int nv = conta.getContaPai().getConta().split("\\.").length+1;
+				int qt = load(conta.getContaPai().getId()).getContasFilha().size();
+				String ct = conta.getContaPai().getConta();
+				
+				switch (nv) {
+				case 1:
+					ct += String.format(".%01d.1.01.01.001", qt+1);
+					break;
+				case 2:
+					ct += String.format(".%01d.01.01.001", qt+1);
+					break;
+				case 3:
+					ct += String.format(".%02d.01.001", qt+1);
+					break;
+				case 4:
+					ct += String.format(".%02d.001", qt+1);
+					break;
+				case 5:
+					ct += String.format(".%03d", qt+1);
+					break;
+
+				default:
+					break;
+				}
+				return ct;
+			}
+		}
+	}
 	
 }
