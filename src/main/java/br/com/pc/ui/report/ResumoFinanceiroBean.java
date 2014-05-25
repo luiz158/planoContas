@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import br.com.pc.domain.Conta;
 
-public class DreBean {
+public class ResumoFinanceiroBean {
 
 	private Conta conta;
 	private String contaNumero;
@@ -12,7 +12,7 @@ public class DreBean {
 	private BigDecimal valor;
 	private Boolean totalizadora;
 	
-	public DreBean(Conta conta, BigDecimal valor) {
+	public ResumoFinanceiroBean(Conta conta, BigDecimal valor) {
 		super();
 		this.conta = conta;
 		this.valor = valor;
@@ -20,7 +20,7 @@ public class DreBean {
 		this.contaDescricao = conta.getDescricao();
 		this.totalizadora = conta.getTotalizadora();
 	}
-	public DreBean(String contaNumero, String contaDescricao) {
+	public ResumoFinanceiroBean(String contaNumero, String contaDescricao) {
 		super();
 		this.valor = new BigDecimal("0");
 		this.contaNumero = contaNumero;

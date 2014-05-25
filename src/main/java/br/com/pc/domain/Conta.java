@@ -24,6 +24,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import br.com.pc.domain.configuracao.EnumDre;
+
 @Entity
 @Table(name="PC_CONTA")
 public class Conta implements Serializable{
@@ -64,8 +66,8 @@ public class Conta implements Serializable{
 	@Column(name="TOTALIZADORA", nullable = false,  columnDefinition = "bit default 0")
 	private Boolean totalizadora=false;
 
-	@Column(name="DRE", nullable = false,  columnDefinition = "bit default 0")
-	private Boolean dre=false;
+	@Column(name="RESUMO_FINANCEIRO", nullable = false,  columnDefinition = "bit default 0")
+	private Boolean resumoFinanceiro=false;
 	
 	@ManyToOne(cascade={CascadeType.MERGE},optional = true, targetEntity = Conta.class)
 	@JoinColumn(name = "CONTA_ID")
@@ -81,6 +83,9 @@ public class Conta implements Serializable{
  	      joinColumns=@JoinColumn(name="CONTA_ID"),
  	      inverseJoinColumns=@JoinColumn (name="CLINICA_ID"))
  	private List<Clinica> clinicas = new ArrayList<Clinica>();
+	
+	@Column(name="DRE")
+	private EnumDre dre;
 	
 	@Transient
 	public void addClinica(Clinica clinica){
@@ -251,11 +256,19 @@ public class Conta implements Serializable{
 		this.clinicas = clinicas;
 	}
 
-	public Boolean getDre() {
+	public Boolean getResumoFinanceiro() {
+		return resumoFinanceiro;
+	}
+
+	public void setResumoFinanceiro(Boolean resumoFinanceiro) {
+		this.resumoFinanceiro = resumoFinanceiro;
+	}
+
+	public EnumDre getDre() {
 		return dre;
 	}
 
-	public void setDre(Boolean dre) {
+	public void setDre(EnumDre dre) {
 		this.dre = dre;
 	}
 	

@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import br.com.pc.domain.Conta;
 import br.com.pc.domain.Fluxo;
 import br.com.pc.ui.bean.Filtro1;
-import br.com.pc.ui.report.DreBean;
+import br.com.pc.ui.report.ResumoFinanceiroBean;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 

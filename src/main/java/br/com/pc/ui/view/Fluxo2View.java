@@ -29,8 +29,8 @@ import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.ui.bean.FluxoDias;
-import br.com.pc.ui.report.DreBean;
-import br.com.pc.ui.report.DreReport;
+import br.com.pc.ui.report.ResumoFinanceiroBean;
+import br.com.pc.ui.report.ResumoFinanceiroReport;
 import br.com.pc.util.GeraXls;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
@@ -499,18 +499,18 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 	
-	public List<DreBean> somaTotal(){
-		List<DreBean> listaDre = new ArrayList<DreBean>();
+	public List<ResumoFinanceiroBean> somaTotal(){
+		List<ResumoFinanceiroBean> listaDre = new ArrayList<ResumoFinanceiroBean>();
 		Collection<?> c = (Collection<?>) tabela.getItemIds();
 		for (Object object : c) {
 //			if (((Conta)c).getTotalizadora()){
 //				
 //			}
-			DreBean bean;
+			ResumoFinanceiroBean bean;
 			Item item = tabela.getItem(object);
 			if ((Boolean)item.getItemProperty("conta.totalizadora").getValue()){
 				Collection<?> p = (Collection<?>) item.getItemPropertyIds();
-				bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
+				bean = new ResumoFinanceiroBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
 				for (Object p2 : p) {
 					if (p2.toString().length()<=3){
 						try {
@@ -551,7 +551,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		if (event.getButton()==btDre){
-			new DreReport().drePDF(somaTotal(),getFiltro1(),0.0);
+			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),0.0);
 //			try {
 //				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
 //			} catch (IOException e1) {

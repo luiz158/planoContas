@@ -13,27 +13,27 @@ import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.util.ReportUtil;
 
 
-public class DreReport {
+public class ResumoFinanceiroReport {
 
-	public DreReport() {
+	public ResumoFinanceiroReport() {
 
 	}
 
-	private static DreBean gera(){
-		DreBean bean = new DreBean((new ContaBC()).load(1l),new BigDecimal(12.0));
+	private static ResumoFinanceiroBean gera(){
+		ResumoFinanceiroBean bean = new ResumoFinanceiroBean((new ContaBC()).load(1l),new BigDecimal(12.0));
 		return bean;
 	}
 	
-	public static Collection<DreBean> dres(){
-		List<DreBean> lista = new ArrayList<DreBean>();
+	public static Collection<ResumoFinanceiroBean> resumosFinanceiros(){
+		List<ResumoFinanceiroBean> lista = new ArrayList<ResumoFinanceiroBean>();
 		lista.add(gera());
 		lista.add(gera());
 		return lista;
 	}
 	
-	public void drePDF() {
+	public void resumoFinanceiroPDF() {
 		try {
-			List<DreBean> lista = new ArrayList<DreBean>();
+			List<ResumoFinanceiroBean> lista = new ArrayList<ResumoFinanceiroBean>();
 			lista.add(gera());
 			lista.add(gera());
 			SistemaApplication
@@ -49,7 +49,7 @@ public class DreReport {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void drePDF(List<DreBean> somaTotal, Filtro1 filtro1, Double total) {
+	public void resumoFinanceiroPDF(List<ResumoFinanceiroBean> somaTotal, Filtro1 filtro1, Double total) {
 		try {
 			Map parametros = new HashMap();
 			parametros.put("DT_INICIO", filtro1.getDtInicio());

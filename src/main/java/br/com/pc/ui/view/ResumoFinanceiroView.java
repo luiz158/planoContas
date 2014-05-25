@@ -28,8 +28,8 @@ import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.ui.bean.FluxoDias;
-import br.com.pc.ui.report.DreBean;
-import br.com.pc.ui.report.DreReport;
+import br.com.pc.ui.report.ResumoFinanceiroBean;
+import br.com.pc.ui.report.ResumoFinanceiroReport;
 import br.com.pc.util.GeraXls;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
@@ -55,7 +55,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 
-public class Dre1View extends BaseVaadinView implements Button.ClickListener {
+public class ResumoFinanceiroView extends BaseVaadinView implements Button.ClickListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -79,7 +79,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 	private Button btSalvar;
 	private Button btAdd;
 	private Button btExcel;
-	private Button btDre;
+	private Button btResumoFinanceiro;
 	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
@@ -119,10 +119,10 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		btAdd.setDescription("Adicionar novo registro");
 		btExcel = new Button();
 		btExcel.setDescription("Exportar para excel.");
-		btDre = new Button();
-		btDre.setDescription("Gera DRE.");
+		btResumoFinanceiro = new Button();
+		btResumoFinanceiro.setDescription("Gera Resumo Financeiro.");
 		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
-		btDre.setIcon(new ThemeResource("icons/16/print2_16.png"));
+		btResumoFinanceiro.setIcon(new ThemeResource("icons/16/print2_16.png"));
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -153,11 +153,11 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		hl.addComponent(vl1);
 		hl.addComponent(btFiltro);
 		hl.addComponent(btExcel);
-		hl.addComponent(btDre);
+		hl.addComponent(btResumoFinanceiro);
 
 		hl.setComponentAlignment(btFiltro, Alignment.BOTTOM_LEFT);
 		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
-		hl.setComponentAlignment(btDre, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btResumoFinanceiro, Alignment.BOTTOM_LEFT);
 
 		dados.addComponent(hl);
 		hl2.addComponent(dados);
@@ -295,7 +295,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		btAdd.addListener(this);
 		btFiltro.addListener(this);
 		btExcel.addListener(this);
-		btDre.addListener(this);
+		btResumoFinanceiro.addListener(this);
 	}
 
 	public void limpar(){
@@ -414,7 +414,7 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 				if (!c.getTotalizadora()){
 					tabela.setChildrenAllowed(c, false);
 				}else{
-					if (c.getDre()){
+					if (c.getResumoFinanceiro()){
 						tabela.setCollapsed(c.getContaPai(), false);
 					}
 				}
@@ -423,15 +423,15 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 	Double tt = 0.0;
-	public List<DreBean> somaTotal(){
+	public List<ResumoFinanceiroBean> somaTotal(){
 		tt = 0.0;
 		Integer conta = 0;
-		List<DreBean> listaDre = new ArrayList<DreBean>();
+		List<ResumoFinanceiroBean> listaResumoFinanceiro = new ArrayList<ResumoFinanceiroBean>();
 		Collection<?> c = (Collection<?>) tabela.getItemIds();
 		for (Object object : c) {
-			DreBean bean;
+			ResumoFinanceiroBean bean;
 			Item item = tabela.getItem(object);
-			bean = new DreBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
+			bean = new ResumoFinanceiroBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
 			bean.setValor((BigDecimal)item.getItemProperty("total").getValue());
 			bean.setTotalizadora((Boolean)item.getItemProperty("conta.totalizadora").getValue());
 			
@@ -445,9 +445,9 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 				} catch (Exception e) {e.printStackTrace();}
 			}
 
-			listaDre.add(bean);
+			listaResumoFinanceiro.add(bean);
 		}
-		return listaDre;
+		return listaResumoFinanceiro;
 	}
 	
 	@SuppressWarnings("serial")
@@ -469,13 +469,13 @@ public class Dre1View extends BaseVaadinView implements Button.ClickListener {
 		}
 		if (event.getButton()==btExcel){
 			try {
-				getWindow().open(new GeraXls("dre.xls",tabela,getApplication()).getStream());
+				getWindow().open(new GeraXls("ResumoFinanceiro.xls",tabela,getApplication()).getStream());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		if (event.getButton()==btDre){
-			new DreReport().drePDF(somaTotal(),getFiltro1(),tt);
+		if (event.getButton()==btResumoFinanceiro){
+			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),tt);
 //			try {
 //				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
 //			} catch (IOException e1) {

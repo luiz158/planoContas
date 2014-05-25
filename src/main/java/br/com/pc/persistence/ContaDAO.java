@@ -84,7 +84,7 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		return query.getResultList();
 	}
 
-	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos, Boolean soDre) {
+	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos, Boolean soResumoFinanceiro) {
 		StringBuilder queryString = new StringBuilder();
 		
 		queryString.append(" select b " +
@@ -95,8 +95,8 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		if (soAtivos){
 			queryString.append(" and b.ativo = true  " );
 		}
-		if (soDre){
-			queryString.append(" and b.dre = true  " );
+		if (soResumoFinanceiro){
+			queryString.append(" and b.resumoFinanceiro = true  " );
 		}
 		queryString.append(" order by b.conta ");
 		

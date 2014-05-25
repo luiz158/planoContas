@@ -11,7 +11,7 @@ import br.com.pc.business.FluxoBC;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
-import br.com.pc.ui.view.Dre1View;
+import br.com.pc.ui.view.ResumoFinanceiroView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -22,7 +22,7 @@ import br.gov.frameworkdemoiselle.template.AbstractPresenter;
 
 @ViewController
 @SessionScoped
-public class Dre1Presenter extends AbstractPresenter<Dre1View> {
+public class ResumoFinanceiroPresenter extends AbstractPresenter<ResumoFinanceiroView> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -31,37 +31,37 @@ public class Dre1Presenter extends AbstractPresenter<Dre1View> {
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
 	
-	public void processSave(@Observes @ProcessSave Dre1View view) {
+	public void processSave(@Observes @ProcessSave ResumoFinanceiroView view) {
 		
 	}
-	public void processAdd(@Observes @ProcessAdd Dre1View view) {
-		
-	}
-
-	public void processItemSelection(@Observes @ProcessItemSelection Dre1View view) {
+	public void processAdd(@Observes @ProcessAdd ResumoFinanceiroView view) {
 		
 	}
 
-	public void processFiltro(@Observes @ProcessFilter Dre1View view) {
+	public void processItemSelection(@Observes @ProcessItemSelection ResumoFinanceiroView view) {
+		
+	}
+
+	public void processFiltro(@Observes @ProcessFilter ResumoFinanceiroView view) {
 		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
 	}
 
-	public void processDelete(@Observes @ProcessDelete Dre1View view) {
+	public void processDelete(@Observes @ProcessDelete ResumoFinanceiroView view) {
 
 	}
 
-	public void beforeNavigate(@Observes @BeforeNavigateToView Dre1View view) {
+	public void beforeNavigate(@Observes @BeforeNavigateToView ResumoFinanceiroView view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
 		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
 		
 //		view.limpar();
 	}
 
-	public void processFormClear(@Observes @ProcessClear Dre1View bean) {
+	public void processFormClear(@Observes @ProcessClear ResumoFinanceiroView bean) {
 
 	}
 
-	public void processRem(@Observes @ProcessRem Dre1View bean) {
+	public void processRem(@Observes @ProcessRem ResumoFinanceiroView bean) {
 
 	}
 }
