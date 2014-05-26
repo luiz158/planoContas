@@ -212,7 +212,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 
 		tabela.setVisibleColumns(new Object[]{"conta","valor","tipo"});
 		
-		tabela.setColumnHeaders(new String[]{"conta","valor"});
+		tabela.setColumnHeaders(new String[]{"conta","valor","tipo"});
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override

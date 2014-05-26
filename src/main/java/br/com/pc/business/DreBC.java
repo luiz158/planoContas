@@ -1,5 +1,6 @@
 package br.com.pc.business;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,10 @@ import br.com.pc.ui.bean.Filtro1;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 
 @BusinessController
-public class DreBC {
+public class DreBC implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Inject public ContaBC contaBC;
 	@Inject public FluxoBC fluxoBC;
 	

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
+import br.com.pc.business.DreBC;
 import br.com.pc.business.FluxoBC;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
@@ -30,6 +31,7 @@ public class DrePresenter extends AbstractPresenter<DreView> {
 	@Inject ContaBC contaBC;
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
+	@Inject DreBC dreBC;
 	
 	public void processSave(@Observes @ProcessSave DreView view) {
 		
@@ -43,7 +45,7 @@ public class DrePresenter extends AbstractPresenter<DreView> {
 	}
 
 	public void processFiltro(@Observes @ProcessFilter DreView view) {
-		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
+		view.setList(dreBC.findAll(view.getFiltro1()));
 	}
 
 	public void processDelete(@Observes @ProcessDelete DreView view) {
@@ -52,7 +54,7 @@ public class DrePresenter extends AbstractPresenter<DreView> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView DreView view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
-		view.setListConta(contaBC.findByFiltro1(view.getFiltro1(),true,true));
+		view.setList(dreBC.findAll(view.getFiltro1()));
 		
 //		view.limpar();
 	}
