@@ -2,8 +2,11 @@ package br.com.pc.business;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.domain.Conta;
+import br.com.pc.domain.configuracao.EnumDre;
 import br.com.pc.persistence.ContaDAO;
 import br.com.pc.ui.bean.Filtro1;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
@@ -13,6 +16,8 @@ import br.gov.frameworkdemoiselle.template.DelegateCrud;
 public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Inject Credenciais credenciais;
 	
 	@Override
 	public void insert(Conta bean) {
@@ -125,6 +130,16 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 				return ct;
 			}
 		}
+	}
+
+	public List<Conta> findByFiltro2(Conta filtro) {
+		return getDelegate().findByFiltro2(filtro, credenciais);
+	}
+
+	public List<Conta> findByDre(EnumDre tipo) {
+		Conta filtro = new Conta();
+		filtro.setDre(tipo);
+		return getDelegate().findByFiltro2(filtro, credenciais);
 	}
 	
 }

@@ -23,6 +23,7 @@ public enum EnumMenu {
 		PC_CONTA		("CONTA",true,PC_CADASTROS),
 		PC_CLINICA		("CLINICA",true,PC_CADASTROS),
 	PC_FLUXO2		("FLUXO MENSAL",true,"icons/16/arrow_right_16.png"),
+	PC_RESUMO_FINANCEIRO			("RESUMO FINANCEIRO",true,"icons/16/arrow_right_16.png"),
 	PC_DRE			("D.R.E.",true,"icons/16/arrow_right_16.png");
 //------------
 
@@ -39,6 +40,7 @@ public enum EnumMenu {
 			lista.add(PC_RECEITAS);
 			lista.add(PC_DESPESAS);
 		lista.add(PC_FLUXO2);
+		lista.add(PC_RESUMO_FINANCEIRO);
 		lista.add(PC_DRE);
 		lista.add(PC_CADASTROS);
 			lista.add(PC_CONTA);

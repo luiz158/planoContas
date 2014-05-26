@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.AnnotationLiteral;
@@ -18,7 +17,8 @@ import org.vaadin.data.collectioncontainer.CollectionContainer;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
-import br.com.pc.domain.Fluxo;
+import br.com.pc.domain.configuracao.EnumDre;
+import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.util.SimNaoColumnGenerator;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -38,7 +38,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -56,8 +55,9 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	private TextField conta;
 	private TextField descricao;
 	private CheckBox totalizadora;
-	private CheckBox dre;
+	private CheckBox resumoFinanceiro;
 	private ComboBox contaPai;
+	private ComboBox dre;
 	
 	private Panel dados;
 	
@@ -72,6 +72,18 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	
 	private TwinColSelect clinicas;
 	
+	//FILTROS
+	private Panel filtro;
+	public TextField fConta;
+	public TextField fDescricao;
+	public CheckBox fTotalizadora;
+	public CheckBox fResumoFinanceiro;
+	public ComboBox fContaPai;
+	public ComboBox fDre;
+	public ComboBox fClinica;
+	private Button btFiltro;
+	
+	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
 	@Override
@@ -85,28 +97,65 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		conta = FieldFactoryUtil.createTextField("CONTA");
 		descricao = FieldFactoryUtil.createTextField("DESCRIÇÃO");
 		contaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "contaPaiDescricaoConta");
+		dre = FieldFactoryUtil.createComboBox("TIPO DE DRE", "descricao");
 		totalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
-		dre = FieldFactoryUtil.createCheckBox("DRE");
+		resumoFinanceiro = FieldFactoryUtil.createCheckBox("RESUMO FINANCEIRO");
 		clinicas =  FieldFactoryUtil.createTwinColSelect("CLINICAS","descricao");
 
 		btAdd = new Button();
 		btRem = new Button();
+		
+		fConta = FieldFactoryUtil.createTextField("CONTA");
+		fDescricao = FieldFactoryUtil.createTextField("DESCRIÇÃO");
+		fContaPai = FieldFactoryUtil.createComboBox("CONTA PAI", "contaPaiDescricaoConta");
+		fDre = FieldFactoryUtil.createComboBox("TIPO DE DRE", "descricao");
+		fTotalizadora = FieldFactoryUtil.createCheckBox("TOTALIZADORA");
+		fResumoFinanceiro = FieldFactoryUtil.createCheckBox("RESUMO FINANCEIRO");
+		fClinica =  FieldFactoryUtil.createComboBox("CLINICAS","descricao");
+		btFiltro = new Button("FILTRAR");
 
 		conta.setRequired(true);
 		descricao.setRequired(true);
 		conta.setRequiredError("Ítem obrigatório");
 		descricao.setRequiredError("Ítem obrigatório");
 		
+		montaFiltro();
 		montaTabela();
 		montaPainel();
 		addListener();
-		
+
+		addComponent(filtro);
 		addComponent(dados);
 		addComponent(tabela);
 	}
+	
+	private void montaFiltro(){
+		filtro = new Panel("FILTRO");
+		
+		GridLayout gl = new GridLayout(5,2);
+		VerticalLayout vl = new VerticalLayout();
+		gl.setSpacing(true);
 
+		vl.addComponent(fTotalizadora);
+		vl.addComponent(fResumoFinanceiro);
+		
+		gl.addComponent(fConta,0,0);
+		gl.addComponent(fDescricao,0,1);
+		gl.addComponent(vl,1,0);
+		gl.addComponent(fContaPai,1,1);
+		gl.addComponent(fClinica,2,0);
+		gl.addComponent(fDre,2,1);
+		
+		gl.addComponent(btFiltro,3,1);
+		btFiltro.setDescription("Executa o filtro.");
+		
+		gl.setComponentAlignment(btFiltro, Alignment.BOTTOM_LEFT);
+		
+		filtro.addComponent(gl);
+
+	}
 	private void montaPainel(){
-		dados = new Panel();
+		dados = new Panel("DADOS");
 
 		clinicas.setRows(4);
 		clinicas.setNullSelectionAllowed(true);
@@ -125,7 +174,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 //		dados.setContent(hl);
 
 		vl.addComponent(totalizadora);
-		vl.addComponent(dre);
+		vl.addComponent(resumoFinanceiro);
 		
 		gl.addComponent(conta,0,0);
 		gl.addComponent(descricao,0,1);
@@ -141,11 +190,12 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		btRem.setDescription("Exclui registro.");
 		
 		gl.setComponentAlignment(totalizadora, Alignment.MIDDLE_LEFT);
-		gl.setComponentAlignment(dre, Alignment.MIDDLE_LEFT);
+		gl.setComponentAlignment(resumoFinanceiro, Alignment.MIDDLE_LEFT);
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		
 		dados.addComponent(gl);
+		dados.addComponent(dre);
 //		dados.addComponent(tabela);
 	}
 	private void montaTabela(){
@@ -214,13 +264,14 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("conta.descricao", String.class,  null);
 		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
-		tabela.addContainerProperty("conta.dre", Boolean.class,  null);
+		tabela.addContainerProperty("conta.resumoFinanceiro", Boolean.class,  null);
 		tabela.addContainerProperty("conta.contaPai", Conta.class,  null);
 		tabela.addContainerProperty("conta.clinicas", List.class,  null);
+		tabela.addContainerProperty("conta.dre", String.class,  null);
 
-		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.descricao","conta.totalizadora","conta.dre","conta.contaPai","conta.clinicas",});
+		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.descricao","conta.totalizadora","conta.resumoFinanceiro","conta.contaPai","conta.clinicas","conta.dre"});
 		
-		tabela.setColumnHeaders(new String[]{"conta","descricao","totalizadora","dre","contaPai","clinicas",});
+		tabela.setColumnHeaders(new String[]{"conta","descricao","totalizadora","R.F.","conta Pai","clinicas","dre"});
 		
 		tabela.addGeneratedColumn("conta.totalizadora", new SimNaoColumnGenerator());
 		
@@ -229,9 +280,11 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	private void addListener(){
 		btAdd.addListener(this);
 		btRem.addListener(this);
+		btFiltro.addListener(this);
 		
 		tabela.addListener(new Table.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("serial")
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				bean = (Conta)event.getProperty().getValue();	
@@ -263,9 +316,10 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("conta.conta").setValue(c.getConta());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.descricao").setValue(c.getDescricao());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());} catch (Exception e) {}
-			try {itemBean.getItemProperty("conta.dre").setValue(c.getDre());} catch (Exception e) {}
+			try {itemBean.getItemProperty("conta.resumoFinanceiro").setValue(c.getResumoFinanceiro());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.contaPai").setValue(c.getContaPai());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.ativo").setValue(c.getAtivo());} catch (Exception e) {}
+			try {itemBean.getItemProperty("conta.dre").setValue(c.getDre().getDescricao());} catch (Exception e) {}
 			
 		 	List<Clinica> c2 = clinicaBC.findByConta(c);
 			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
@@ -288,6 +342,9 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
 			bean = new Conta();
 		}
+		if (event.getButton()==btFiltro){
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -298,9 +355,10 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		try {} catch (Exception e) {}
 		try {bean.setConta((String)conta.getValue());} catch (Exception e) {}
 		try {bean.setContaPai((Conta)contaPai.getValue());} catch (Exception e) {}
+		try {bean.setDre((EnumDre)dre.getValue());} catch (Exception e) {}
 		try {bean.setDescricao((String)descricao.getValue());} catch (Exception e) {}
 		try {bean.setTotalizadora((Boolean)totalizadora.getValue());} catch (Exception e) {}
-		try {bean.setDre((Boolean)dre.getValue());} catch (Exception e) {}
+		try {bean.setResumoFinanceiro((Boolean)resumoFinanceiro.getValue());} catch (Exception e) {}
 		try {bean.setClinicas(new ArrayList<Clinica>((Collection<? extends Clinica>) clinicas.getValue()));} catch (Exception e) {bean.setClinicas(null);}
 		
 		return bean;
@@ -312,8 +370,9 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 			conta.setValue(bean.getConta());
 			descricao.setValue(bean.getDescricao());
 			totalizadora.setValue(bean.getTotalizadora());
-			dre.setValue(bean.getDre());
+			resumoFinanceiro.setValue(bean.getResumoFinanceiro());
 			contaPai.setValue(bean.getContaPai());
+			dre.setValue(bean.getDre());
 
 		 	List<Clinica> c2 = clinicaBC.findByConta(bean);
 //			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
@@ -325,9 +384,16 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 		contaPai.setContainerDataSource(CollectionContainer.fromBeans(list));
 		contaPai.setFilteringMode(Filtering.FILTERINGMODE_CONTAINS);
 	}
-
 	public ComboBox getContaPai() {
 		return contaPai;
+	}
+
+	public void setListaDre(List<EnumDre> list) {
+		dre.setContainerDataSource(CollectionContainer.fromBeans(list));
+		dre.setFilteringMode(Filtering.FILTERINGMODE_CONTAINS);
+	}
+	public ComboBox getDre() {
+		return dre;
 	}
 	
 	public void setListaClinicas(List<Clinica> list) {

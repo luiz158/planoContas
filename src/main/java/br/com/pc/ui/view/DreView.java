@@ -20,9 +20,11 @@ import org.vaadin.data.collectioncontainer.CollectionContainer;
 import br.com.pc.business.FluxoBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
+import br.com.pc.domain.configuracao.EnumDre;
 import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
+import br.com.pc.ui.bean.Dre;
 import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.ui.report.ResumoFinanceiroBean;
 import br.com.pc.ui.report.ResumoFinanceiroReport;
@@ -49,7 +51,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 
-public class ResumoFinanceiroView extends BaseVaadinView implements Button.ClickListener {
+public class DreView extends BaseVaadinView implements Button.ClickListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -125,7 +127,6 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 		addListener();
 
 		addComponent(montaFiltro());
-//		addComponent(montaPainel());
 		addComponent(tabela);
 		
 	}
@@ -157,51 +158,9 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 		
 		return dados;
 	}
-//	private Component montaPainel(){
-//		Panel dados = new Panel();
-//		dados.setCaption("DADOS");
-//		HorizontalLayout hl = new HorizontalLayout();
-//		HorizontalLayout hl2 = new HorizontalLayout();
-////		hl.setCaption("DADOS");
-////		hl.setMargin(true);
-//		hl.setSpacing(true);
-//		
-////		dados.setContent(hl);
-//
-//		hl.addComponent(clinica);
-////		hl.addComponent(dtInicio);
-////		hl.addComponent(dtFim);
-//		hl.addComponent(valor);
-//		hl.addComponent(registro);
-//
-//		hl.addComponent(btAdd);
-//		hl.addComponent(btSalvar);
-//		hl.addComponent(btExcel);
-//		hl.addComponent(btDre);
-//		
-////		hl.addComponent(btRem);
-//		dados.addComponent(hl);
-////		dados.addComponent(tabela);
-//		hl2.addComponent(dados);
-//
-//		hl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
-//		hl.setComponentAlignment(btSalvar, Alignment.BOTTOM_LEFT);
-//		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
-//		hl.setComponentAlignment(btDre, Alignment.BOTTOM_LEFT);
-//		
-////		hl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
-//		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
-//		btSalvar.setIcon(new ThemeResource("icons/16/save_16.png"));
-//		btSalvar.setEnabled(false);
-//		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
-//		btDre.setIcon(new ThemeResource("icons/16/pdf_16.png"));
-//		dtInicio.setData(new Date());
-//		dtFim.setData(new Date());
-//		
-//		return dados;
-//		
-//	}
+
 	
+	@SuppressWarnings("serial")
 	private void montaTabela(){
 		tabela = new TreeTable(){
 			private static final long serialVersionUID = 1L;
@@ -245,16 +204,15 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 //		tabela.setColumnCollapsingAllowed(true);
 		tabela.setWidth("100%");
 
-		tabela.addContainerProperty("conta.conta", String.class,  null);
-		tabela.addContainerProperty("conta.nome", String.class,  null);
+		tabela.addContainerProperty("conta", String.class,  null);
 		
-		tabela.addContainerProperty("total", BigDecimal.class,  null);
-		tabela.addContainerProperty("conta.totalizadora", Boolean.class,  null);
+		tabela.addContainerProperty("valor", BigDecimal.class,  null);
+		tabela.addContainerProperty("tipo", EnumDre.class,  null);
 		
 
-		tabela.setVisibleColumns(new Object[]{"conta.conta","conta.nome","total"});
+		tabela.setVisibleColumns(new Object[]{"conta","valor","tipo"});
 		
-		tabela.setColumnHeaders(new String[]{"conta","descricao","total"});
+		tabela.setColumnHeaders(new String[]{"conta","valor"});
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override
@@ -272,9 +230,7 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 				}
 				if (propertyId == null) { //para linha inteira
 					Item row = tabela.getItem(itemId);
-					if (row!=null && row.getItemProperty("conta.totalizadora")!=null && 
-							row.getItemProperty("conta.totalizadora").getValue()!=null &&
-							(Boolean)row.getItemProperty("conta.totalizadora").getValue()) {
+					if (row!=null && row.getItemProperty("conta.dre")!=null) {
 						return "bold";
 					}
 				}
@@ -295,122 +251,14 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 		valor.setValue(df.format(new BigDecimal("0.0")));
 	}
 	
-//	public void setListFluxo(List<Fluxo> lista){
-//		for (Fluxo f : lista) {
-//			Item itemBean;
-//			itemBean = tabela.getItem(f.getConta());
-//			if (itemBean!=null){
-//				String dia=String.format("%td", f.getData());
-//				
-//				BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
-//				BigDecimal total = (BigDecimal)itemBean.getItemProperty("total").getValue();
-//				if (total == null){total = new BigDecimal("0.0");}
-//				if (bg!=null){
-//	//				bg = bg.add(f.getValor());
-//					itemBean.getItemProperty("d"+dia).setValue(f.getValor().add(bg));
-//					total = total.add(f.getValor());
-//				}else{
-////					if (total == null){total = new BigDecimal("0.0");}
-//					itemBean.getItemProperty("d"+dia).setValue(f.getValor());
-//					total = total.add(f.getValor());
-//				}
-//				itemBean.getItemProperty("total").setValue(total);
-//				Conta conta = new ContaBC().load(f.getConta().getId());
-//				if(conta.getContaPai()!=null){
-//					totalizadora(conta.getContaPai(),dia,f.getValor());
-//				}
-//			}
-//		}
-//	}
-//
-//	private void totalizadora(Conta contaPai, String dia, BigDecimal v){
-//		Item itemBean;
-//		itemBean = tabela.getItem(contaPai);
-//		
-//		BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
-//		BigDecimal total = (BigDecimal)itemBean.getItemProperty("total").getValue();
-//		BigDecimal valor2 = new BigDecimal("0");
-//		if (total == null){total = new BigDecimal("0.0");}
-//		else{
-////			total = total.add(total);
-//		}
-//		if (bg!=null){
-//			valor2=valor2.add(bg);
-////			total=total.add(bg);
-//		}
-//		valor2=valor2.add(v);
-//		total=total.add(v);
-//		itemBean.getItemProperty("d"+dia).setValue(valor2);
-//		itemBean.getItemProperty("total").setValue(total);
-//		Conta conta = new ContaBC().load(contaPai.getId());
-//		if(conta.getContaPai()!=null){
-//			totalizadora(conta.getContaPai(),dia,v);
-//		}
-//	}
-//	public void setListFluxo2(List<Fluxo> lista){
-//		for (Fluxo f : lista) {
-//			Item itemBean;
-//			itemBean = tabela.getItem(f.getConta());
-//			
-//			String dia=String.format("%td", f.getData());
-//			
-//			BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
-//			BigDecimal valor = new BigDecimal("0");
-//			if (bg!=null){
-//				valor=valor.add(bg);
-//			}
-//			if (f.getValor()!=null){
-//				valor=valor.add(f.getValor());
-//			}
-//			itemBean.getItemProperty("d"+dia).setValue(valor);
-//			Conta conta = new ContaBC().load(f.getConta().getId());
-//			if(conta.getContaPai()!=null){
-//				totalizadora(conta.getContaPai(),dia,f.getValor());
-//			}
-//			
-//		}
-//	}
-//	private void totalizadora2(Conta contaPai, String dia, BigDecimal valor){
-//		Item itemBean;
-//		itemBean = tabela.getItem(contaPai);
-//		
-//		BigDecimal bg = (BigDecimal)itemBean.getItemProperty("d"+dia).getValue();
-//		BigDecimal valor2 = new BigDecimal("0");
-//		
-//		if (bg!=null){
-//			valor2=valor2.add(bg);
-//		}
-//		if (valor!=null){
-//			itemBean.getItemProperty("d"+dia).setValue(valor2.add(valor));
-//		}else{
-//			itemBean.getItemProperty("d"+dia).setValue(valor2);
-//		}
-//		
-//		Conta conta = new ContaBC().load(contaPai.getId());
-//		if(conta.getContaPai()!=null){
-//			totalizadora(conta.getContaPai(),dia,valor2);
-//		}
-//	}
-//	
-	public void setListConta(List<Conta> lista){
+	public void setList(List<Dre> lista){
 		tabela.removeAllItems();
-		for (Conta c : lista) {
-			Item itemBean = tabela.addItem(c);
+		for (Dre dre : lista) {
+			Item itemBean = tabela.addItem(dre);
 			if (itemBean!=null){
-				itemBean.getItemProperty("conta.conta").setValue(c.getConta());
-				itemBean.getItemProperty("conta.nome").setValue(c.getDescricao());
-				itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());
-				itemBean.getItemProperty("total").setValue(fluxoBC.somaTotal2(getFiltro1(), true, c));
-				if (c.getContaPai()!=null){
-					tabela.setParent(c, c.getContaPai());
-				}
-				if (!c.getTotalizadora()){
-					tabela.setChildrenAllowed(c, false);
-				}else{
-					if (c.getResumoFinanceiro()){
-						tabela.setCollapsed(c.getContaPai(), false);
-					}
-				}
+				itemBean.getItemProperty("conta").setValue(dre.getConta());
+				itemBean.getItemProperty("valor").setValue(dre.getValor());
+				itemBean.getItemProperty("tipo").setValue(dre.getTipo());
 			}
 			
 		}
@@ -454,9 +302,6 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
 			contaSelected = new Conta();
 		}
-//		if (event.getButton()==btRem){
-//			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
-//		}
 		if (event.getButton()==btFiltro){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessFilter>() {});
 		}
@@ -469,11 +314,6 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 		}
 		if (event.getButton()==btResumoFinanceiro){
 			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),tt);
-//			try {
-//				getWindow().open(new GeraXls("fluxo.xls",tabela,getApplication()).getStream());
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
 		}
 	}
 
@@ -502,7 +342,6 @@ public class ResumoFinanceiroView extends BaseVaadinView implements Button.Click
 		if (f.getClinicas()==null || f.getClinicas().size()==0){
 			f.setClinicas((List<Clinica>)fClinica.getItemIds());
 		}
-		// TODO Auto-generated method stub
 		return f;
 	}
 	

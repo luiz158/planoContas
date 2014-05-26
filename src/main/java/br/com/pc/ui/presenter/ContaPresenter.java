@@ -4,10 +4,16 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.vaadin.data.collectioncontainer.CollectionContainer;
+
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
+import br.com.pc.domain.Clinica;
+import br.com.pc.domain.Conta;
+import br.com.pc.domain.configuracao.EnumDre;
+import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.view.ContaView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -37,7 +43,7 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		}else{
 			contaBC.update(view.getBean());
-			view.setList(contaBC.findAll(credenciais),true,null);
+			view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
 			view.getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
 		}
 		if (view.getBean().getTotalizadora()){
@@ -63,12 +69,41 @@ public class ContaPresenter extends AbstractPresenter<ContaView> {
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView ContaView view) {
 		view.setListaContaPai(contaBC.findByTotalizadora(true));
+		view.setListaDre(EnumDre.asList());
 		view.setListaClinicas(clinicaBC.findAll(credenciais));
 		
-		view.setList(contaBC.findAll(credenciais),true,null);
+		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
+		
+		view.fClinica.setContainerDataSource(CollectionContainer.fromBeans(clinicaBC.findAll(credenciais)));
+		view.fContaPai.setContainerDataSource(CollectionContainer.fromBeans(contaBC.findByTotalizadora(true)));
+		view.fDre.setContainerDataSource(CollectionContainer.fromBeans(EnumDre.asList()));
+	}
+
+	public void processFilter(@Observes @ProcessFilter ContaView view) {
+		
+		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
 	}
 
 	public void processFormClear(@Observes @ProcessClear ContaView view) {
 
+	}
+	
+	private Conta getFiltro(){
+		Conta filtro = new Conta();
+		Clinica c = (Clinica) getView().fClinica.getValue();
+		if (c!=null){
+			filtro.addClinica(c);
+		}else{
+			filtro.setClinicas(null);
+		}
+		
+		filtro.setConta((String) getView().fConta.getValue());
+		filtro.setDescricao((String) getView().fDescricao.getValue());
+		filtro.setTotalizadora((Boolean) getView().fTotalizadora.getValue());
+		filtro.setResumoFinanceiro((Boolean) getView().fResumoFinanceiro.getValue());
+		filtro.setContaPai((Conta) getView().fContaPai.getValue());
+		filtro.setDre((EnumDre) getView().fDre.getValue());
+		
+		return filtro;
 	}
 }
