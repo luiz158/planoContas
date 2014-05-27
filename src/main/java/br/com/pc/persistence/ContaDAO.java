@@ -126,7 +126,7 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 	public List<Conta> findByFiltro2(Conta filtro, Credenciais credenciais) {
 		StringBuilder queryString = new StringBuilder();
 		
-		queryString.append(" select b ");
+		queryString.append(" select distinct(b) ");
 		queryString.append(" from Conta b ");
 		queryString.append(" left outer join b.clinicas c ");
 		queryString.append(" where b.ativo = true and ");

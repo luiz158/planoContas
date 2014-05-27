@@ -81,7 +81,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 	@Override
 	public void initializeComponents() {
 		// TODO Auto-generated method stub
-		setCaption(EnumMenu.PC_RESUMO_FINANCEIRO.getNome());
+		setCaption(EnumMenu.PC_DRE.getNome());
 		setSpacing(true);
 		setMargin(true);
 

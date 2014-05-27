@@ -60,7 +60,7 @@ public class Conta implements Serializable{
 	@Column(name="DESCRICAO")
 	private String descricao;
 
-	@Column(name="CONTA", unique=false)
+	@Column(name="CONTA")
 	private String conta;
 
 	@Column(name="TOTALIZADORA", nullable = false,  columnDefinition = "bit default 0")
