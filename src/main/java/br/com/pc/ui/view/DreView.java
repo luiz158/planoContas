@@ -69,7 +69,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 	
 	private Conta contaSelected;
 	
-	private TreeTable tabela;
+	private Table tabela;
 	
 	private Button btSalvar;
 	private Button btAdd;
@@ -162,7 +162,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 	
 	@SuppressWarnings("serial")
 	private void montaTabela(){
-		tabela = new TreeTable(){
+		tabela = new Table(){
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -210,9 +210,9 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 		tabela.addContainerProperty("tipo", EnumDre.class,  null);
 		
 
-		tabela.setVisibleColumns(new Object[]{"conta","valor","tipo"});
+		tabela.setVisibleColumns(new Object[]{"conta","valor"});
 		
-		tabela.setColumnHeaders(new String[]{"conta","valor","tipo"});
+		tabela.setColumnHeaders(new String[]{"conta","valor"});
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override
@@ -230,7 +230,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 				}
 				if (propertyId == null) { //para linha inteira
 					Item row = tabela.getItem(itemId);
-					if (row!=null && row.getItemProperty("conta.dre")!=null) {
+					if (row!=null && row.getItemProperty("tipo")!=null && row.getItemProperty("tipo").getValue()!=null) {
 						return "bold";
 					}
 				}
@@ -264,32 +264,6 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 		}
 	}
 	Double tt = 0.0;
-	public List<ResumoFinanceiroBean> somaTotal(){
-		tt = 0.0;
-		Integer conta = 0;
-		List<ResumoFinanceiroBean> listaResumoFinanceiro = new ArrayList<ResumoFinanceiroBean>();
-		Collection<?> c = (Collection<?>) tabela.getItemIds();
-		for (Object object : c) {
-			ResumoFinanceiroBean bean;
-			Item item = tabela.getItem(object);
-			bean = new ResumoFinanceiroBean((String)item.getItemProperty("conta.conta").getValue(),(String)item.getItemProperty("conta.nome").getValue());
-			bean.setValor((BigDecimal)item.getItemProperty("total").getValue());
-			bean.setTotalizadora((Boolean)item.getItemProperty("conta.totalizadora").getValue());
-			
-			if (bean.getContaNumero()!=null){
-				
-				try {
-					if (conta < Integer.valueOf(bean.getContaNumero().split("\\.")[0].toString())){
-						conta = Integer.valueOf(bean.getContaNumero().split("\\.")[0].toString());
-						tt += bean.getValor().doubleValue();
-					}
-				} catch (Exception e) {e.printStackTrace();}
-			}
-
-			listaResumoFinanceiro.add(bean);
-		}
-		return listaResumoFinanceiro;
-	}
 	
 	@SuppressWarnings("serial")
 	@Override
@@ -313,7 +287,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		if (event.getButton()==btResumoFinanceiro){
-			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),tt);
+//			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),tt);
 		}
 	}
 

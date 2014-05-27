@@ -24,8 +24,8 @@ public class DreBC implements Serializable {
 	
 	public List<Dre> findAll(Filtro1 filtro) {
 		List<Dre> lista = new ArrayList<Dre>();
+		BigDecimal valor = new BigDecimal(0.0);
 		for (EnumDre tipo : EnumDre.asList()) {
-			BigDecimal valor = new BigDecimal(0.0);
 			for (Conta conta : contaBC.findByDre(tipo)) {
 				Dre dre = new Dre();
 				dre.setConta(conta.getDescricao());
