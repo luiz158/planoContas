@@ -9,6 +9,7 @@ public class Dre {
 	private String conta;
 	private BigDecimal valor;
 	private EnumDre tipo;
+	private Integer tipo2;
 	
 	public String getConta() {
 		return conta;
@@ -28,4 +29,11 @@ public class Dre {
 	public void setTipo(EnumDre tipo) {
 		this.tipo = tipo;
 	}
+	public Integer getTipo2() {
+		return tipo2;
+	}
+	public void setTipo2(Integer tipo2) {
+		this.tipo2 = tipo2;
+	}
 }
+	

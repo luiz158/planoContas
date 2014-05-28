@@ -24,6 +24,7 @@ import br.com.pc.domain.configuracao.EnumDre;
 import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
+import br.com.pc.ui.annotation.ProcessImprimir;
 import br.com.pc.ui.bean.Dre;
 import br.com.pc.ui.bean.Filtro1;
 import br.com.pc.ui.report.ResumoFinanceiroBean;
@@ -74,7 +75,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 	private Button btSalvar;
 	private Button btAdd;
 	private Button btExcel;
-	private Button btResumoFinanceiro;
+	private Button btImprimir;
 	
 	DecimalFormat df = new DecimalFormat("#,##0.00");
 	
@@ -114,10 +115,10 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 		btAdd.setDescription("Adicionar novo registro");
 		btExcel = new Button();
 		btExcel.setDescription("Exportar para excel.");
-		btResumoFinanceiro = new Button();
-		btResumoFinanceiro.setDescription("Gera Resumo Financeiro.");
+		btImprimir = new Button();
+		btImprimir.setDescription("Gera D.R.E.");
 		btExcel.setIcon(new ThemeResource("icons/16/excel_16.png"));
-		btResumoFinanceiro.setIcon(new ThemeResource("icons/16/print2_16.png"));
+		btImprimir.setIcon(new ThemeResource("icons/16/print2_16.png"));
 		
 		valor.setLocale(new Locale("pt","BR"));
 		valor.addStyleName("align-right");
@@ -147,11 +148,11 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 		hl.addComponent(vl1);
 		hl.addComponent(btFiltro);
 		hl.addComponent(btExcel);
-		hl.addComponent(btResumoFinanceiro);
+		hl.addComponent(btImprimir);
 
 		hl.setComponentAlignment(btFiltro, Alignment.BOTTOM_LEFT);
 		hl.setComponentAlignment(btExcel, Alignment.BOTTOM_LEFT);
-		hl.setComponentAlignment(btResumoFinanceiro, Alignment.BOTTOM_LEFT);
+		hl.setComponentAlignment(btImprimir, Alignment.BOTTOM_LEFT);
 
 		dados.addComponent(hl);
 		hl2.addComponent(dados);
@@ -244,7 +245,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 		btAdd.addListener(this);
 		btFiltro.addListener(this);
 		btExcel.addListener(this);
-		btResumoFinanceiro.addListener(this);
+		btImprimir.addListener(this);
 	}
 
 	public void limpar(){
@@ -286,8 +287,9 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 				e1.printStackTrace();
 			}
 		}
-		if (event.getButton()==btResumoFinanceiro){
-//			new ResumoFinanceiroReport().resumoFinanceiroPDF(somaTotal(),getFiltro1(),tt);
+		if (event.getButton()==btImprimir){
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessImprimir>() {});
+			
 		}
 	}
 

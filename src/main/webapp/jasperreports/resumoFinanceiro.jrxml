@@ -22,11 +22,12 @@
 	</parameter>
 	<parameter name="CLINICAS1" class="java.util.List" isForPrompting="false"/>
 	<parameter name="TOTAL" class="java.lang.Double" isForPrompting="false"/>
-	<field name="conta" class="java.lang.String"/>
+	<field name="contaNumero" class="java.lang.String"/>
+	<field name="contaDescricao" class="java.lang.String"/>
 	<field name="valor" class="java.math.BigDecimal"/>
-	<field name="tipo2" class="java.lang.Integer"/>
+	<field name="totalizadora" class="java.lang.Boolean"/>
 	<variable name="valor_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[]]></variableExpression>
+		<variableExpression><![CDATA[( $F{totalizadora} ? $F{valor} : new BigDecimal(0.0) )]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -38,7 +39,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[D. R. E.]]></text>
+				<text><![CDATA[RESUMO FINANCEIRO]]></text>
 			</staticText>
 			<textField pattern="&apos;Gerado:&apos; EEEEE dd MMMMM yyyy &apos;as&apos; HH:mm">
 				<reportElement x="370" y="0" width="185" height="20"/>
@@ -48,7 +49,7 @@
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="0" width="220" height="52"/>
+				<reportElement x="0" y="0" width="168" height="52"/>
 				<imageExpression class="java.lang.String"><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 			<textField pattern="&apos;De&apos; dd/MM/yyyy" isBlankWhenNull="true">
@@ -108,36 +109,45 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="10" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="20">
-			<printWhenExpression><![CDATA[($F{tipo2}<0?true:false)]]></printWhenExpression>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="79" y="0" width="305" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{conta}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="384" y="0" width="86" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{valor}]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="30">
-			<printWhenExpression><![CDATA[($F{tipo2}>=0?true:false)]]></printWhenExpression>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="79" y="0" width="305" height="20"/>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="style1" mode="Opaque" x="22" y="0" width="102" height="20" backcolor="#CCCCCC"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{conta}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="384" y="0" width="86" height="20"/>
+				<text><![CDATA[CONTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" mode="Opaque" x="124" y="0" width="246" height="20" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" mode="Opaque" x="370" y="0" width="145" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="22" y="6" width="102" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{contaNumero}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="124" y="6" width="246" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{contaDescricao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="370" y="6" width="145" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -149,6 +159,21 @@
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" mode="Opaque" x="370" y="5" width="146" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style1" mode="Opaque" x="22" y="5" width="348" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
 	</summary>
 </jasperReport>

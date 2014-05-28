@@ -11,7 +11,9 @@ import br.com.pc.business.DreBC;
 import br.com.pc.business.FluxoBC;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
+import br.com.pc.ui.annotation.ProcessImprimir;
 import br.com.pc.ui.annotation.ProcessRem;
+import br.com.pc.ui.report.ResumoFinanceiroReport;
 import br.com.pc.ui.view.DreView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -50,6 +52,10 @@ public class DrePresenter extends AbstractPresenter<DreView> {
 
 	public void processDelete(@Observes @ProcessDelete DreView view) {
 
+	}
+	
+	public void processImprimir(@Observes @ProcessImprimir DreView view) {
+		new ResumoFinanceiroReport().drePDF(dreBC.findAll(view.getFiltro1()),view.getFiltro1());
 	}
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView DreView view) {

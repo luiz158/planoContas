@@ -30,6 +30,7 @@ public class DreBC implements Serializable {
 				Dre dre = new Dre();
 				dre.setConta(conta.getDescricao());
 				dre.setTipo(null);
+				dre.setTipo2(-1);
 				dre.setValor(fluxoBC.somaTotal2(filtro, true, conta));
 				lista.add(dre);
 				valor = valor.add(dre.getValor());
@@ -37,6 +38,7 @@ public class DreBC implements Serializable {
 			Dre dre = new Dre();
 			dre.setConta(tipo.getDescricao());
 			dre.setTipo(tipo);
+			dre.setTipo2(tipo.ordinal());
 			dre.setValor(valor);
 			lista.add(dre);
 		}
