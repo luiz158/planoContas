@@ -31,7 +31,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 
 	@Inject	private FluxoPresenter fluxoPresenter;
 	@Inject	private Fluxo2Presenter fluxo2Presenter;
-	@Inject	private ContaPresenter contaPresenter;
+	@Inject	private Conta2Presenter contaPresenter;
 	@Inject	private ClinicaPresenter clinicaPresenter;
 	@Inject	private ReceitasPresenter receitasPresenter;
 	@Inject	private DespesasPresenter despesasPresenter;

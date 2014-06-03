@@ -60,7 +60,7 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 		return getDelegate().findByFiltro1(filtro1,soAtivos,soDre);
 	}
 	
-	private Integer getQtContaSemContaPai(){
+	public Integer getQtContaSemContaPai(){
 		return getDelegate().getQtContaSemContaPai();
 	}
 	public String geraNumeroConta(Conta conta){
@@ -142,4 +142,61 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 		return getDelegate().findByFiltro2(filtro, credenciais);
 	}
 	
+	public String geraConta(String contaPai, Integer size, Boolean totalizadora){
+		// 0.0.00.00.000
+		Integer tamanho=0;
+		try {
+			String subContas[] = contaPai.split("\\.");
+			tamanho = subContas.length;
+			if (contaPai==null||contaPai.length()==0){
+				tamanho=0;
+			}
+		} catch (NullPointerException e) {
+			tamanho=0;
+		}
+		switch (tamanho) {
+		case 0:
+			if (totalizadora){
+				return String.format("%01d", size+1);
+			}else{
+				return String.format("%01d.1.01.01.001", size+1);
+			}
+		case 1:
+			if (totalizadora){
+				return String.format("%s.%01d", contaPai, size+1);
+			}else{
+				return String.format("%s.%01d.01.01.001", contaPai,size+1);
+			}
+		case 2:
+			if (totalizadora){
+				return String.format("%s.%02d", contaPai, size+1);
+			}else{
+				return String.format("%s.%02d.01.001", contaPai,size+1);
+			}
+		case 3:
+			if (totalizadora){
+				return String.format("%s.%02d", contaPai, size+1);
+			}else{
+				return String.format("%s.%02d.001", contaPai,size+1);
+			}
+		case 4:
+			if (totalizadora){
+				return String.format("%s.%03d", contaPai, size+1);
+			}else{
+				return String.format("%s.%03d", contaPai,size+1);
+			}
+		case 5:
+			if (totalizadora){
+				return String.format("%s.%03d", contaPai, size+1);
+			}else{
+				return String.format("%s.%03d", contaPai,size+1);
+			}
+
+		default:
+			break;
+		}
+		
+		
+		return contaPai;
+	}
 }

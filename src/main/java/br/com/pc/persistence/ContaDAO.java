@@ -120,7 +120,7 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 //		for (Parameter<?> p : query.getParameters()) {
 //			if ("clinicas".equals(p.getName()))	{query.setParameter(p.getName(), filtro1.getClinicas());}
 //		}
-		return (Integer) query.getSingleResult();
+		return ((Long) query.getSingleResult()).intValue();
 	}
 
 	public List<Conta> findByFiltro2(Conta filtro, Credenciais credenciais) {
