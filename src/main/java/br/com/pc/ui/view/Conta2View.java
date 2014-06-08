@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
 import br.com.pc.business.ClinicaBC;
+import br.com.pc.business.ContaBC;
 import br.com.pc.domain.Clinica;
 import br.com.pc.domain.Conta;
 import br.com.pc.domain.configuracao.EnumDre;
@@ -66,7 +67,7 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 	
 	private Conta bean;
 	
-	private Table tabela;
+	public Table tabela;
 
 	private Button btSave;
 	private Button btAdd;
@@ -206,10 +207,10 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
-		btSave.setDescription("Salva registro.");
+		btSave.setDescription("Atualiza um registro selecionado.");
 		btAdd.setDescription("Adiciona um novo registro.");
-		btRem.setDescription("Exclui registro.");
-		btConta.setDescription("Gera numero da conta.");
+		btRem.setDescription("Exclui registro selecionado.");
+		btConta.setDescription("Gera número da conta.");
 		
 		gl.setComponentAlignment(totalizadora, Alignment.MIDDLE_LEFT);
 		gl.setComponentAlignment(resumoFinanceiro, Alignment.MIDDLE_LEFT);
@@ -337,6 +338,7 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 
 	public void setList(List<Conta> lista, Boolean removeAllItems, Conta b){
 		if (removeAllItems)	tabela.removeAllItems();
+		ContaBC contaBC = new ContaBC();
 		for (Conta c : lista) {
 			Item itemBean;
 			if (tabela.getItem(c)==null){
@@ -348,14 +350,16 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 			try {itemBean.getItemProperty("conta.descricao").setValue(c.getDescricao());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.totalizadora").setValue(c.getTotalizadora());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.resumoFinanceiro").setValue(c.getResumoFinanceiro());} catch (Exception e) {}
-			try {itemBean.getItemProperty("conta.contaPai").setValue(c.getContaPai());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.ativo").setValue(c.getAtivo());} catch (Exception e) {}
 			try {itemBean.getItemProperty("conta.dre").setValue(c.getDre().getDescricao());} catch (Exception e) {}
 			
 		 	List<Clinica> c2 = clinicaBC.findByConta(c);
 			try {itemBean.getItemProperty("conta.clinicas").setValue(c2);} catch (Exception e) {}
 //			try {itemBean.getItemProperty("conta.clinicas").setValue(c.getClinicas());} catch (Exception e) {}
-			
+			try {itemBean.getItemProperty("conta.contaPai").setValue(
+					(c.getContaPai()!=null?contaBC.load(c.getContaPai().getId()):null));
+					} catch (Exception e) {e.printStackTrace();}
+//			System.out.println("conta pai: "+(c.getContaPai()!=null?c.getContaPai().toString():""));
 		}
 		if (b!=null){
 			tabela.select(b);

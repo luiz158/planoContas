@@ -1,7 +1,5 @@
 package br.com.pc.ui.presenter;
 
-import java.util.ArrayList;
-
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -58,32 +56,14 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 			view.setListaContaPai(contaBC.findByTotalizadora(true));
 			view.getContaPai().setValue(view.getBean().getContaPai());
 		}
+		updateFields(view);
 	}
 
 	public void processAdd(@Observes @ProcessAdd Conta2View view) {
-		if (view.getBean().getId()==null){
-			contaBC.insert(view.getBean());
-//			view.setList(contaBC.findAll(credenciais),true,null);
-			getView().getWindow().showNotification("REGISTRO CRIADO COM SUCESSO!!!");
-		}else{
-			Conta c = new Conta();
-			Conta c2 = view.getBean();
-			try {c.setConta(c2.getConta());} catch (Exception e) {}
-			try {c.setContaPai(contaBC.load(c2.getContaPai().getId()));} catch (Exception e) {}
-			try {c.setDre(c2.getDre());} catch (Exception e) {}
-			try {c.setDescricao(c2.getDescricao());} catch (Exception e) {}
-			try {c.setTotalizadora(c2.getTotalizadora());} catch (Exception e) {}
-			try {c.setResumoFinanceiro(c2.getResumoFinanceiro());} catch (Exception e) {}
-			try {c.setClinicas(new ArrayList<Clinica>(c2.getClinicas()));} catch (Exception e) {c.setClinicas(null);}
-			contaBC.insert(c);
-			getView().getWindow().showNotification("REGISTRO CRIADO COM SUCESSO!!!");
-		}
-		
-		if (view.getBean().getTotalizadora()){
-			view.setListaContaPai(contaBC.findByTotalizadora(true));
-			view.getContaPai().setValue(view.getBean().getContaPai());
-		}
-		view.setList(contaBC.findAll(credenciais),true,null);
+		contaBC.insert(view.getBean());
+		getView().getWindow().showNotification("REGISTRO CRIADO COM SUCESSO!!!");
+		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
+		updateFields(view);
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection Conta2View view) {
@@ -97,15 +77,20 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 		} catch (Exception e) {
 			getView().getWindow().showNotification("ERRO AO EXCLUIR!!", "<br>Desculpe! Por alguma razão não consegui excluir essa conta ", Notification.TYPE_ERROR_MESSAGE);
 		}
+		updateFields(view);
 		getView().setList(contaBC.findAll(credenciais),true,null);
 	}
 
 	public void beforeNavigate(@Observes @BeforeNavigateToView Conta2View view) {
+		updateFields(view);
+		
+		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
+	}
+
+	public void updateFields(Conta2View view) {
 		view.setListaContaPai(contaBC.findByTotalizadora(true));
 		view.setListaDre(EnumDre.asList());
 		view.setListaClinicas(clinicaBC.findAll(credenciais));
-		
-		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
 		
 		view.fClinica.setContainerDataSource(CollectionContainer.fromBeans(clinicaBC.findAll(credenciais)));
 		view.fContaPai.setContainerDataSource(CollectionContainer.fromBeans(contaBC.findByTotalizadora(true)));
@@ -113,7 +98,6 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 	}
 
 	public void processFilter(@Observes @ProcessFilter Conta2View view) {
-		
 		view.setList(contaBC.findByFiltro2(getFiltro()),true,null);
 	}
 
@@ -130,7 +114,8 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 		if (view.contaPai.getValue()!=null){
 			contaPai=((Conta)view.contaPai.getValue()).getConta();
 			if (((Conta) view.contaPai.getValue()).getContasFilha()!=null){
-				size = contaBC.load(((Conta)view.contaPai.getValue()).getId()).getContasFilha().size();
+//				size = contaBC.load(((Conta)view.contaPai.getValue()).getId()).getContasFilha().size();
+				size = contaBC.getQtContasFilhas((Conta)view.contaPai.getValue());
 			}
 		}else{
 			size = contaBC.getQtContaSemContaPai();
@@ -138,7 +123,7 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 		final String conta = contaBC.geraConta(contaPai, size, (Boolean)view.totalizadora.getValue());
 		
 		MessageBox mbBox = new MessageBox(view.getWindow(),"Númer de Conta",Icon.QUESTION,
-				"Deseja substituir o numero da conta atual de "+view.conta.getValue()+" por "+conta+" ?",
+				"Deseja substituir o numero da conta atual de "+(String)view.conta.getValue()+" por "+conta+" ?",
 				new ButtonConfig(ButtonType.YES,"SIM"),new ButtonConfig(ButtonType.NO,"NÃO"));
 		mbBox.show(true,new EventListener(){
 			@Override

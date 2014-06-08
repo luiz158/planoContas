@@ -21,9 +21,9 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	
 	@Override
 	public void insert(Conta bean) {
-		if (bean.getConta()==null || bean.getConta().length()==0){
-			bean.setConta(geraNumeroConta(bean));
-		}
+//		if (bean.getConta()==null || bean.getConta().length()==0){
+//			bean.setConta(geraNumeroConta(bean));
+//		}
 		super.insert(bean);
 	}
 	
@@ -198,5 +198,9 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 		
 		
 		return contaPai;
+	}
+
+	public Integer getQtContasFilhas(Conta contaPai) {
+		return getDelegate().getQtContasFilhas(contaPai);
 	}
 }

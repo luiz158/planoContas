@@ -92,7 +92,7 @@ public class MainView extends StructuredView {
 		gridLayoutcorpo.addComponent(loginForm, 2, 0);
 		getContent().addComponent(gridLayoutcorpo);
 		getContent().setSizeFull();
-		getFooter().addComponent(new Label(bundle.getString("app.footer") + nomeSrv+" v 0.0.6"));
+		getFooter().addComponent(new Label(bundle.getString("app.footer") + nomeSrv+""));
 		loginForm.addListener(new LoginForm.LoginListener() {
 
 			private static final long serialVersionUID = 1L;

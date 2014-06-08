@@ -43,14 +43,14 @@ public enum EnumMenu {
 		lista.add(PC_RESUMO_FINANCEIRO);
 		lista.add(PC_DRE);
 		lista.add(PC_CADASTROS);
-			lista.add(PC_CONTA);
 			lista.add(PC_CLINICA);
+			lista.add(PC_CONTA);
 
 //---GERENCIA
 		lista.add(GERENCIA);
-			lista.add(PERMISSOES);
-			lista.add(CRUD_GRUPO);
 			lista.add(CRUD_USUARIO);
+			lista.add(CRUD_GRUPO);
+			lista.add(PERMISSOES);
 
 //---CRUDS
 		

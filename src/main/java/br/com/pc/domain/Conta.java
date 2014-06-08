@@ -69,7 +69,7 @@ public class Conta implements Serializable{
 	@Column(name="RESUMO_FINANCEIRO", nullable = false,  columnDefinition = "bit default 0")
 	private Boolean resumoFinanceiro=false;
 	
-	@ManyToOne(cascade={CascadeType.MERGE},optional = true, targetEntity = Conta.class)
+	@ManyToOne(cascade={CascadeType.MERGE},optional = true, targetEntity = Conta.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "CONTA_ID")
 	private Conta contaPai;
 	

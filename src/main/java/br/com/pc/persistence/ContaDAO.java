@@ -114,7 +114,7 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		StringBuilder queryString = new StringBuilder();
 		queryString.append(" select count(b.id) " +
 				" from Conta b " +
-				" where " +
+				" where b.ativo = true and " +
 				" b.contaPai is null ");
 		Query query = createQuery(queryString.toString());
 //		for (Parameter<?> p : query.getParameters()) {
@@ -169,6 +169,20 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 		}
 		
 		return query.getResultList();
+	}
+
+	public Integer getQtContasFilhas(Conta contaPai) {
+		StringBuilder queryString = new StringBuilder();
+		queryString.append(" select count(b.id) " +
+				" from Conta b " +
+				" where b.ativo = true and " +
+				" b.contaPai = :contaPai ");
+		
+		Query query = createQuery(queryString.toString());
+		
+		query.setParameter("contaPai", contaPai);
+	
+		return ((Long) query.getSingleResult()).intValue();
 	}
 
 }
