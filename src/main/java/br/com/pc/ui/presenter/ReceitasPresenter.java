@@ -14,6 +14,7 @@ import br.com.pc.domain.Fluxo;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
+import br.com.pc.ui.view.FluxoView;
 import br.com.pc.ui.view.ReceitasView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -41,12 +42,13 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 					view.getBean().getValor()!=null){
 			
 				if (view.getBean().getId()==null){
-					fluxoBC.insert(view.getBean());
+					getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//					fluxoBC.insert(view.getBean());
 				}else{
 					fluxoBC.update(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 				}
 				getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"1"));
-				getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 			}else{
 				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
 			}
@@ -54,6 +56,28 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+	public void processAdd(@Observes @ProcessAdd ReceitasView view) {
+		try {
+			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
+					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
+					view.getBean().getValor()!=null){
+			
+				if (view.getBean().getId()==null){
+					fluxoBC.insert(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+				}else{
+//					fluxoBC.update(view.getBean());
+				}
+				getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"1"));
+			}else{
+				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
+			}
+		} catch (Exception e) {
+			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection Fluxo bean) {
@@ -82,10 +106,6 @@ public class ReceitasPresenter extends AbstractPresenter<ReceitasView> {
 
 	public void processFormClear(@Observes @ProcessClear ReceitasView view) {
 
-	}
-
-	public void processAdd(@Observes @ProcessAdd ReceitasView view) {
-		
 	}
 
 	public void processRem(@Observes @ProcessRem ReceitasView view) {

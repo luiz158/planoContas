@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import br.com.pc.business.configuracao.GrupoBC;
 import br.com.pc.business.configuracao.PermissaoBC;
 import br.com.pc.domain.configuracao.Permissao;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.view.configuracao.Permissao2View;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -16,23 +17,31 @@ import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractPresenter;
 
+import com.vaadin.ui.Window.Notification;
+
 @ViewController
 @SessionScoped
 public class Permissao2Presenter extends AbstractPresenter<Permissao2View> {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private GrupoBC grupoBC;
-	@Inject
-	private PermissaoBC permissaoBC;
+	@Inject	private GrupoBC grupoBC;
+	@Inject	private PermissaoBC permissaoBC;
 	
 	public void processSave(@Observes @ProcessSave Permissao permissao) {
 		if (permissao.getId() != null) {
 			permissaoBC.update(permissao);
+			getView().getWindow().showNotification("REGISTRO SALVO COM SUCESSO!!!");
 		} else {
-			permissaoBC.insert(permissao);
+			getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//			permissaoBC.insert(permissao);
 		}
+		getView().setList(permissaoBC.findPermissoes());
+		getView().limpar();
+	}
+	public void processAdd(@Observes @ProcessAdd Permissao permissao) {
+		permissaoBC.insert(permissao);
+		getView().getWindow().showNotification("REGISTRO CRIADO COM SUCESSO!!!");
 		getView().setList(permissaoBC.findPermissoes());
 		getView().limpar();
 	}

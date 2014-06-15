@@ -40,12 +40,35 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 					view.getBean().getValor()!=null){
 			
 				if (view.getBean().getId()==null){
-					fluxoBC.insert(view.getBean());
+					getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//					fluxoBC.insert(view.getBean());
 				}else{
 					fluxoBC.update(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 				}
 				getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
-				getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+			}else{
+				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
+			}
+		} catch (Exception e) {
+			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		
+	}
+	public void processAdd(@Observes @ProcessAdd FluxoView view) {
+		try {
+			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
+					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
+					view.getBean().getValor()!=null){
+			
+				if (view.getBean().getId()==null){
+					fluxoBC.insert(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+				}else{
+//					fluxoBC.update(view.getBean());
+				}
+				getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
 			}else{
 				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
 			}
@@ -81,10 +104,6 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 	}
 
 	public void processFormClear(@Observes @ProcessClear FluxoView view) {
-
-	}
-
-	public void processAdd(@Observes @ProcessAdd FluxoView view) {
 
 	}
 

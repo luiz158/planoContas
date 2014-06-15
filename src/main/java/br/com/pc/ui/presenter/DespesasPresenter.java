@@ -13,6 +13,7 @@ import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
 import br.com.pc.ui.view.DespesasView;
+import br.com.pc.ui.view.FluxoView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -36,22 +37,18 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 	
 	public void processSave(@Observes @ProcessSave DespesasView view) {
 		try {
-			Fluxo bean = view.getBean();
-			if(bean!=null && bean.getClinica()!=null &&
-					bean.getConta()!=null && bean.getData()!=null &&
-					bean.getValor()!=null){
-				if (bean.getValor().signum()>0){
-					try {
-						bean.setValor(bean.getValor().negate());
-					} catch (Exception e) {}
-				}
-				if (bean.getId()==null){
-					fluxoBC.insert(bean);
+			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
+					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
+					view.getBean().getValor()!=null){
+			
+				if (view.getBean().getId()==null){
+					getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//					fluxoBC.insert(view.getBean());
 				}else{
-					fluxoBC.update(bean);
+					fluxoBC.update(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 				}
 				getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"2"));
-				getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 			}else{
 				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
 			}
@@ -59,6 +56,28 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+	public void processAdd(@Observes @ProcessAdd DespesasView view) {
+		try {
+			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
+					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
+					view.getBean().getValor()!=null){
+			
+				if (view.getBean().getId()==null){
+					fluxoBC.insert(view.getBean());
+					getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+				}else{
+//					fluxoBC.update(view.getBean());
+				}
+				getView().setList(fluxoBC.findByFiltro1Conta(getView().getFiltro1(),false,"2"));
+			}else{
+				getView().getWindow().showNotification("PREÊNCHA OS CAMPOS CORRETAMENTE!!!",Notification.TYPE_WARNING_MESSAGE);
+			}
+		} catch (Exception e) {
+			getView().getWindow().showNotification("DESCULPE! OCORREU ALGUMA FALHA AO SALVAR!",Notification.TYPE_ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection DespesasView view) {
@@ -86,10 +105,6 @@ public class DespesasPresenter extends AbstractPresenter<DespesasView> {
 	}
 
 	public void processFormClear(@Observes @ProcessClear DespesasView view) {
-
-	}
-
-	public void processAdd(@Observes @ProcessAdd DespesasView view) {
 
 	}
 

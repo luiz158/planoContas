@@ -1,6 +1,5 @@
 package br.com.pc.ui.view.configuracao;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,12 +16,12 @@ import br.com.pc.business.configuracao.GrupoBC;
 import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.Grupo;
 import br.com.pc.domain.configuracao.Usuario;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
 import br.gov.frameworkdemoiselle.template.BaseVaadinView;
-import br.gov.frameworkdemoiselle.util.FieldFactory;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -54,6 +53,7 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 	private Panel dados;
 
 	private Button btAdd;
+	private Button btSave;
 	private Button btRem;
 	
 	private Table tabela;
@@ -69,12 +69,13 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 		senha = FieldFactoryUtil.createPasswordField("SENHA");
 
 		btAdd = new Button();
+		btSave = new Button();
 		btRem = new Button();
 		
 		login.setImmediate(true);
 		senha.setImmediate(true);
 		grupos.setImmediate(true);
-		
+
 		montaPainel();
 		montaTabela();
 		addListener();
@@ -106,15 +107,18 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 		vl.addComponent(senha);
 		hl.addComponent(grupos);
 		hl.addComponent(vl);
-		
+
 		hl2.addComponent(btAdd);
+		hl2.addComponent(btSave);
 		hl2.addComponent(btRem);
-		btAdd.setIcon(new ThemeResource("icons/16/save_16.png"));
+		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
-		btAdd.setDescription("Salva registro.");
+		btSave.setDescription("Salva registro.");
 		btRem.setDescription("Exclui registro.");
+		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
+		btAdd.setDescription("Adiciona um novo registro.");
 		
-		hl2.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
+		hl2.setComponentAlignment(btSave, Alignment.BOTTOM_LEFT);
 		hl2.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 
 		vl.addComponent(hl2);
@@ -143,10 +147,12 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 	}
 	private void addListener(){
 		btAdd.addListener(this);
+		btSave.addListener(this);
 		btRem.addListener(this);
 		
 		tabela.addListener(new Table.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("serial")
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 //				setBean((Usuario)event.getProperty().getValue());	
@@ -183,14 +189,20 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 		}
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	public void buttonClick(ClickEvent event) {
-		if (event.getButton()==btAdd){
+		if (event.getButton()==btSave){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
-			bean = new Usuario();
+//			bean = new Usuario();
 		}
 		if (event.getButton()==btRem){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
+		}
+		if (event.getButton()==btAdd){
+			bean = new Usuario();
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
+			bean = new Usuario();
 		}
 	}
 
@@ -198,6 +210,7 @@ public class Usuario2View extends BaseVaadinView implements Button.ClickListener
 	public Usuario getSelected(){
 		return bean;
 	}
+	@SuppressWarnings("unchecked")
 	public Usuario getBean() {
 		if (bean==null || bean.getId()==null){
 			bean = new Usuario();

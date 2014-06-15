@@ -17,6 +17,7 @@ import br.com.pc.domain.Clinica;
 import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.Grupo;
 import br.com.pc.domain.configuracao.Usuario;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
 import br.gov.frameworkdemoiselle.event.ProcessItemSelection;
@@ -54,6 +55,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	private Panel dados;
 
 	private Button btAdd;
+	private Button btSave;
 	private Button btRem;
 	
 	private Table tabela;
@@ -73,11 +75,14 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 //		login = FieldFactoryUtil.createTextField("LOGIN");
 //		senha = FieldFactoryUtil.createTextField("SENHA");
 		btAdd = new Button();
+		btSave = new Button();
 		btRem = new Button();
-		btAdd.setIcon(new ThemeResource("icons/16/save_16.png"));
+		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
-		btAdd.setDescription("Salva registro.");
+		btSave.setDescription("Salva registro.");
 		btRem.setDescription("Exclui registro.");
+		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
+		btAdd.setDescription("Adiciona um novo registro.");
 		
 //		login.setImmediate(true);
 //		senha.setImmediate(true);
@@ -126,9 +131,11 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 		hl.addComponent(vl);
 		vl.addComponent(grupo);
 		hl2.addComponent(btAdd);
+		hl2.addComponent(btSave);
 		hl2.addComponent(btRem);
-		
+
 		hl2.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
+		hl2.setComponentAlignment(btSave, Alignment.BOTTOM_LEFT);
 		hl2.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 
 		vl.addComponent(hl2);
@@ -158,6 +165,7 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	}
 	private void addListener(){
 		btAdd.addListener(this);
+		btSave.addListener(this);
 		btRem.addListener(this);
 		
 		tabela.addListener(new Table.ValueChangeListener() {
@@ -217,12 +225,17 @@ public class Grupo2View extends BaseVaadinView implements Button.ClickListener {
 	@SuppressWarnings("serial")
 	@Override
 	public void buttonClick(ClickEvent event) {
-		if (event.getButton()==btAdd){
+		if (event.getButton()==btSave){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
-			bean = new Grupo();
+//			bean = new Grupo();
 		}
 		if (event.getButton()==btRem){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessDelete>() {});
+		}
+		if (event.getButton()==btAdd){
+			bean = new Grupo();
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
+			bean = new Grupo();
 		}
 	}
 

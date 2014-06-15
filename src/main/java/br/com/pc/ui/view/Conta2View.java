@@ -69,8 +69,8 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 	
 	public Table tabela;
 
-	private Button btSave;
 	private Button btAdd;
+	private Button btSave;
 	private Button btRem;
 	private Button btConta;
 
@@ -108,8 +108,8 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 		resumoFinanceiro = FieldFactoryUtil.createCheckBox("RESUMO FINANCEIRO");
 		clinicas =  FieldFactoryUtil.createTwinColSelect("CLINICAS","descricao");
 
-		btSave = new Button();
 		btAdd = new Button();
+		btSave = new Button();
 		btRem = new Button();
 		btConta = new Button("...");
 		
@@ -205,12 +205,12 @@ public class Conta2View extends BaseVaadinView implements Button.ClickListener {
 		gl.addComponent(btSave,4,1);
 		gl.addComponent(btRem,5,1);
 		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
-		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
 		btSave.setDescription("Atualiza um registro selecionado.");
-		btAdd.setDescription("Adiciona um novo registro.");
 		btRem.setDescription("Exclui registro selecionado.");
 		btConta.setDescription("Gera número da conta.");
+		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
+		btAdd.setDescription("Adiciona um novo registro.");
 		
 		gl.setComponentAlignment(totalizadora, Alignment.MIDDLE_LEFT);
 		gl.setComponentAlignment(resumoFinanceiro, Alignment.MIDDLE_LEFT);

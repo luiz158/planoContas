@@ -4,11 +4,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.vaadin.ui.Window.Notification;
+
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
 import br.com.pc.business.FluxoBC;
 import br.com.pc.domain.Clinica;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.view.ClinicaView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
@@ -31,14 +34,23 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 	
 	public void processSave(@Observes @ProcessSave ClinicaView view) {
 		Clinica bean = view.getBean();
-		if (bean.getId()==null){
-			clinicaBC.insert(bean);
-			getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
-		}else{
+		if (bean.getId()!=null){
 			clinicaBC.update(bean);
 			getView().getWindow().showNotification("REGISTRO ATUALIZADO COM SUCESSO!!!");
+		}else{
+			getView().getWindow().showNotification("SELECIONA UM REGISTRO",Notification.TYPE_WARNING_MESSAGE);
 		}
 		getView().setList(clinicaBC.findAllAtivos());
+		view.descricao.setValue(null);
+	}
+	public void processAdd(@Observes @ProcessAdd ClinicaView view) {
+		Clinica bean = view.getBean();
+		
+		clinicaBC.insert(bean);
+		getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+		
+		getView().setList(clinicaBC.findAllAtivos());
+		view.descricao.setValue(null);
 	}
 
 	public void processItemSelection(@Observes @ProcessItemSelection ClinicaView view) {

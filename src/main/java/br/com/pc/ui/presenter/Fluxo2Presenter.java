@@ -45,8 +45,9 @@ public class Fluxo2Presenter extends AbstractPresenter<Fluxo2View> {
 				bean.getValor()!=null){
 			if (!bean.getConta().getTotalizadora()){
 				if (bean.getId()==null){
-					fluxoBC.insert(bean);
-					view.getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
+					getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//					fluxoBC.insert(bean);
+//					view.getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 				}else{
 					bean.setValor(getView().getFluxoBean().getValor());
 					fluxoBC.update(bean);

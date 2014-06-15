@@ -14,6 +14,8 @@ import br.com.pc.domain.configuracao.EnumMenu;
 import br.com.pc.domain.configuracao.EnumTipoPermissao;
 import br.com.pc.domain.configuracao.Grupo;
 import br.com.pc.domain.configuracao.Permissao;
+import br.com.pc.domain.configuracao.Usuario;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -46,7 +48,8 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 	private OptionGroup criar;
 	private OptionGroup excluir;
 	private OptionGroup imprimir;
-	
+
+	private Button btAdd;
 	private Button btSalvar;
 	private Button btDeletar;
 	private Button btLimpar;
@@ -66,7 +69,8 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 		criar	= FieldFactoryUtil.createOptionGroup("CRIAR", "descricao");
 		excluir	= FieldFactoryUtil.createOptionGroup("EXCLUIR", "descricao");
 		imprimir	= FieldFactoryUtil.createOptionGroup("IMPRIMIR", "descricao");
-		
+
+		btAdd = new Button();
 		btSalvar = new Button();
 		btDeletar = new Button();
 		btLimpar = new Button("LIMPAR");
@@ -74,9 +78,12 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 		btDeletar.setIcon(new ThemeResource("icons/16/recycle_16.png"));
 		btSalvar.setDescription("Salva registro.");
 		btDeletar.setDescription("Exclui registro.");
+		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
+		btAdd.setDescription("Adiciona um novo registro.");
 		
 		tabela = new Table();
-		
+
+		btAdd.addListener(this);
 		btSalvar.addListener(this);
 		btDeletar.addListener(this);
 		btLimpar.addListener(this);
@@ -105,6 +112,7 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 //		hl.addComponent(criar);
 //		hl.addComponent(excluir);
 //		hl.addComponent(imprimir);
+		hl.addComponent(btAdd);
 		hl.addComponent(btSalvar);
 //		hl.addComponent(btDeletar);
 //		hl.addComponent(btLimpar);
@@ -169,7 +177,7 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 	
 	public void limpar(){
 		limpaComponentes();
-		bean = new Permissao();
+//		bean = new Permissao();
 	}
 	
 	public void limpaComponentes(){
@@ -220,6 +228,23 @@ public class Permissao2View extends BaseVaadinView implements Button.ClickListen
 			bean.setImprimir((EnumTipoPermissao)imprimir.getValue());
 			
 			beanManager.fireEvent(bean, new AnnotationLiteral<ProcessSave>() { });
+		}
+		if (event.getButton()==btAdd){
+			bean = new Permissao();
+			if (bean.getGrupo()==null){
+				bean.setGrupo((Grupo)grupo.getValue());
+			}
+			if (bean.getMenu()==null){
+				bean.setMenu((EnumMenu)menu.getValue());
+			}
+			
+			bean.setVisualizar((EnumTipoPermissao)visualizar.getValue());
+			bean.setAlterar((EnumTipoPermissao)alterar.getValue());
+			bean.setCriar((EnumTipoPermissao)criar.getValue());
+			bean.setExcluir((EnumTipoPermissao)excluir.getValue());
+			bean.setImprimir((EnumTipoPermissao)imprimir.getValue());
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
+			bean = new Permissao();
 		}
 		if (event.getButton()==btDeletar){
 			beanManager.fireEvent(bean, new AnnotationLiteral<ProcessDelete>() { });

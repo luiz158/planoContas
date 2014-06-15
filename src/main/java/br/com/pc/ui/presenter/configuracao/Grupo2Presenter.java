@@ -4,11 +4,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.vaadin.ui.Window.Notification;
+
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.configuracao.GrupoBC;
 import br.com.pc.business.configuracao.UsuarioBC;
 import br.com.pc.domain.configuracao.Grupo;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.view.configuracao.Grupo2View;
+import br.com.pc.ui.view.configuracao.Usuario2View;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -32,12 +36,13 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 			Grupo grupo = view.getBean();
 			if (grupo.getId() != null) {
 				grupoBC.update(grupo);
+				getView().getWindow().showNotification("REGISTRO SALVO COM SUCESSO!!!");
 			} else {
-				grupoBC.insert(grupo);
+				getView().getWindow().showNotification("É NECESSÁRIO SELECIONAR UM REGISTRO!!!",Notification.TYPE_WARNING_MESSAGE);
+//				grupoBC.insert(grupo);
 			}
-			view.getWindow().showNotification("REGISTRO SALVO COM SUCESSO!!!");
 		} catch (Exception e) {
-//			view.getWindow().showNotification("REGISTRO NÃO !!!");
+			view.getWindow().showNotification("OCORREU ALGUM ERRO AO SALVAR O REGISTRO!!!",Notification.TYPE_ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		view.setList(grupoBC.findAllAtivos());
@@ -48,6 +53,11 @@ public class Grupo2Presenter extends AbstractPresenter<Grupo2View> {
 			grupo.setAtivo(false);
 			grupoBC.update(grupo);
 		} 
+		view.setList(grupoBC.findAllAtivos());
+	}
+	public void processAdd(@Observes @ProcessAdd Grupo2View view) {
+		grupoBC.insert(view.getBean());
+		getView().getWindow().showNotification("REGISTRO CRIADO COM SUCESSO!!!");
 		view.setList(grupoBC.findAllAtivos());
 	}
 

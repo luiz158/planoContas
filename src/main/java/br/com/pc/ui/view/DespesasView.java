@@ -265,7 +265,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		HorizontalLayout hl = new HorizontalLayout();
 		HorizontalLayout hl2 = new HorizontalLayout();
 
-		GridLayout gl = new GridLayout(7,2);
+		GridLayout gl = new GridLayout(8,2);
 //		hl.setCaption("DADOS");
 //		hl.setMargin(true);
 		gl.setSpacing(true);
@@ -277,7 +277,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		gl.addComponent(data);
 		gl.addComponent(valor);
 		gl.addComponent(registro);
-//		gl.addComponent(btAdd);
+		gl.addComponent(btAdd);
 		gl.addComponent(btSave);
 		gl.addComponent(btRem);
 		gl.addComponent(btExcel);
@@ -439,9 +439,10 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==btSave){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
-			bean = new Fluxo();
+//			bean = new Fluxo();
 		}
 		if (event.getButton()==btAdd){
+			bean = new Fluxo();
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
 			bean = new Fluxo();
 		}

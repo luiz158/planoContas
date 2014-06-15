@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.domain.Clinica;
+import br.com.pc.domain.Conta;
+import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
 import br.gov.frameworkdemoiselle.event.ProcessSave;
@@ -31,7 +33,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	@Inject	private BeanManager beanManager;
 	@Inject ClinicaBC clinicaBC = new ClinicaBC();
 	
-	private TextField descricao;
+	public TextField descricao;
 	
 	private Panel dados;
 	
@@ -39,6 +41,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	
 	private Table tabela;
 	
+	private Button btSave;
 	private Button btAdd;
 	private Button btRem;
 	
@@ -52,6 +55,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 
 		descricao = FieldFactoryUtil.createTextField("DESCRICAO");
 
+		btSave = new Button();
 		btAdd = new Button();
 		btRem = new Button();
 
@@ -72,15 +76,19 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		gl.setSpacing(true);
 		
 		gl.addComponent(descricao);
-		
+
 		gl.addComponent(btAdd);
+		gl.addComponent(btSave);
 		gl.addComponent(btRem);
-		btAdd.setIcon(new ThemeResource("icons/16/save_16.png"));
+		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
-		btAdd.setDescription("Salva registro.");
+		btSave.setDescription("Atualiza um registro selecionado.");
 		btRem.setDescription("Exclui registro.");
-		
+		btAdd.setIcon(new ThemeResource("icons/16/add_16.png"));
+		btAdd.setDescription("Adiciona um novo registro.");
+
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
+		gl.setComponentAlignment(btSave, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
 		
 		dados.addComponent(gl);
@@ -103,6 +111,7 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	}
 	private void addListener(){
 		btAdd.addListener(this);
+		btSave.addListener(this);
 		btRem.addListener(this);
 		
 		tabela.addListener(new Table.ValueChangeListener() {
@@ -138,8 +147,12 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	@SuppressWarnings("serial")
 	@Override
 	public void buttonClick(ClickEvent event) {
-		if (event.getButton()==btAdd){
+		if (event.getButton()==btSave){
 			beanManager.fireEvent(this, new AnnotationLiteral<ProcessSave>() {});
+		}
+		if (event.getButton()==btAdd){
+			bean = new Clinica();
+			beanManager.fireEvent(this, new AnnotationLiteral<ProcessAdd>() {});
 			bean = new Clinica();
 		}
 		if (event.getButton()==btRem){
