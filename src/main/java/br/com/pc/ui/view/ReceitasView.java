@@ -267,7 +267,7 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 		HorizontalLayout hl = new HorizontalLayout();
 		HorizontalLayout hl2 = new HorizontalLayout();
 
-		GridLayout gl = new GridLayout(7,2);
+		GridLayout gl = new GridLayout(8,2);
 //		hl.setCaption("DADOS");
 //		hl.setMargin(true);
 		gl.setSpacing(true);
