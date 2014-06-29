@@ -73,7 +73,14 @@ public class Conta2Presenter extends AbstractPresenter<Conta2View> {
 	public void processDelete(@Observes @ProcessDelete Conta2View view) {
 //		System.out.println(contaBC.geraNumeroConta(view.getBean()));
 		try {
-			contaBC.delete(view.getBean());
+			if (contaBC.delete(view.getBean())){
+				getView().getWindow().showNotification("ITEM NÃO PODE SER EXCLUIDO!!", 
+						"<br>Ainda existem registro no fluxo relacionado a esta conta, por isso, essa conta não pode ser excluida. " +
+						"<br>Esta conta está setada como inativa e será inutilizada. ", 
+						Notification.TYPE_WARNING_MESSAGE);
+			}else{
+				getView().getWindow().showNotification("ITEM EXCLUIDO!!", Notification.TYPE_HUMANIZED_MESSAGE);
+			}
 		} catch (Exception e) {
 			getView().getWindow().showNotification("ERRO AO EXCLUIR!!", "<br>Desculpe! Por alguma razão não consegui excluir essa conta ", Notification.TYPE_ERROR_MESSAGE);
 		}

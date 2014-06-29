@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import br.com.pc.accesscontrol.Credenciais;
 import br.com.pc.domain.Conta;
+import br.com.pc.domain.Fluxo;
 import br.com.pc.domain.configuracao.EnumDre;
 import br.com.pc.persistence.ContaDAO;
 import br.com.pc.ui.bean.Filtro1;
@@ -18,6 +19,7 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject Credenciais credenciais;
+	@Inject FluxoBC fluxoBC;
 	
 	@Override
 	public void insert(Conta bean) {
@@ -31,9 +33,16 @@ public class ContaBC extends DelegateCrud<Conta, Long, ContaDAO> {
 	public void update(Conta bean) {
 		super.update(bean);
 	}
-	public void delete(Conta bean) {
-		bean.setAtivo(false);
-		super.update(bean);
+	public Boolean delete(Conta bean) {
+		List<Fluxo> fluxos = fluxoBC.findByFiltro1Conta(new Filtro1(), false, bean.getConta());
+		if (fluxos != null && fluxos.size()>0){
+			bean.setAtivo(false);
+			super.update(bean);
+			return true;
+		}else{
+			super.delete(bean.getId());
+			return false;
+		}
 	}
 	
 	public List<Conta> findByTotalizadora(Boolean totalizadora){
