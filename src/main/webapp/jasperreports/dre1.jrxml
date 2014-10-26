@@ -40,7 +40,7 @@
 				</textElement>
 				<text><![CDATA[D. R. E.]]></text>
 			</staticText>
-			<textField pattern="&apos;Gerado:&apos; EEEEE dd MMMMM yyyy &apos;as&apos; HH:mm">
+			<textField pattern="&apos;Gerado:&apos; dd/MM/yyyy &apos;as&apos; HH:mm">
 				<reportElement x="370" y="0" width="185" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="8"/>
@@ -84,7 +84,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Mês: "+$P{MES}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="3" y="72" width="200" height="20" forecolor="#000000">
+				<reportElement x="3" y="72" width="552" height="20" forecolor="#000000">
 					<property name="ireport.layer" value="1"/>
 					<printWhenExpression><![CDATA[$P{CLINICAS}!=null]]></printWhenExpression>
 				</reportElement>

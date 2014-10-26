@@ -17,8 +17,8 @@
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.user" value="root" /> 
-			<property name="javax.persistence.jdbc.password" value="agoravai" /> 
+			<property name="javax.persistence.jdbc.user" value="planocontas" /> 
+			<property name="javax.persistence.jdbc.password" value="db@planocontas" /> 
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/planocontasdb?autoReconnect=true" /> 
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
