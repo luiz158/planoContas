@@ -8,8 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.inject.spi.BeanManager;
@@ -83,7 +85,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 	private Button btExcel;
 	private Button btDre;
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	static DecimalFormat df = new DecimalFormat("#,##0.00");
 	
 	@Override
 	public void initializeComponents() {
@@ -247,9 +249,12 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 		tabela.setImmediate(true);
 		tabela.setPageLength(20);
 		tabela.setCacheRate(300);
+		tabela.setColumnReorderingAllowed(false);
+		tabela.setSortDisabled(true);
 //		tabela.setColumnCollapsingAllowed(true);
 		tabela.setWidth("100%");
 
+		
 		tabela.addContainerProperty("conta.conta", String.class,  null);
 		tabela.addContainerProperty("conta.nome", String.class,  null);
 		
@@ -299,6 +304,10 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				"11","12","13","14","15","16","17","18","19","20",
 				"21","22","23","24","25","26","27","28","29","30",
 				"31","total"});
+		
+		// Set the footers
+		tabela.setFooterVisible(true);
+		tabela.setColumnFooter("conta.nome", "TOTAL");
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override
@@ -382,9 +391,14 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 	}
 	
 	public void setListFluxo(List<Fluxo> lista){
+		Map<String, BigDecimal> footer = new HashMap<String, BigDecimal>();
+		
+		
 		for (Fluxo f : lista) {
 			Item itemBean;
 			itemBean = tabela.getItem(f.getConta());
+
+//			tabela.setColumnFooter("Died At Age", String.valueOf(avgAge));
 			if (itemBean!=null){
 				String dia=String.format("%td", f.getData());
 				
@@ -400,12 +414,20 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 					itemBean.getItemProperty("d"+dia).setValue(f.getValor());
 					total = total.add(f.getValor());
 				}
+				if (!footer.containsKey(dia)){
+					footer.put(dia, f.getValor());
+				}else{
+					footer.put(dia, footer.get(dia).add(f.getValor()));
+				}
 				itemBean.getItemProperty("total").setValue(total);
 				Conta conta = new ContaBC().load(f.getConta().getId());
 				if(conta.getContaPai()!=null){
 					totalizadora(conta.getContaPai(),dia,f.getValor());
 				}
 			}
+		}
+		for (String dia : footer.keySet()) {
+			tabela.setColumnFooter("d"+dia, df.format(footer.get(dia)));
 		}
 	}
 
