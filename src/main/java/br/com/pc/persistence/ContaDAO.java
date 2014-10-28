@@ -88,11 +88,11 @@ public class ContaDAO extends JPACrud<Conta, Long> {
 	public List<Conta> findByFiltro1(Filtro1 filtro1, Boolean soAtivos, Boolean soResumoFinanceiro) {
 		StringBuilder queryString = new StringBuilder();
 		
-		queryString.append(" select b " +
-				" from Conta b " +
-				" left outer join b.clinicas c " +
-				" where b.id > 0 and " +
-				" c in (:clinicas) or c is null ");
+		queryString.append(" select b ");
+		queryString.append(" from Conta b ");
+		queryString.append(" left outer join b.clinicas c ");
+		queryString.append(" where b.id > 0 and ");
+		queryString.append(" (c in (:clinicas) or c is null) ");
 		if (soAtivos){
 			queryString.append(" and b.ativo = true  " );
 		}

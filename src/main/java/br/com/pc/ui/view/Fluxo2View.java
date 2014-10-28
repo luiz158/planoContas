@@ -419,6 +419,11 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 				}else{
 					footer.put(dia, footer.get(dia).add(f.getValor()));
 				}
+				if (!footer.containsKey("total")){
+					footer.put("total", f.getValor());
+				}else{
+					footer.put("total", footer.get("total").add(f.getValor()));
+				}
 				itemBean.getItemProperty("total").setValue(total);
 				Conta conta = new ContaBC().load(f.getConta().getId());
 				if(conta.getContaPai()!=null){
@@ -427,7 +432,11 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 			}
 		}
 		for (String dia : footer.keySet()) {
-			tabela.setColumnFooter("d"+dia, df.format(footer.get(dia)));
+			if (!dia.equals("total")){
+				tabela.setColumnFooter("d"+dia, df.format(footer.get(dia)));
+			}else{
+				tabela.setColumnFooter("total", df.format(footer.get("total")));
+			}
 		}
 	}
 

@@ -160,7 +160,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		
 		modalWindow.addComponent(vl);
 	}
-	
+	@Deprecated
 	private void formataValor(){
 		Property property = new Property() {
             /**
@@ -472,7 +472,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		try {bean.setClinica((Clinica)clinica.getValue());} catch (Exception e) {}
 		try {bean.setConta((Conta)conta.getValue());} catch (Exception e) {}
 		try {bean.setData((Date)data.getValue());} catch (Exception e) {}
-		try {bean.setValor((BigDecimal)df.parse(valor.getValue().toString()));} catch (Exception e) {}
+		try {bean.setValor((BigDecimal)df.parse("-"+valor.getValue().toString()));} catch (Exception e) {}
 		try {bean.setRegistro((String)registro.getValue());} catch (Exception e) {}
 //		try {bean.setMotivoExclusao((String).getValue());} catch (Exception e) {}
 		
