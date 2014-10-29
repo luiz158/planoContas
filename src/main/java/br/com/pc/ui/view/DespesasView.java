@@ -116,7 +116,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 		data.setRequiredError("Ítem obrigatório");
 		conta.setRequiredError("Ítem obrigatório");
 		valor.setRequiredError("Ítem obrigatório");
-		registro = FieldFactoryUtil.createTextField("REGISTRO");
+		registro = FieldFactoryUtil.createTextField("HISTORICO");
 		valor.setDescription("O valor é convertido para negativo automaticamente.");
 //		registro.setRequired(true);
 //		registro.setRequiredError("Ítem obrigatório");

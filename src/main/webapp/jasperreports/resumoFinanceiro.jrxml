@@ -41,7 +41,7 @@
 				</textElement>
 				<text><![CDATA[RESUMO FINANCEIRO]]></text>
 			</staticText>
-			<textField pattern="&apos;Gerado:&apos; EEEEE dd MMMMM yyyy &apos;as&apos; HH:mm">
+			<textField pattern="&apos;Gerado:&apos; dd/MM/yyyy &apos;as&apos; HH:mm">
 				<reportElement x="370" y="0" width="185" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="8"/>

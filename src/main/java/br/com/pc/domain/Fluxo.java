@@ -20,7 +20,7 @@ import javax.persistence.Version;
 import br.com.pc.domain.configuracao.Usuario;
 
 @Entity
-@Table(name="PC_FLUXO")
+@Table(name="PC_GERAL")
 public class Fluxo implements Serializable{
 
 	private static final long serialVersionUID = 1L;

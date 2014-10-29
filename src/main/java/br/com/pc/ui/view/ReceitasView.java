@@ -116,7 +116,7 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 		data.setRequiredError("Ítem obrigatório");
 		conta.setRequiredError("Ítem obrigatório");
 		valor.setRequiredError("Ítem obrigatório");
-		registro = FieldFactoryUtil.createTextField("REGISTRO");
+		registro = FieldFactoryUtil.createTextField("HISTORICO");
 //		registro.setRequired(true);
 //		registro.setRequiredError("Ítem obrigatório");
 		

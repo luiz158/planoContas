@@ -13,7 +13,7 @@ import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
 import br.com.pc.ui.view.DespesasView;
-import br.com.pc.ui.view.FluxoView;
+import br.com.pc.ui.view.LancamentoGeralView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;

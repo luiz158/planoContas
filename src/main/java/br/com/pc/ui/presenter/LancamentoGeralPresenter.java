@@ -11,7 +11,7 @@ import br.com.pc.business.FluxoBC;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.ui.annotation.ProcessFilter;
 import br.com.pc.ui.annotation.ProcessRem;
-import br.com.pc.ui.view.FluxoView;
+import br.com.pc.ui.view.LancamentoGeralView;
 import br.gov.frameworkdemoiselle.event.BeforeNavigateToView;
 import br.gov.frameworkdemoiselle.event.ProcessClear;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -24,7 +24,7 @@ import com.vaadin.ui.Window.Notification;
 
 @ViewController
 @SessionScoped
-public class FluxoPresenter extends AbstractPresenter<FluxoView> {
+public class LancamentoGeralPresenter extends AbstractPresenter<LancamentoGeralView> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -33,7 +33,7 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 	@Inject FluxoBC fluxoBC;
 	@Inject Credenciais credenciais;
 	
-	public void processSave(@Observes @ProcessSave FluxoView view) {
+	public void processSave(@Observes @ProcessSave LancamentoGeralView view) {
 		try {
 			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
 					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
@@ -56,7 +56,7 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 		}
 		
 	}
-	public void processAdd(@Observes @ProcessAdd FluxoView view) {
+	public void processAdd(@Observes @ProcessAdd LancamentoGeralView view) {
 		try {
 			if(view.getBean()!=null && view.getBean().getClinica()!=null &&
 					view.getBean().getConta()!=null && view.getBean().getData()!=null &&
@@ -79,15 +79,15 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 		
 	}
 
-	public void processItemSelection(@Observes @ProcessItemSelection FluxoView view) {
+	public void processItemSelection(@Observes @ProcessItemSelection LancamentoGeralView view) {
 		
 	}
 
-	public void processFiltro(@Observes @ProcessFilter FluxoView view) {
+	public void processFiltro(@Observes @ProcessFilter LancamentoGeralView view) {
 		view.setList(fluxoBC.findByFiltro1(view.getFiltro1(),false));
 	}
 	
-	public void processDelete(@Observes @ProcessDelete FluxoView view) {
+	public void processDelete(@Observes @ProcessDelete LancamentoGeralView view) {
 		try {
 			fluxoBC.delete(view.getBean());
 			getView().setList(fluxoBC.findByFiltro1(getView().getFiltro1(),false));
@@ -97,17 +97,17 @@ public class FluxoPresenter extends AbstractPresenter<FluxoView> {
 		}
 	}
 
-	public void beforeNavigate(@Observes @BeforeNavigateToView FluxoView view) {
+	public void beforeNavigate(@Observes @BeforeNavigateToView LancamentoGeralView view) {
 		view.setListaClinica(clinicaBC.findAll(credenciais));
 		view.setListaConta(contaBC.findByTotalizadora(false));
 //		view.setList(fluxoBC.findAll());
 	}
 
-	public void processFormClear(@Observes @ProcessClear FluxoView view) {
+	public void processFormClear(@Observes @ProcessClear LancamentoGeralView view) {
 
 	}
 
-	public void processRem(@Observes @ProcessRem FluxoView view) {
+	public void processRem(@Observes @ProcessRem LancamentoGeralView view) {
 		view.getWindow().addWindow(view.modalWindow);
 		view.getWindow().removeComponent(view.modalWindow);
 	}

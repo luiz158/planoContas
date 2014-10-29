@@ -319,7 +319,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 			        	  if (((BigDecimal)item.getItemProperty(propertyId.toString()).getValue()).signum()>=0){
 			        		  return "positivo";
 			        	  }else{
-			        		  return "negativo";
+			        		  return "";
 			        	  }
 //				          return "veiculo " + item.getItemProperty("veiculoCor").getValue();
 			          }

@@ -29,7 +29,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	@Inject	private AlterarSenhaPresenter alterarSenhaPresenter;
 
 
-	@Inject	private FluxoPresenter fluxoPresenter;
+	@Inject	private LancamentoGeralPresenter lancamentoGeralPresenter;
 	@Inject	private Fluxo2Presenter fluxo2Presenter;
 	@Inject	private Conta2Presenter contaPresenter;
 	@Inject	private ClinicaPresenter clinicaPresenter;
@@ -66,8 +66,8 @@ public class MainPresenter extends AbstractPresenter<MainView> {
 	    	  getView().onLogout();
 	    	  break;
 
-	      case PC_FLUXO:
-	    	  navigator.navigate(fluxoPresenter.getView());
+	      case PC_GERAL:
+	    	  navigator.navigate(lancamentoGeralPresenter.getView());
 	    	  break;
 	      case PC_FLUXO2:
 	    	  navigator.navigate(fluxo2Presenter.getView());

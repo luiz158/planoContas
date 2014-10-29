@@ -56,7 +56,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 
-public class FluxoView extends BaseVaadinView implements Button.ClickListener {
+public class LancamentoGeralView extends BaseVaadinView implements Button.ClickListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -91,7 +91,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 	@Override
 	public void initializeComponents() {
 		// TODO Auto-generated method stub
-		setCaption(EnumMenu.PC_FLUXO.getNome());
+		setCaption(EnumMenu.PC_GERAL.getNome());
 		setSpacing(true);
 		setMargin(true);
 		bean = new Fluxo();
@@ -116,7 +116,7 @@ public class FluxoView extends BaseVaadinView implements Button.ClickListener {
 		data.setRequiredError("Ítem obrigatório");
 		conta.setRequiredError("Ítem obrigatório");
 		valor.setRequiredError("Ítem obrigatório");
-		registro = FieldFactoryUtil.createTextField("REGISTRO");
+		registro = FieldFactoryUtil.createTextField("HISTORICO");
 //		registro.setRequired(true);
 //		registro.setRequiredError("Ítem obrigatório");
 		

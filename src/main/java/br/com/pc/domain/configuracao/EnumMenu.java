@@ -16,7 +16,7 @@ public enum EnumMenu {
 		CRUD_GRUPO		("GRUPO",true,GERENCIA),
 		CRUD_USUARIO	("USUARIO",true,GERENCIA),
 	PC_LANCAMENTOS		("LANÇAMENTOS","icons/16/arrow_down_16.png"),
-		PC_FLUXO		("GERAL",true,PC_LANCAMENTOS),
+		PC_GERAL		("GERAL",true,PC_LANCAMENTOS),
 		PC_RECEITAS		("RECEITAS",true,PC_LANCAMENTOS),
 		PC_DESPESAS		("DESPESAS",true,PC_LANCAMENTOS),
 	PC_CADASTROS		("CADASTROS","icons/16/arrow_down_16.png"),
@@ -36,7 +36,7 @@ public enum EnumMenu {
 
 //---PLANO CONTAS
 		lista.add(PC_LANCAMENTOS);
-			lista.add(PC_FLUXO);
+			lista.add(PC_GERAL);
 			lista.add(PC_RECEITAS);
 			lista.add(PC_DESPESAS);
 		lista.add(PC_FLUXO2);
