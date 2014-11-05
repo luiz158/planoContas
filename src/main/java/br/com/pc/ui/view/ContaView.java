@@ -84,7 +84,7 @@ public class ContaView extends BaseVaadinView implements Button.ClickListener {
 	private Button btFiltro;
 	
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");
 	
 	@Override
 	public void initializeComponents() {

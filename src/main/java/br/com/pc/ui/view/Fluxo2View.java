@@ -85,7 +85,7 @@ public class Fluxo2View extends BaseVaadinView implements Button.ClickListener {
 	private Button btExcel;
 	private Button btDre;
 	
-	static DecimalFormat df = new DecimalFormat("#,##0.00");
+	static DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");;
 	
 	@Override
 	public void initializeComponents() {

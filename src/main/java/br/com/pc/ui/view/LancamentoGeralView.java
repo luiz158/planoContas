@@ -86,7 +86,7 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 	public Window modalWindow;
 	private Button btDelete;
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	DecimalFormat df = new DecimalFormat("#,##0.00");;
 	
 	@Override
 	public void initializeComponents() {
@@ -202,7 +202,7 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			private final DecimalFormat df = new DecimalFormat("#,##0.00");
+			private final DecimalFormat df = new DecimalFormat("#,##0.00");;
 //			private final DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
             {
                 df.setParseBigDecimal(true);

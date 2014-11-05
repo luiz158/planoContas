@@ -86,7 +86,7 @@ public class DespesasView extends BaseVaadinView implements Button.ClickListener
 	public Window modalWindow;
 	private Button btDelete;
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	DecimalFormat df = new DecimalFormat("#,##0.00");;
 	
 	@Override
 	public void initializeComponents() {

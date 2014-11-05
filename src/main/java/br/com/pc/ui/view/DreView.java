@@ -77,7 +77,7 @@ public class DreView extends BaseVaadinView implements Button.ClickListener {
 	private Button btExcel;
 	private Button btImprimir;
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");;
 	
 	@Override
 	public void initializeComponents() {
