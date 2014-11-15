@@ -334,7 +334,7 @@ public class ReceitasView extends BaseVaadinView implements Button.ClickListener
 				"fluxo.registro","fluxo.criacao","fluxo.alteracao","fluxo.usuario","fluxo.ativo","fluxo.motivo"});
 		
 		tabela.setColumnHeaders(new String[]{"clinica","conta pai","conta", "data", "valor",
-				"registro","data criação","data alteração", "usuario","ativo","motivo"});
+				"historico","data criação","data alteração", "usuario","ativo","motivo"});
 		
 		tabela.addGeneratedColumn("fluxo.data", new DataColumnGenerator());
 		tabela.addGeneratedColumn("fluxo.criacao", new DataHoraColumnGenerator());

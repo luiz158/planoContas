@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -86,7 +87,8 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 	public Window modalWindow;
 	private Button btDelete;
 	
-	DecimalFormat df = new DecimalFormat("#,##0.00");;
+	static DecimalFormat df = new DecimalFormat("#,##0.00");
+	static DecimalFormat df2 = new DecimalFormat("#,##0.00;(#,##0.00)");
 	
 	@Override
 	public void initializeComponents() {
@@ -134,6 +136,8 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 		df.setParseBigDecimal(true);
 		df.setDecimalSeparatorAlwaysShown(true);
 		df.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("pt","BR")));
+		df2.setParseBigDecimal(true);
+		df2.setDecimalSeparatorAlwaysShown(true);
 		
 		montaTabela();
 		addListener();
@@ -202,7 +206,7 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			private final DecimalFormat df = new DecimalFormat("#,##0.00");;
+//			private final DecimalFormat df = new DecimalFormat("#,##0.00");;
 //			private final DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
             {
                 df.setParseBigDecimal(true);
@@ -307,7 +311,39 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 	}
 	
 	private void montaTabela(){
-		tabela = new Table();
+		tabela = new Table(){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+		    protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+		        // Format by property type
+		        if (property.getType() == Date.class && property.getValue()!=null) {
+		        	if("data".equals(colId)){
+		        		SimpleDateFormat df =
+			                new SimpleDateFormat("dd/MM/yy");
+			            return df.format((Date)property.getValue());
+		        	}else if("hora".equals(colId)||"apanha".equals(colId)){
+			            SimpleDateFormat df =
+			                new SimpleDateFormat("HH:mm");
+			            return df.format((Date)property.getValue());
+		        	}else{
+			            SimpleDateFormat df =
+			                new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+			            return df.format((Date)property.getValue());
+		        	}
+		        }else if(property.getType() == Boolean.class && property.getValue()!=null){
+		        	if ((Boolean)property.getValue()){
+		        		return "S";
+		        	}else{
+		        		return "N";
+		        	}
+		        }else if(property.getType() == BigDecimal.class && property.getValue()!=null){
+		        	return df2.format((BigDecimal)property.getValue());
+		        }
+
+		        return super.formatPropertyValue(rowId, colId, property);
+		    }
+		};
 		tabela.setLocale(new Locale("pt", "BR"));
 		tabela.setSelectable(true);
 		tabela.setImmediate(true);
@@ -331,13 +367,13 @@ public class LancamentoGeralView extends BaseVaadinView implements Button.ClickL
 				"fluxo.registro","fluxo.criacao","fluxo.alteracao","fluxo.usuario","fluxo.ativo","fluxo.motivo"});
 		
 		tabela.setColumnHeaders(new String[]{"clinica","conta pai","conta", "data", "valor",
-				"registro","data criação","data alteração", "usuario","ativo","motivo"});
+				"historico","data criação","data alteração", "usuario","ativo","motivo"});
 		
-		tabela.addGeneratedColumn("fluxo.data", new DataColumnGenerator());
-		tabela.addGeneratedColumn("fluxo.criacao", new DataHoraColumnGenerator());
-		tabela.addGeneratedColumn("fluxo.alteracao", new DataHoraColumnGenerator());
-		tabela.addGeneratedColumn("fluxo.valor", new BigDecimalColumnGenerator());
-		tabela.addGeneratedColumn("fluxo.ativo", new SimNaoColumnGenerator());
+//		tabela.addGeneratedColumn("fluxo.data", new DataColumnGenerator());
+//		tabela.addGeneratedColumn("fluxo.criacao", new DataHoraColumnGenerator());
+//		tabela.addGeneratedColumn("fluxo.alteracao", new DataHoraColumnGenerator());
+//		tabela.addGeneratedColumn("fluxo.valor", new BigDecimalColumnGenerator());
+//		tabela.addGeneratedColumn("fluxo.ativo", new SimNaoColumnGenerator());
 		
 		tabela.setCellStyleGenerator(new Table.CellStyleGenerator() {
 			@Override
