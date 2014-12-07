@@ -22,6 +22,15 @@
 	</parameter>
 	<parameter name="CLINICAS1" class="java.util.List" isForPrompting="false"/>
 	<parameter name="TOTAL" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="RAZAO_SOCIAL" class="java.lang.String"/>
+	<parameter name="RESPONSAVEL" class="java.lang.String"/>
+	<parameter name="CNPJ" class="java.lang.String"/>
+	<parameter name="INSCRICAO_ESTADUAL" class="java.lang.String"/>
+	<parameter name="INSCRICAO_MUNICIPAL" class="java.lang.String"/>
+	<parameter name="ENDERECO" class="java.lang.String"/>
+	<parameter name="CEP" class="java.lang.String"/>
+	<parameter name="TEL" class="java.lang.String"/>
+	<parameter name="FAX" class="java.lang.String"/>
 	<field name="contaNumero" class="java.lang.String"/>
 	<field name="contaDescricao" class="java.lang.String"/>
 	<field name="valor" class="java.math.BigDecimal"/>
@@ -159,7 +168,7 @@
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="25" splitType="Stretch">
+		<band height="205" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
 				<reportElement style="style1" stretchType="RelativeToTallestObject" mode="Opaque" x="370" y="5" width="146" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -174,6 +183,135 @@
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="35" width="431" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{RAZAO_SOCIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="153" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{RESPONSAVEL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="50" width="141" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CNPJ}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="65" width="141" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{INSCRICAO_ESTADUAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="384" y="65" width="141" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{INSCRICAO_MUNICIPAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="80" width="431" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ENDERECO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="95" width="431" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CEP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="110" width="139" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{TEL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="384" y="110" width="141" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{FAX}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="35" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RAZÃO SOCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="173" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RESPONSÁVEL TÉCNICO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="50" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CNPJ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="65" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO ESTADUAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="65" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO MUNICIPAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="80" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="95" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="110" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TEL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="110" width="121" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[FAX:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="99" y="152" width="317" height="1"/>
+			</line>
 		</band>
 	</summary>
 </jasperReport>

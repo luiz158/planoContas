@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import br.com.pc.business.ClinicaBC;
 import br.com.pc.domain.Clinica;
-import br.com.pc.domain.Conta;
 import br.com.pc.ui.annotation.ProcessAdd;
 import br.com.pc.util.components.FieldFactoryUtil;
 import br.gov.frameworkdemoiselle.event.ProcessDelete;
@@ -34,6 +33,15 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 	@Inject ClinicaBC clinicaBC = new ClinicaBC();
 	
 	public TextField descricao;
+	public TextField razaoSocial;
+	public TextField responsavel;
+	public TextField cnpj;
+	public TextField inscricaoEstadual;
+	public TextField inscricaoMunicipal;
+	public TextField endereco;
+	public TextField cep;
+	public TextField tel;
+	public TextField fax;
 	
 	private Panel dados;
 	
@@ -53,7 +61,16 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		tabela = new Table();
 		bean = new Clinica();
 
-		descricao = FieldFactoryUtil.createTextField("DESCRICAO");
+		descricao 	= FieldFactoryUtil.createTextField("DESCRICAO");
+		razaoSocial = FieldFactoryUtil.createTextField("RAZÃO SOCIAL");
+		responsavel = FieldFactoryUtil.createTextField("RESPONSÁVEL");
+		cnpj 		= FieldFactoryUtil.createTextField("CNPJ");
+		inscricaoEstadual 	= FieldFactoryUtil.createTextField("IN. ESTADUAL");
+		inscricaoMunicipal 	= FieldFactoryUtil.createTextField("IN. MUNICIPAL");
+		endereco 	= FieldFactoryUtil.createTextField("ENDEREÇO");
+		cep 		= FieldFactoryUtil.createTextField("CEP");
+		tel 		= FieldFactoryUtil.createTextField("TEL");
+		fax 		= FieldFactoryUtil.createTextField("FAX");
 
 		btSave = new Button();
 		btAdd = new Button();
@@ -71,15 +88,27 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 
 	private void montaPainel(){
 		dados = new Panel();
-		
-		GridLayout gl = new GridLayout(5,1);
+
+		GridLayout gMenu = new GridLayout(3,1);
+		GridLayout gl = new GridLayout(5,2);
 		gl.setSpacing(true);
+		gMenu.setSpacing(true);
 		
 		gl.addComponent(descricao);
+		gl.addComponent(razaoSocial);
+		gl.addComponent(responsavel);
+		gl.addComponent(cnpj);
+		gl.addComponent(inscricaoEstadual);
+		gl.addComponent(inscricaoMunicipal);
+		gl.addComponent(endereco);
+		gl.addComponent(cep);
+		gl.addComponent(tel);
+		gl.addComponent(fax);
 
-		gl.addComponent(btAdd);
-		gl.addComponent(btSave);
-		gl.addComponent(btRem);
+		gMenu.addComponent(btAdd);
+		gMenu.addComponent(btSave);
+		gMenu.addComponent(btRem);
+		
 		btSave.setIcon(new ThemeResource("icons/16/save_16.png"));
 		btRem.setIcon(new ThemeResource("icons/16/recycle_16.png"));
 		btSave.setDescription("Atualiza um registro selecionado.");
@@ -90,8 +119,9 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		gl.setComponentAlignment(btAdd, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btSave, Alignment.BOTTOM_LEFT);
 		gl.setComponentAlignment(btRem, Alignment.BOTTOM_LEFT);
-		
+
 		dados.addComponent(gl);
+		dados.addComponent(gMenu);
 	}
 	private void montaTabela(){
 		tabela = new Table();
@@ -166,7 +196,16 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 			bean = new Clinica();
 		}
 		try {bean.setDescricao((String)descricao.getValue());} catch (Exception e) {}
-		
+		try {bean.setRazaoSocial((String)razaoSocial.getValue());} catch (Exception e) {}
+		try {bean.setResponsavel((String)responsavel.getValue());} catch (Exception e) {}
+		try {bean.setCnpj((String)cnpj.getValue());} catch (Exception e) {}
+		try {bean.setInscricaoEstadual((String)inscricaoEstadual.getValue());} catch (Exception e) {}
+		try {bean.setInscricaoMunicipal((String)inscricaoMunicipal.getValue());} catch (Exception e) {}
+		try {bean.setEndereco((String)endereco.getValue());} catch (Exception e) {}
+		try {bean.setCep((String)cep.getValue());} catch (Exception e) {}
+		try {bean.setTel((String)tel.getValue());} catch (Exception e) {}
+		try {bean.setFax((String)fax.getValue());} catch (Exception e) {}
+
 		return bean;
 	}
 
@@ -174,6 +213,15 @@ public class ClinicaView extends BaseVaadinView implements Button.ClickListener 
 		this.bean = bean;
 		if (bean != null) {
 			descricao.setValue(bean.getDescricao());
+			razaoSocial.setValue(bean.getRazaoSocial());
+			responsavel.setValue(bean.getResponsavel());
+			cnpj.setValue(bean.getCnpj());
+			inscricaoEstadual.setValue(bean.getInscricaoEstadual());
+			inscricaoMunicipal.setValue(bean.getInscricaoMunicipal());
+			endereco.setValue(bean.getEndereco());
+			cep.setValue(bean.getCep());
+			tel.setValue(bean.getTel());
+			fax.setValue(bean.getFax());
 		}
 	}
 	

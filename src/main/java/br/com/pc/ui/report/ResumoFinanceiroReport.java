@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.pc.business.ClinicaBC;
 import br.com.pc.business.ContaBC;
+import br.com.pc.business.configuracao.DefinicoesBC;
+import br.com.pc.domain.Clinica;
 import br.com.pc.ui.SistemaApplication;
 import br.com.pc.ui.bean.Dre;
 import br.com.pc.ui.bean.Filtro1;
@@ -67,6 +70,35 @@ public class ResumoFinanceiroReport {
 										.getSession()
 										.getServletContext()
 										.getRealPath("/VAADIN/themes/pc/images/facimagem1.png"));
+			
+			if (filtro1.getClinicas()!=null && filtro1.getClinicas().size()==1){
+				Clinica c = filtro1.getClinicas().get(0);
+	//			try {} catch (Exception e) {}
+				parametros.put("RAZAO_SOCIAL", 	c.getRazaoSocial());
+				parametros.put("RESPONSAVEL", 	c.getResponsavel());
+				parametros.put("CNPJ", 			c.getCnpj());
+				parametros.put("INSCRICAO_ESTADUAL", c.getInscricaoEstadual());
+				parametros.put("INSCRICAO_MUNICIPAL", c.getInscricaoMunicipal());
+				parametros.put("ENDERECO", 		c.getEndereco());
+				parametros.put("CEP", 			c.getCep());
+				parametros.put("TEL", 			c.getTel());
+				parametros.put("FAX", 			c.getFax());
+			}else{
+				ClinicaBC clinicaBC = new ClinicaBC();
+				DefinicoesBC definicoesBC = new DefinicoesBC();
+				Clinica c = clinicaBC.load(Long.valueOf(definicoesBC.getValor("clinica_padrao")));
+				
+				parametros.put("RAZAO_SOCIAL", 	c.getRazaoSocial());
+				parametros.put("RESPONSAVEL", 	c.getResponsavel());
+				parametros.put("CNPJ", 			c.getCnpj());
+				parametros.put("INSCRICAO_ESTADUAL", c.getInscricaoEstadual());
+				parametros.put("INSCRICAO_MUNICIPAL", c.getInscricaoMunicipal());
+				parametros.put("ENDERECO", 		c.getEndereco());
+				parametros.put("CEP", 			c.getCep());
+				parametros.put("TEL", 			c.getTel());
+				parametros.put("FAX", 			c.getFax());
+			}
+			
 			SistemaApplication
 					.getInstance()
 					.getMainWindow()
@@ -90,6 +122,35 @@ public class ResumoFinanceiroReport {
 			parametros.put("CLINICAS", filtro1.getClinicas().toString().replace("[", "").replace("]", "").length() > 0 ? 
 					filtro1.getClinicas().toString().replace("[", "").replace("]", "") : "");
 			parametros.put("CLINICAS1", filtro1.getClinicas());
+			
+			if (filtro1.getClinicas()!=null && filtro1.getClinicas().size()==1){
+				Clinica c = filtro1.getClinicas().get(0);
+	//			try {} catch (Exception e) {}
+				parametros.put("RAZAO_SOCIAL", 	c.getRazaoSocial());
+				parametros.put("RESPONSAVEL", 	c.getResponsavel());
+				parametros.put("CNPJ", 			c.getCnpj());
+				parametros.put("INSCRICAO_ESTADUAL", c.getInscricaoEstadual());
+				parametros.put("INSCRICAO_MUNICIPAL", c.getInscricaoMunicipal());
+				parametros.put("ENDERECO", 		c.getEndereco());
+				parametros.put("CEP", 			c.getCep());
+				parametros.put("TEL", 			c.getTel());
+				parametros.put("FAX", 			c.getFax());
+			}else{
+				ClinicaBC clinicaBC = new ClinicaBC();
+				DefinicoesBC definicoesBC = new DefinicoesBC();
+				Clinica c = clinicaBC.load(Long.valueOf(definicoesBC.getValor("clinica_padrao")));
+				
+				parametros.put("RAZAO_SOCIAL", 	c.getRazaoSocial());
+				parametros.put("RESPONSAVEL", 	c.getResponsavel());
+				parametros.put("CNPJ", 			c.getCnpj());
+				parametros.put("INSCRICAO_ESTADUAL", c.getInscricaoEstadual());
+				parametros.put("INSCRICAO_MUNICIPAL", c.getInscricaoMunicipal());
+				parametros.put("ENDERECO", 		c.getEndereco());
+				parametros.put("CEP", 			c.getCep());
+				parametros.put("TEL", 			c.getTel());
+				parametros.put("FAX", 			c.getFax());
+			}
+			
 			parametros.put("LOGO", SistemaApplication
 										.getInstance()
 										.getRequest()

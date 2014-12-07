@@ -41,7 +41,8 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 			getView().getWindow().showNotification("SELECIONA UM REGISTRO",Notification.TYPE_WARNING_MESSAGE);
 		}
 		getView().setList(clinicaBC.findAllAtivos());
-		view.descricao.setValue(null);
+		
+		limpar(view);
 	}
 	public void processAdd(@Observes @ProcessAdd ClinicaView view) {
 		Clinica bean = view.getBean();
@@ -50,8 +51,10 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 		getView().getWindow().showNotification("REGISTRO GRAVADO COM SUCESSO!!!");
 		
 		getView().setList(clinicaBC.findAllAtivos());
-		view.descricao.setValue(null);
+		
+		limpar(view);
 	}
+
 
 	public void processItemSelection(@Observes @ProcessItemSelection ClinicaView view) {
 //		Clinica bean = view.getBean();
@@ -72,5 +75,18 @@ public class ClinicaPresenter extends AbstractPresenter<ClinicaView> {
 
 	public void processFormClear(@Observes @ProcessClear ClinicaView view) {
 
+	}
+	
+	public void limpar(ClinicaView view) {
+		view.descricao.setValue(null);
+		view.razaoSocial.setValue(null);
+		view.responsavel.setValue(null);
+		view.cnpj.setValue(null);
+		view.inscricaoEstadual.setValue(null);
+		view.inscricaoMunicipal.setValue(null);
+		view.endereco.setValue(null);
+		view.cep.setValue(null);
+		view.tel.setValue(null);
+		view.fax.setValue(null);
 	}
 }

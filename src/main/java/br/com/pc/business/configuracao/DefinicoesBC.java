@@ -39,6 +39,7 @@ public class DefinicoesBC extends DelegateCrud<Definicoes, String, DefinicoesDAO
 		setValor("versao_deploy","");
 		setValor("data_deploy","");
 		setValor("jboss_dir","/var/jboss-6.0.0.Final");
+		setValor("clinica_padrao","2");
 		
 		//=====MENU
 		menuBC.inicia();

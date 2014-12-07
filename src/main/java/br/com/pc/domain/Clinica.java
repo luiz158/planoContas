@@ -24,6 +24,33 @@ public class Clinica implements Serializable{
 
 	@Column(name="DESCRICAO")
 	private String descricao;
+
+	@Column(name="RAZAO_SOCIAL")
+	private String razaoSocial;
+
+	@Column(name="RESPONSAVEL")
+	private String responsavel; //responsável tecnico
+
+	@Column(name="CNPJ")
+	private String cnpj;
+
+	@Column(name="INSCRICAO_ESTADUAL")
+	private String inscricaoEstadual;
+
+	@Column(name="INSCRICAO_MUNICIPAL")
+	private String inscricaoMunicipal;
+
+	@Column(name="ENDERECO")
+	private String endereco;
+
+	@Column(name="CEP")
+	private String cep;
+
+	@Column(name="TEL")
+	private String tel;
+
+	@Column(name="FAX")
+	private String fax;
 	
 	public Long getId() {
 		return id;
@@ -77,6 +104,78 @@ public class Clinica implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+
+	public String getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getInscricaoEstadual() {
+		return inscricaoEstadual;
+	}
+
+	public void setInscricaoEstadual(String inscricaoEstadual) {
+		this.inscricaoEstadual = inscricaoEstadual;
+	}
+
+	public String getInscricaoMunicipal() {
+		return inscricaoMunicipal;
+	}
+
+	public void setInscricaoMunicipal(String inscricaoMunicipal) {
+		this.inscricaoMunicipal = inscricaoMunicipal;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
 
 	
